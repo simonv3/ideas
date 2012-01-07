@@ -1,0 +1,47 @@
+{% extends "main/base.html" %}
+
+{% block title %}Create an account{% endblock %}
+
+{% block content %}
+<div id="register">
+      <h2>Register</h2>
+      <form action="." method="post">
+          {%csrf_token%}
+          <table>
+        {% if form.error_dict %}
+          <p class="error">Please correct the errors below.</p>
+        {% endif %}
+        {% if form.username.errors %}
+          {{ form.username.html_error_list }}
+          {% endif %}
+  <tr>
+      <td>
+          <label for="id_username">Username:</label></td><td> {{ form.username }}
+      </td>
+  </tr>
+
+        {% if form.password1.errors %}
+          {{ form.password1.html_error_list }}
+          {% endif %}
+          <tr>
+              <td>
+                  <label for="id_password1">Password:</label></td><td> {{ form.password1 }}
+              </td>
+          </tr>
+
+
+        {% if form.password2.errors %}
+          {{ form.password2.html_error_list }}
+        {% endif %}
+        <tr>
+            <td>        <label for="id_password2">Password (again): </label></td><td>{{ form.password2 }}
+                </td>
+            </tr>
+
+            <tr><td><input type="submit" class="button" value="Create your account" /></td></tr>
+        </table>
+    </label>
+</form>
+</div>
+{% endblock %}
+
