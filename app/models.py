@@ -13,6 +13,8 @@ from datetime import datetime
 # Create models here.
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name='extra')
 
 
 # attaches the user profile to the user
