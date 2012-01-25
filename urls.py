@@ -6,19 +6,23 @@ from django.views.generic.simple import direct_to_template
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # SPLASH
+    # URLS
     (r'^$', splash),
+    (r'^idea/(?P<idea_id>\w+)/$', idea),
+    (r'^bookmarklet/idea/$', bookmarklet),
      
     # ADMIN
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
     # USER MANAGEMENT
+    (r'^accounts/verify/(?P<username>\w+)/(?P<verify_hash>\w+)/$', verify),    
     (r'^accounts/register/$', register),
     (r'^accounts/profile/$', profile),
     (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name':
-        'main/login.html'}),
+        'main/login.html',}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout',
-    {'next_page':'/'}),
+        {'next_page':'/'}),
+
 )
 

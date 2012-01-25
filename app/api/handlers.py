@@ -1,5 +1,12 @@
 from piston.handler import BaseHandler
-from glossy_app.models import Language 
+from django.controbi.auth.models import  User
+
+
+class UserHandler(BaseHandler):
+    allowed_methods= ('GET',)
+    model = User
+    def read(self, request, user_id=None)
+        base = User
 
 class LanguageHandler(BaseHandler):
     allowed_methods = ('GET',)

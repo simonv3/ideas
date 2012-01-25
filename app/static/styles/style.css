@@ -104,6 +104,223 @@ input, select {
 img{border:none;}
 
 .center-page{
-    width:768px;
+    width:100%;
     margin:0 auto;
 }
+
+/**********
+ *
+ * Ideas
+ *
+ */
+
+header{
+    max-width:768px;
+    margin:0 auto;
+    clear:both;
+    height:24px;
+}
+
+header .logout, header .log-in{float:right;margin-top:1em;}
+
+body{ 
+    background:#efefef; 
+    background-image:url('../../images/background.gif');
+    font-family:Georgia,Times,serif/*"Helvetica",Arial,sans-serif;*/}
+
+h1, h2{
+    text-align:center;
+    font-family:"Georgia",Times, serif;
+    font-size:5em;
+    color:#00424c;
+    text-shadow:2px 0px 1px #000;
+    margin:.6em 0 .4em 0;
+}
+
+h2{ font-size: 3em;
+    color:#00313c;
+}
+
+
+
+.red-gradient{
+background: rgb(255,48,25); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,48,25,1) 0%, rgba(207,4,4,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,48,25,1)), color-stop(100%,rgba(207,4,4,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%); /* IE10+ */
+background: linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 ); /* IE6-9 */
+
+}
+
+.red-gradient:hover{
+background: -moz-linear-gradient(top,  rgba(255,48,25,0.85) 0%, rgba(207,4,4,0.92) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,48,25,0.85)), color-stop(100%,rgba(207,4,4,0.92))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* IE10+ */
+background: linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9ff3019', endColorstr='#ebcf0404',GradientType=0 ); /* IE6-9 */
+}
+
+.red-gradient:active{
+
+background: rgb(255,48,25); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,48,25,1) 0%, rgba(165,3,3,1) 2%, rgba(207,4,4,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,48,25,1)), color-stop(2%,rgba(165,3,3,1)), color-stop(100%,rgba(207,4,4,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* IE10+ */
+background: linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 ); /* IE6-9 */
+
+}
+textarea{
+    width:80%;
+    padding:.3em;
+    font-size:2em;
+    border:1px solid #9f9f9f;
+    border-radius:4px;
+    color:#585858;
+    background-color:white;
+    text-align:left;
+    box-shadow:0px 0px 4px #888;
+}
+textarea#id_idea{
+    height:5em;
+}
+
+textarea#id_tags{
+    margin-top:.5em;
+    height:2.1em;
+}
+
+textarea#id_comment{
+    height:2.1em;
+    margin-bottom:.5em;
+}
+
+
+form#idea-form,form#comment-form{text-align:center;}
+
+input[type=submit]{
+    font-size:1.8em;
+    border-radius:4px;
+    padding:.2em .4em;
+    color:white;
+    margin:0 auto;
+    cursor:pointer;
+    font-family:"Helvetica",Arial,sans-serif;
+    
+}
+
+
+form input[type=submit].submit-button{
+    border:1px solid red;
+    box-shadow:3px 3px 4px #c0c0c0;
+}
+
+form#idea-form input[type=submit]:hover{
+    box-shadow:2px 2px 4px #a0a0a0;
+}
+
+ul#all_ideas, #register, #log-in, ul#idea-comments{
+    max-width:960px;
+    margin:8em auto 12em auto;
+}
+
+ul#all_ideas li{
+    overflow:hidden;
+    display:inline-block;
+    background:#f4f4f4;
+    padding:.4em;
+    border-radius:3px;
+    width:40%;
+    max-width:130px;
+    vertical-align:top;
+    margin:.4em;
+    border:1px solid #e0e0e0;
+
+}
+
+ul#all_ideas a{
+    color:#040404;
+    text-decoration:none;
+}
+
+ul#all_ideas form{ display:inline-block; }
+
+ul#all_ideas form input{
+    font-size:1em;
+    width:24px;
+    height:24px;
+    display:inline-block;
+}
+
+#bookmarklet{text-align:center; }
+
+#bookmarklet p{
+line-height:1.5em;
+padding:2em;
+}
+
+#bookmarklet a,.link-button{
+    text-align:center;
+    color:#111;
+    background-color:#f0f0f0;
+    border-radius:2px;
+    border:1px solid #e0e0e0;
+    padding:6px 8px;
+    box-shadow:0 0 1px #ccc;
+}
+.link-button a{ color:#444; }
+
+#register-list, #log-in-list, #email-form, #comment-form{text-align:center;}
+
+#register-list li, #log-in-list li, #email-form li, #comment-form li{
+    display:inline-block;
+    position:relative;
+}
+
+#register-list li label, #log-in-list li label, #email-form li label, #comment-form li label{
+    position:absolute; 
+    top:9px; 
+    left:8px; 
+    font-size:1.4em;
+}
+#comment-form li label{left:10%;}
+
+#register-list input, #log-in-list input, #email-form input, #comment-form input{
+    font-size:1.4em;width:220px;padding:4px;}
+
+
+#idea-comments{
+    list-style:none;
+    width:60%;
+    border:1px solid #efefef;
+    border-radius:4px;
+
+
+}
+
+#idea-comments li{
+    font-size:1.5em;
+    padding:.5em;
+    background:#efefef;
+    background:rgba(230,230,230,.70);
+}
+
+#idea-comments li.odd{
+    background:#d0d0d0;
+    background:rgba(210,210,210,.70);
+
+}
+
+#idea-comments .author{
+    float:right;
+    margin-top:.5em;
+}
+
+

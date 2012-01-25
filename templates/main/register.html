@@ -3,44 +3,41 @@
 {% block title %}Create an account{% endblock %}
 
 {% block content %}
+
+<h1>Got an idea? Write it down!</h1>
 <div id="register">
-      <h2>Register</h2>
-      <form action="." method="post">
-          {%csrf_token%}
-          <table>
+<form action="" method="post">
+    {%csrf_token%}
+    <ul id="register-list">
         {% if form.error_dict %}
-          <p class="error">Please correct the errors below.</p>
+            <p class="error">Please correct the errors below.</p>
         {% endif %}
         {% if form.username.errors %}
-          {{ form.username.html_error_list }}
-          {% endif %}
-  <tr>
-      <td>
-          <label for="id_username">Username:</label></td><td> {{ form.username }}
-      </td>
-  </tr>
+            {{ form.username.html_error_list }}
+        {% endif %}
+        <li>
+            <label for="id_username">Username:</label> {{ form.username }}
+        </li>
 
         {% if form.password1.errors %}
-          {{ form.password1.html_error_list }}
-          {% endif %}
-          <tr>
-              <td>
-                  <label for="id_password1">Password:</label></td><td> {{ form.password1 }}
-              </td>
-          </tr>
+            {{ form.password1.html_error_list }}
+        {% endif %}
+        <li>
+            <label for="id_password1">Password:</label> {{ form.password1 }}
+        </li>
 
 
         {% if form.password2.errors %}
-          {{ form.password2.html_error_list }}
+        {{ form.password2.html_error_list }}
         {% endif %}
-        <tr>
-            <td>        <label for="id_password2">Password (again): </label></td><td>{{ form.password2 }}
-                </td>
-            </tr>
+        <li>
+            <label for="id_password2">Password again: </label>{{ form.password2 }}
+            
+        </li>
 
-            <tr><td><input type="submit" class="button" value="Create your account" /></td></tr>
-        </table>
-    </label>
+        <li><input type="submit" value="Create account" class="red-gradient submit-button"/></li>
+    </ul>
+</label>
 </form>
 </div>
 {% endblock %}
