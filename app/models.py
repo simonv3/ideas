@@ -28,9 +28,9 @@ class Vote(models.Model):
             (u'+', u'Vote Up'),
             (u'-', u'Vote Down'),
         )
-    user = models.ForeignKey(User, related_name='user_vote',primary_key=True)
+    user = models.ForeignKey(User, related_name='user_vote')
     vote = models.CharField(max_length=2, choices=VOTE_CHOICES)
-    idea = models.ForeignKey(Idea, related_name='vote_on',primary_key=True)
+    idea = models.ForeignKey(Idea, related_name='vote_on')
     def __unicode__(self):
         return "vote %s for %s by %s" %(self.vote,self.idea,self.user)
 
