@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Idea Board</title>
+    </head>
+    <body>
+        {% if posted %}
+            Thanks, we've gone and stored that!
+        {% else %}
+        Hi {{request.user}}!
+        <form action="/bookmarklet/idea/" method="post">
+            {% csrf_token %}
+            {{ideaForm.as_p}}
+            <input type="submit" name="submit_idea" value="submit">
+        </form>
+        {% endif %}
+    </body>
+</html>

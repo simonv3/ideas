@@ -1,0 +1,52 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div class="center-page">
+    <h1>Idea!</h1>
+
+    {% if not perms.app.add_idea %}
+    <div class="link-button">Please verify your e-mail before posting ideas.</div>
+    <br/>
+    <form action="/" id="email-form" method="post">{% csrf_token %}
+        <ul>
+            <li>
+                {{ emailForm.email.label_tag }}
+                {{ emailForm.email }}
+            </li>
+            <li>
+            <input type="submit" class="red-gradient submit-button"
+            name="submit_email"value="verify" />
+            </li>
+        </ul>
+    
+    </form>
+    {% else %}
+
+<form action="/" id="idea-form" method="post">{% csrf_token %}
+    {{ ideaForm.idea }}
+    {{ ideaForm.tags }}
+    <br/>
+    <br/>
+<input type="submit" class="red-gradient submit-button" name="submit_idea"value="Add it" />
+</form>
+{% endif %}
+
+<div id="bookmarklet">
+    <p>Add the Idea! bookmarklet by dragging this button to your bookmark bar:
+    <a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://localhost:8000/static/js/bookmarklet.js';})();">Idea!</a>
+    </p>
+</div>
+
+
+<ul id="all_ideas">
+{% for idea in all_ideas %}
+    <li>
+    <a href="/idea/{{idea.id}}/"><p>{{idea.idea}}</p></a>
+        {% include "main/sub_vote.html"  %} 
+
+    </li>
+{% endfor %}
+</ul>
+</div>
+
+{% endblock %}

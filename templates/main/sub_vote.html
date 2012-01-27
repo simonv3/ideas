@@ -1,0 +1,14 @@
+{% if perms.app.can_vote %}
+
+<form action="" method="post">{% csrf_token %}
+    {{voteUpForm.vote}}
+    <input type="hidden" name="idea" value="{{idea.id}}" id="id_idea">
+    <input type="submit" name="vote" value="+" />
+</form>
+<form action="" method="post">{% csrf_token %}
+    {{voteDownForm.vote}}
+    <input type="hidden" name="idea" value="{{idea.id}}" id="id_idea">
+    <input type="submit" name="vote" value="-" />
+</form>
+
+{% endif %}

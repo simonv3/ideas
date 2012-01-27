@@ -1,0 +1,32 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+<h1>An Idea</h1>
+<h2>{{idea.idea}}</h2>
+
+
+
+{% include "main/sub_vote.html" %} 
+
+{% if perms.app.can_comment %}
+<form action="" method="post" id="comment-form">{% csrf_token %}
+    <ul>
+        <li><label for="id_comment">Add a comment:</label>
+        {{ commentForm.comment }}</li>
+    </ul>
+<input type="submit" class="red-gradient submit-button" name="submit_comment" value="Submit" />
+</form>
+{% endif %}
+
+<ul id="idea-comments">
+{% for comment in relevant_comments %}
+<li class="{% cycle 'odd' 'even' %}">{{comment.text}}  <span class="author">~ {{comment.user}}</span>
+    <div style="clear:both;"></div>
+</li>
+{% endfor %}
+</ul>
+    
+{% endblock %}
+
+
