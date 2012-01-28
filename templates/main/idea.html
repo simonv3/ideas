@@ -9,7 +9,7 @@
 
 {% include "main/sub_vote.html" %} 
 
-{% if perms.app.can_comment %}
+{% if perms.app.add_comment %}
 <form action="" method="post" id="comment-form">{% csrf_token %}
     <ul>
         <li><label for="id_comment">Add a comment:</label>

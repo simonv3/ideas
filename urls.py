@@ -20,9 +20,9 @@ urlpatterns = patterns('',
     (r'^accounts/register/$', register),
     (r'^accounts/profile/$', profile),
     (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name':
-        'main/login.html',}),
+        'main/login.html'}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout',
-        {'next_page':'/'}),
+        {'next_page':'/accounts/login/'}),
 
 )
 
