@@ -125,7 +125,7 @@ header .logout, header .log-in{float:right;margin-top:1em;}
 
 body{ 
     background:#efefef; 
-    background-image:url('../../images/background.gif');
+    background-image:url('../images/background.gif');
     font-family:Georgia,Times,serif/*"Helvetica",Arial,sans-serif;*/}
 
 h1, h2{
