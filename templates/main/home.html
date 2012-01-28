@@ -42,7 +42,9 @@
 <ul id="all_ideas">
 {% for idea in all_ideas %}
     <li>
-    <a href="/idea/{{idea.id}}/"><p>{{idea.idea}}</p></a>
+    <a href="/idea/{{idea.id}}/"><p>{{idea.idea}}</p><div
+            class="author">&#126;{{idea.user.username}}<br/>
+            {{idea.date|timesince}} ago</div></a>
         {% include "main/sub_vote.html"  %} 
 
     </li>

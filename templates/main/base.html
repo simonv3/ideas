@@ -16,9 +16,10 @@
     </head>
     <body>
     <header>
-          {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
           <div class="logout">hi {{user.username}}
-              <a class="link-button " href="/accounts/logout/">log out</a>
+              <a class="link-button" href="/accounts/logout/">log out</a>
+              <a class="link-button" href="/">home</a>
             </div>
               {% else %}
               <a class="link-button log-in" href="/accounts/login/">log in</a>

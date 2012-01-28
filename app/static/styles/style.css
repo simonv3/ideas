@@ -114,6 +114,12 @@ img{border:none;}
  *
  */
 
+em{
+    font-weight:bold;
+
+}
+
+
 header{
     max-width:768px;
     margin:0 auto;
@@ -227,20 +233,22 @@ form#idea-form input[type=submit]:hover{
 }
 
 ul#all_ideas, #register, #log-in, ul#idea-comments{
-    max-width:960px;
+    max-width:1080px;
+    width:100%;
     margin:8em auto 10em auto;
 }
 
 ul#all_ideas li{
+
     overflow:hidden;
     display:inline-block;
     background:#f4f4f4;
-    padding:.4em;
+    padding:.5em;
     border-radius:3px;
-    width:40%;
-    max-width:130px;
+    width:14%;
+    min-width:140px;
     vertical-align:top;
-    margin:.4em;
+    margin:.2em;
     border:1px solid #e0e0e0;
 
 }
@@ -295,6 +303,7 @@ padding:2em;
     max-width:960px;
     margin:0 auto;
     padding:1em;
+    line-height:2em;
 }
 
 #about p{
@@ -313,12 +322,12 @@ padding:2em;
     font-size:1.4em;width:220px;padding:4px;}
 
 
-#idea-comments{
+ul#idea-comments{
     list-style:none;
-    width:60%;
+    width:80%;
+    max-width:600px;
     border:1px solid #efefef;
     border-radius:4px;
-
 
 }
 
@@ -335,9 +344,14 @@ padding:2em;
 
 }
 
-#idea-comments .author{
+#idea-comments .author, #all_ideas .author{
     float:right;
-    margin-top:.5em;
+    margin-top:1em;
+    font-size:.8em;
+    text-align:right;
 }
 
-
+#idea-comments .timesince{
+    color:#686868;
+    font-size:.6em;
+}

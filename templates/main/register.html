@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h1>Got an idea? Write it down!</h1>
+<h1>Got an idea?<br/> Write it down!</h1>
 <div id="register">
 <form action="" method="post">
     {%csrf_token%}
@@ -40,15 +40,21 @@
 </form>
 </div>
 <div id="about">
+<p class="right">
+    First of all, this is largely just a way for me to keep track of things I
+    would like to maybe work on in the future. 
+</p>
+
 <p class="left">
-    Whenever you think of something, just use our bookmarklet to jot it down.
+Whenever you think of something, just use the <em>bookmarklet</em> to jot it down.
     Other users of the site can than see what it is you thought of, comment
     on it, and help you expand your ideas.
 </p>
 
+
 <p class="right">
     We don't want to get in the way of you and your thoughts, so we've made the
-    process as simple as possible. 
+    process <em>as simple as possible</em>.
     </p>
 
 <p class="left">
@@ -60,6 +66,10 @@
     Or you can browse other users' ideas. If you like something, tell them. If
     you'd love to work on it, share it.
     </p>
+
+    <p class="left">
+    <em>What about intellectual property?</em> You're not getting it. 
+</p>
 
 
 
