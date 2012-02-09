@@ -1,16 +1,151 @@
 <html>
     <head>
-        <title>Idea Board</title>
+      <title>Idea Board</title>
+
+      <style>
+
+html, body, div, span, applet, object, iframe,
+h1, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+iframe{
+  border-radius:12px;
+}
+body {
+  line-height: 1;
+  text-align:center;
+  padding:12px;
+  background-color:#efefef;
+  background-image:url('http://ideas.vansintjan.net/static/images/background.gif');
+  
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+h1{
+  font-size:1.3em;
+  color:#00313c;
+  
+  }
+  li{
+  list-style-type:none;
+}
+textarea{
+  width:60%;
+  height:120px;
+  padding:.3em;
+  font-size:2em;
+  border:1px solid #9f9f9f;
+  border-radius:4px;
+  -moz-border-radius:4px;
+  margin-bottom:12px;
+  color:#585858;
+  background-color:white;
+  text-align:left;
+  box-shadow:0px 0px 4px #888;
+}
+
+label{
+  text-align:center;
+  /*width:60px;*/
+  vertical-align:top;
+  display:block;
+
+}
+.red-gradient{
+background: rgb(255,48,25); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,48,25,1) 0%, rgba(207,4,4,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,48,25,1)), color-stop(100%,rgba(207,4,4,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%); /* IE10+ */
+background: linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(207,4,4,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 ); /* IE6-9 */
+
+}
+
+.red-gradient:hover{
+background: -moz-linear-gradient(top,  rgba(255,48,25,0.85) 0%, rgba(207,4,4,0.92) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,48,25,0.85)), color-stop(100%,rgba(207,4,4,0.92))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* IE10+ */
+background: linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9ff3019', endColorstr='#ebcf0404',GradientType=0 ); /* IE6-9 */
+}
+
+.red-gradient:active{
+
+background: rgb(255,48,25); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,48,25,1) 0%, rgba(165,3,3,1) 2%, rgba(207,4,4,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,48,25,1)), color-stop(2%,rgba(165,3,3,1)), color-stop(100%,rgba(207,4,4,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* IE10+ */
+background: linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 ); /* IE6-9 */
+
+}
+input[type=submit]{
+    font-size:1.8em;
+    border-radius:4px;
+    padding:.2em .4em;
+    color:white;
+    margin:0 auto;
+    cursor:pointer;
+    font-family:"Helvetica",Arial,sans-serif;
+    
+}
+form input[type=submit].submit-button{
+    border:1px solid red;
+    box-shadow:3px 3px 4px #c0c0c0;
+}
+
+      </style>
     </head>
     <body>
         {% if posted %}
             Thanks, we've gone and stored that!
         {% else %}
-        Hi {{request.user}}!
+        <h1>Hi {{request.user}}!</h1>
         <form action="/bookmarklet/idea/" method="post">
             {% csrf_token %}
-            {{ideaForm.as_p}}
-            <input type="submit" name="submit_idea" value="submit">
+            {{ideaForm.as_ul}}
+            <input type="submit" name="submit_idea" class="red-gradient submit-button" value="submit">
         </form>
         {% endif %}
     </body>

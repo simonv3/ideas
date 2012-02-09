@@ -23,9 +23,14 @@
 		(window.myBookmarklet = function() {
 			// your JavaScript code goes here!
             url = "http://ideas.vansintjan.net/bookmarklet/idea/";
-             $("body").append('<div id="idea_bookmarklet" style="width:80%; height:400px; text-align:center; position:fixed; top:10%; left:10%; z-index:1000; background-color:white; rgba:(240,240,240,0.25);">'
-                             +'<iframe id="the_frame" width="400" height="400" src="http://ideas.vansintjan.net/bookmarklet/idea/" onload="$(\'#wikiframe iframe\').slideDown(500);">Enable iFrames.</iframe>'
-                             +'<a href="" id="close_idea_bookmarklet">Close</a>'
+            url = "http://localhost:8000/bookmarklet/idea/";
+             $("body").append(""
+                              
+                              +'<div id="idea_bookmarklet" style="border-radius:6px; box-shadow:2px 2px 2px #9f9f9f; border:1px solid #a9a9a9; width:60%; height:400px; text-align:center; position:fixed; top:10%; left:20%; z-index:1000; background-color:white; rgba:(240,240,240,0.25);">'
+                              
+                             +'<iframe id="the_frame" width="100%"style="border-radius:6px;" height="400" src="'+url+'" onload="$(\'#wikiframe iframe\').slideDown(500);">Enable iFrames.</iframe>'
+                             +'<a href="" style="font-size:12px;position:absolute;top:0;left:0;" id="close_idea_bookmarklet">x close</a>'
+                             
                              +'</div>'
                             );
             $("#close_idea_bookmarklet").click(function(event){
