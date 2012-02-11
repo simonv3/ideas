@@ -31,7 +31,7 @@
 </form>
 <div id="bookmarklet">
     <p>Add the Idea! bookmarklet by dragging this button to your bookmark bar:
-    <a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://{{request.get_host}}/static/js/bookmarklet.js';})();">Idea!</a>
+    <a href="javascript:window.open('http://{{request.get_host}}/bookmarklet/idea/','newWindowName','width=960,height=400,scrollbars=yes,status=no,titlebar=no,toolbar=no');void(0);">Idea!</a>
     </p>
 </div>
 {% endif %}
