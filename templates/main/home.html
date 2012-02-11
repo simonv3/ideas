@@ -22,9 +22,19 @@
     </form>
     {% else %}
 
-<form action="/" id="idea-form" method="post">{% csrf_token %}
-    {{ ideaForm.idea }}
-    {{ ideaForm.tags }}
+    <form action="/" id="idea-form" method="post">{% csrf_token %}
+        <ul>
+            <li>
+            <label for="id_idea">your idea:</label><br/>
+            {{ ideaForm.idea }}
+            </li>
+            <li>
+            <label for="id_tags">
+            add some tags (comma separated):
+        </label><br/>
+            {{ ideaForm.tags }}
+            </li>
+        </ul>
     <br/>
     <br/>
 <input type="submit" class="red-gradient submit-button" name="submit_idea"value="Add it" />
