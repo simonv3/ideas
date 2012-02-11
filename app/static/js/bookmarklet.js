@@ -24,7 +24,8 @@
 			// your JavaScript code goes here!
             url = "http://ideas.vansintjan.net/bookmarklet/idea/";
             url = "http://localhost:8000/bookmarklet/idea/";
-             $("body").append(""
+            window.open(url, "idea!","location=0,width=650,height=450");
+             /*$("body").append(""
                               
                               +'<div id="idea_bookmarklet" style="border-radius:6px; box-shadow:2px 2px 2px #9f9f9f; border:1px solid #a9a9a9; width:60%; height:400px; text-align:center; position:fixed; top:10%; left:20%; z-index:1000; background-color:white; rgba:(240,240,240,0.25);">'
                               
@@ -33,10 +34,11 @@
                              
                              +'</div>'
                             );
+                            
             $("#close_idea_bookmarklet").click(function(event){
                 event.preventDefault();
                 $("#idea_bookmarklet").remove();
-            });
+            });*/
     
 
 
