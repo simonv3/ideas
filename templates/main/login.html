@@ -14,11 +14,12 @@
 {% csrf_token %}
 <ul id="log-in-list">
 <li>
-    {{ form.username.label_tag }}
+            <label class="hover-field" for="id_username">Username:</label> 
     {{ form.username }}
 </li>
 <li>
-    {{ form.password.label_tag }}
+            <label class="hover-field" for="id_password">Password:</label> 
+
     {{ form.password }}
     </li>
     <li><input type="submit" value="login" class="red-gradient submit-button"/></li>

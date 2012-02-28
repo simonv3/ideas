@@ -9,11 +9,12 @@
 <form action="" method="post" id="edit-idea">{%csrf_token%}
     <ul>
         <li>
-            <label for="id_idea_content"> Edit idea:</label>
+        <label for="id_idea_content"> Edit idea:</label><br/>
                 {{ ideaForm.idea_content }}
             </li>
             <li>
-            <label for="id_tags">Edit tags:</label>                {{ideaForm.tags}}
+            <label for="id_tags">Edit tags:</label><br/>
+            {{ideaForm.tags}}
             </li>
             <li><input type="submit" class="red-gradient submit-button"
             name="edit_idea" value="Edit" /></li>
@@ -32,7 +33,7 @@
 {% if perms.app.add_comment %}
 <form action="" method="post" id="comment-form">{% csrf_token %}
     <ul>
-        <li><label for="id_comment">Add a comment:</label>
+        <li><label for="id_comment">Add a comment:</label><br/>
         {{ commentForm.comment }}</li>
     </ul>
 <input type="submit" class="red-gradient submit-button" name="submit_comment" value="Submit" />
