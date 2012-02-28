@@ -9,12 +9,11 @@
 <form action="" method="post" id="edit-idea">{%csrf_token%}
     <ul>
         <li>
-            <label for="id_idea"> Edit idea:</label>
+            <label for="id_idea_content"> Edit idea:</label>
                 {{ ideaForm.idea_content }}
             </li>
             <li>
-                <label for="id_tags">Edit tags:</label>
-                {{ideaForm.tags}}
+            <label for="id_tags">Edit tags:</label>                {{ideaForm.tags}}
             </li>
             <li><input type="submit" class="red-gradient submit-button"
             name="edit_idea" value="Edit" /></li>

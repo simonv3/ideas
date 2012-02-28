@@ -194,8 +194,8 @@ textarea{
     text-align:left;
     box-shadow:0px 0px 4px #888;
 }
-textarea#id_idea{
-    height:5em;
+textarea#id_idea_content{
+    height:4em;
 }
 
 textarea#id_tags{

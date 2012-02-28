@@ -80,7 +80,6 @@ def splash(request):
 @login_required(login_url='/accounts/login/')
 def idea(request,idea_id, edit=False):
     idea = Idea.objects.get(id =idea_id)
-    print idea
     tags = Tag.objects.filter(idea = idea)
     relevant_comments = Comment.objects.filter(idea = idea)
     if request.method == 'POST': #If something has been submitted
@@ -106,12 +105,14 @@ def idea(request,idea_id, edit=False):
                     comment = Comment(text = clean['comment'],idea=idea,user = request.user)
                     comment.save()
     voteUpForm = VoteForm({'vote':'+'})
-    if edit:
+    if edit and (idea.user == request.user):
         tagString = ''
         for tag in tags:
             tagString += tag.tag + ","
         tagString = tagString[0:(len(tagString)-1)]
         ideaForm = IdeaForm({'idea_content':idea.idea, 'tags':tagString})
+    else:
+        edit = False
     voteDownForm = VoteForm({'vote':'-'})
     commentForm = CommentForm()
     return render_to_response('main/idea.html',locals(),
