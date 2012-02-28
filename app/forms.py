@@ -5,7 +5,7 @@ from app.models import Idea
 # CREATE FORMS HERE
 
 class IdeaForm(forms.Form):
-    idea = forms.CharField(widget=forms.Textarea)
+    idea_content = forms.CharField(widget=forms.Textarea)
     tags = forms.CharField(widget=forms.Textarea,required=False)
 
 class VoteForm(forms.Form):

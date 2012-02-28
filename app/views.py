@@ -23,7 +23,6 @@ def splash(request):
             return render_to_response("main/register.html", locals(),
                     context_instance=RequestContext(request))
 
-
     #
     # else there is a user and we can just show the general page
     #
@@ -66,11 +65,9 @@ def splash(request):
                     # Process the data in form.cleaned_data
                     # ...
                     clean = ideaForm.cleaned_data
-                    idea = Idea(idea=clean['idea'], user = request.user)
+                    idea = Idea(idea=clean['idea_content'], user = request.user)
                     idea.save()
-                    for tag in clean['tags'].split(','):
-                        tag = Tag(tag=tag, idea = idea)
-                        tag.save()
+                    filter_tags(clean['tags'], idea)
         voteUpForm = VoteForm({'vote':'+'})
         voteDownForm = VoteForm({'vote':'-'})
         ideaForm = IdeaForm() # An unbound form
@@ -81,15 +78,27 @@ def splash(request):
                 context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')
-def idea(request,idea_id):
+def idea(request,idea_id, edit=False):
     idea = Idea.objects.get(id =idea_id)
+    print idea
+    tags = Tag.objects.filter(idea = idea)
     relevant_comments = Comment.objects.filter(idea = idea)
-    print relevant_comments
     if request.method == 'POST': #If something has been submitted
+            print request.POST
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
                 if voteForm.is_valid():
                     vote(voteForm,request.user)
+            if 'edit_idea' in request.POST:
+                ideaForm = IdeaForm(request.POST)
+                print ideaForm
+                if ideaForm.is_valid():
+                    clean = ideaForm.cleaned_data
+                    idea.idea = clean['idea_content']
+                    print idea
+                    filterTags(clean['tags'], idea)
+                    idea.save()
+
             if 'submit_comment' in request.POST:
                 commentForm = CommentForm(request.POST)
                 if commentForm.is_valid():
@@ -97,10 +106,18 @@ def idea(request,idea_id):
                     comment = Comment(text = clean['comment'],idea=idea,user = request.user)
                     comment.save()
     voteUpForm = VoteForm({'vote':'+'})
+    if edit:
+        tagString = ''
+        for tag in tags:
+            tagString += tag.tag + ","
+        tagString = tagString[0:(len(tagString)-1)]
+        ideaForm = IdeaForm({'idea_content':idea.idea, 'tags':tagString})
     voteDownForm = VoteForm({'vote':'-'})
     commentForm = CommentForm()
     return render_to_response('main/idea.html',locals(),
             context_instance=RequestContext(request))
+
+
 
 @login_required(login_url='/accounts/login/')
 def profile(request):
@@ -146,11 +163,9 @@ def bookmarklet(request):
                     # Process the data in form.cleaned_data
                     # ...
                     clean = ideaForm.cleaned_data
-                    idea = Idea(idea=clean['idea'], user = request.user)
+                    idea = Idea(idea=clean['idea_content'], user = request.user)
                     idea.save()
-                    for tag in clean['tags'].split(','):
-                        tag = Tag(tag=tag, idea = idea)
-                        tag.save()
+                    filterTags(clean['tags'], idea)
                     posted = True
     ideaForm = IdeaForm()
     return render_to_response("main/bookmarklet.html", locals(),
@@ -172,3 +187,10 @@ def verify(request,username, verify_hash):
         
 
     return HttpResponseRedirect("/")
+
+def filterTags(cleanedTags, idea):
+    Tag.objects.filter(idea = idea).delete()
+    for tag in cleanedTags.split(','):
+        tag = Tag(tag=tag, idea = idea)
+        tag.save()
+

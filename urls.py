@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # URLS
     (r'^$', splash),
+    (r'^idea/(?P<idea_id>\w+)/edit/$', idea, {'edit':'true'}),
     (r'^idea/(?P<idea_id>\w+)/$', idea),
     (r'^bookmarklet/idea/$', bookmarklet),
      
