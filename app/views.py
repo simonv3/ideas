@@ -67,7 +67,7 @@ def splash(request):
                     clean = ideaForm.cleaned_data
                     idea = Idea(idea=clean['idea_content'], user = request.user)
                     idea.save()
-                    filter_tags(clean['tags'], idea)
+                    filterTags(clean['tags'], idea)
         voteUpForm = VoteForm({'vote':'+'})
         voteDownForm = VoteForm({'vote':'-'})
         ideaForm = IdeaForm() # An unbound form
