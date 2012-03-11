@@ -293,6 +293,8 @@ padding:2em;
     position:relative;
 }
 
+label{top:0px;}
+
 #register-list li label, #log-in-list li label, #email-form li label, #comment-form li label{
     position:absolute; 
     top:9px; 

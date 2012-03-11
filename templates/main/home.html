@@ -10,7 +10,7 @@
     <form action="/" id="email-form" method="post">{% csrf_token %}
         <ul>
             <li>
-                {{ emailForm.email.label_tag }}
+            <label class="hover-field" for="id_email">Email</label> 
                 {{ emailForm.email }}
             </li>
             <li>
