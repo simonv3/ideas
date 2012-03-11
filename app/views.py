@@ -73,7 +73,7 @@ def splash(request):
         ideaForm = IdeaForm() # An unbound form
 
         emailForm = EmailForm({'email':user.email})
-        all_ideas = Idea.objects.all().order_by('date').reverse()
+        all_ideas = Idea.objects.all().order_by('-date')
         return render_to_response("main/home.html",locals(),
                 context_instance=RequestContext(request))
 
