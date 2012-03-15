@@ -11,15 +11,20 @@
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="/static/js/jquery-1.7.1.min.js"></script>
+
 <script src="/static/js/jquery.infieldlabel.min.js"></script>
+
 
     </head>
     <body>
     <header>
     {% if user.is_authenticated %}
           <div class="logout">hi {{user.username}}
+            <a class="link-button" href="/">home</a>
+            
+              <a class="link-button" href="/accounts/profile/">profile</a>
               <a class="link-button" href="/accounts/logout/">log out</a>
-              <a class="link-button" href="/">home</a>
             </div>
               {% else %}
               <a class="link-button log-in" href="/accounts/login/">log in</a>

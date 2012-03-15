@@ -185,7 +185,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', end
 
 }
 textarea{
-    width:80%;
+    width:60%;
     padding:.3em;
     font-size:2em;
     border:1px solid #9f9f9f;
@@ -200,7 +200,6 @@ textarea#id_idea_content{
 }
 
 textarea#id_tags{
-    margin-top:.5em;
     height:2.1em;
 }
 
@@ -293,11 +292,14 @@ padding:2em;
     position:relative;
 }
 
-label{top:0px;}
+label{
+  display:block;
+  margin:.5em 0 .3em 0;
+}
 
 #register-list li label, #log-in-list li label, #email-form li label, #comment-form li label{
     position:absolute; 
-    top:9px; 
+    top:0px; 
     left:8px; 
     font-size:1.4em;
 }

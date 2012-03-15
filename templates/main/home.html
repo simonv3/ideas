@@ -25,13 +25,13 @@
     <form action="/" id="idea-form" method="post">{% csrf_token %}
         <ul>
             <li>
-            <label for="id_idea_content">your idea:</label><br/>
+            <label for="id_idea_content">your idea:</label>
             {{ ideaForm.idea_content }}
             </li>
             <li>
             <label for="id_tags">
             add some tags (comma separated):
-            </label><br/>
+            </label>
             {{ ideaForm.tags }}
             </li>
         </ul>
