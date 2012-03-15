@@ -297,7 +297,7 @@ label{
   margin:.5em 0 .3em 0;
 }
 
-#register-list li label, #log-in-list li label, #email-form li label, #comment-form li label{
+#register-list li label, #log-in-list li label, #email-form li label{
     position:absolute; 
     top:0px; 
     left:8px; 
