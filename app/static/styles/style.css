@@ -246,7 +246,7 @@ li.idea{
     padding:.5em;
     border-radius:3px;
     width:14%;
-    min-width:140px;
+    min-width:200px;
     vertical-align:top;
     margin:.2em;
     border:1px solid #e0e0e0;
@@ -359,4 +359,38 @@ ul#idea-comments{
 #idea-comments .timesince{
     color:#686868;
     font-size:.6em;
+}
+
+/***********
+ *
+ * Comments
+ *
+ * *******/
+
+#voting{
+  margin-top:1.5em;
+  font-size:10px;
+}
+
+#voting input[type="submit"]{
+  font-size:10px;
+}
+
+#voting form{
+  display:inline-block;
+}
+
+#voting input{
+  padding:0;
+  width:16px; 
+  height:16px; 
+  border:none;
+  display:block;
+}
+.vote-up{
+  background:#58b759;
+}
+
+.vote-down{
+  background:#fc8585;
 }

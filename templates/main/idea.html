@@ -22,14 +22,18 @@
     </ul>
 
 
-{% else %}
-<h2>{{idea.idea}}</h2>
+    {% else %}
+    <div class="center-page">
+        <h2>{{idea.idea}}</h2>
+        <a class="link-button" href="{% url app.views.idea idea.id %}edit/">edit idea</a>
+{% include "main/sub_vote.html" %} 
+        
+    </div>
 {% endif %}
 
 
 
-{% include "main/sub_vote.html" %} 
-
+{% if not edit %}
 {% if perms.app.add_comment %}
 <form action="" method="post" id="comment-form">{% csrf_token %}
     <ul>
@@ -38,6 +42,7 @@
     </ul>
 <input type="submit" class="red-gradient submit-button" name="submit_comment" value="Submit" />
 </form>
+{% endif %}
 {% endif %}
 
 <ul id="idea-comments">

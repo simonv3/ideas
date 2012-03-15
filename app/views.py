@@ -79,7 +79,10 @@ def splash(request):
 
 @login_required(login_url='/accounts/login/')
 def idea(request,idea_id, edit=False):
-    idea = Idea.objects.get(id =idea_id)
+    try:
+        idea = Idea.objects.get(id =idea_id)
+    except Idea.DoesNotExist:
+        return HttpResponseRedirect("/")
     tags = Tag.objects.filter(idea = idea)
     relevant_comments = Comment.objects.filter(idea = idea)
     if request.method == 'POST': #If something has been submitted
@@ -154,8 +157,16 @@ def register(request):
 def vote(voteForm, user):
     clean = voteForm.cleaned_data
     idea = Idea.objects.get(id = clean['idea'])
-    vote = Vote(vote = clean['vote'], user = user, idea = idea)
-    vote.save()
+    try:
+        vote= Vote.objects.get(user = user, idea = idea)
+    except:
+        vote = Vote(vote = clean['vote'], user = user, idea = idea)
+        vote.save()
+    else:
+        vote.vote = clean['vote']
+        vote.save()
+
+
 
 def bookmarklet(request):
     posted = False
