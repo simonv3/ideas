@@ -38,7 +38,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, related_name='user_comment')
     idea = models.ForeignKey(Idea, related_name='idea_comment')
     text = models.TextField()
-    date_posted = models.DateField(auto_now = True)
+    date_posted = models.DateTimeField(auto_now = True)
     def __unicode__(self):
         return "comment %s for %s by %s" %(self.text,self.idea,self.user)
 
