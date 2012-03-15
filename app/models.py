@@ -10,7 +10,7 @@ from datetime import datetime
 class Idea(models.Model):
     user = models.ForeignKey(User, related_name='user_idea')
     idea = models.TextField()
-    date = models.DateField(auto_now=True)
+    date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return "idea by %s: %s" %(self.user, self.idea)
