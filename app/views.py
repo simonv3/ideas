@@ -123,7 +123,9 @@ def idea(request,idea_id, edit=False):
 @login_required(login_url='/accounts/login/')
 def profile(request):
     user = request.user
-    print user.first_name
+    your_ideas = Idea.objects.filter(user = user).order_by('-date')
+
+    #print user.first_name
     return render_to_response('main/profile.html', locals(), context_instance=RequestContext(request))
 
 

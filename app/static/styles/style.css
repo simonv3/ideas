@@ -232,13 +232,13 @@ form#idea-form input[type=submit]:hover{
     box-shadow:2px 2px 4px #a0a0a0;
 }
 
-ul#all_ideas, #register, #log-in, ul#idea-comments{
+ul.idea_list, #register, #log-in, ul#idea-comments{
     max-width:1080px;
     width:100%;
     margin:8em auto 10em auto;
 }
 
-ul#all_ideas li{
+li.idea{
 
     overflow:hidden;
     display:inline-block;
@@ -253,14 +253,14 @@ ul#all_ideas li{
 
 }
 
-ul#all_ideas a{
+li.idea a{
     color:#040404;
     text-decoration:none;
 }
 
-ul#all_ideas form{ display:inline-block; }
+li.idea form{ display:inline-block; }
 
-ul#all_ideas form input{
+li.idea form input{
     font-size:1em;
     width:24px;
     height:24px;
@@ -349,7 +349,7 @@ ul#idea-comments{
 
 }
 
-#idea-comments .author, #all_ideas .author{
+#idea-comments .author, li.idea .author{
     float:right;
     margin-top:1em;
     font-size:.8em;
