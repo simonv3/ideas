@@ -24,7 +24,7 @@
 
     {% else %}
     <div class="center-page">
-        <h2>{{idea.idea}}</h2>
+        <p class="idea">{{idea.idea}}</p>
         {% ifequal idea.user request.user %}
         <a class="link-button" href="{% url app.views.idea idea.id %}edit/">edit idea</a>
         {% endifequal %}
