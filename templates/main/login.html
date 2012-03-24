@@ -10,7 +10,7 @@
 {% endif %}
 <h1>Log In</h1>
 
-<form id="log-in" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<form id="log-in" autocomplete="off" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 {% csrf_token %}
 <ul id="log-in-list">
 <li>

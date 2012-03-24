@@ -6,7 +6,7 @@
 
 <h1>Got an idea?<br/> Write it down!</h1>
 <div id="register">
-<form action="" method="post">
+<form action="" autocomplete="off" method="post">
     {%csrf_token%}
     <ul id="register-list">
         {% if form.error_dict %}
