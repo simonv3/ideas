@@ -69,7 +69,7 @@
 <li class="{% cycle 'odd' 'even' %}">{{comment.text}}  <span
     class="author">&#126;
     {{comment.user}}<br/>
-    <span class="timesince">{{idea.date|timesince}} ago</span></span>
+    <span class="timesince">{{comment.date_posted|timesince}} ago</span></span>
     <div style="clear:both;"></div>
 </li>
 {% endfor %}
