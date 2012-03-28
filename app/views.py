@@ -110,9 +110,10 @@ def idea(request,idea_id, edit=False):
                     link_url = request.build_absolute_uri("/idea/"+str(idea.id)+"/")
                     subject, from_email, to = 'Someone commented on your idea', 'Idea Otter<no-reply@ideaotter.com>', 'to@example.com'                    
                     text_content = 'Hey,\n\n Looks like someone commented on your idea \n\n ' + idea.idea + ' \n\n which you can see here:\n\n '+link_url+'/\n\n Discuss away!'
-                    html_content = '<h2>Someone commented on your idea!</h2><p>"'+idea.idea+'"</p><p>Check it out <a href="'+link_url+'">here</a>!</p>'
+                    html_content = '<h2>Someone commented on your idea!</h2><p>"'+idea.idea+'"</p><h3>With the comment:</h3><p><p>Check it out <a href="'+link_url+'">here</a>!</p>'
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [encoded_email])
-                    
+                    msg.attach_alternative(html_content, "text/html")
+                    msg.send() 
     voteUpForm = VoteForm({'vote':'+'})
     if edit and (idea.user == request.user):
         tagString = ''
