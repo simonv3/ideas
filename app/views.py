@@ -86,18 +86,15 @@ def idea(request,idea_id, edit=False):
     tags = Tag.objects.filter(idea = idea)
     relevant_comments = Comment.objects.filter(idea = idea)
     if request.method == 'POST': #If something has been submitted
-            print request.POST
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
                 if voteForm.is_valid():
                     vote(voteForm,request.user)
             if 'edit_idea' in request.POST:
                 ideaForm = IdeaForm(request.POST)
-                print ideaForm
                 if ideaForm.is_valid():
                     clean = ideaForm.cleaned_data
                     idea.idea = clean['idea_content']
-                    print idea
                     filterTags(clean['tags'], idea)
                     idea.save()
 
@@ -107,6 +104,15 @@ def idea(request,idea_id, edit=False):
                     clean = commentForm.cleaned_data
                     comment = Comment(text = clean['comment'],idea=idea,user = request.user)
                     comment.save()
+                    from django.core.mail import EmailMultiAlternatives
+                    user = idea.user
+                    encoded_email = user.email
+                    link_url = request.build_absolute_uri("/idea/"+str(idea.id)+"/")
+                    subject, from_email, to = 'Someone commented on your idea', 'Idea Otter<no-reply@ideaotter.com>', 'to@example.com'                    
+                    text_content = 'Hey,\n\n Looks like someone commented on your idea \n\n ' + idea.idea + ' \n\n which you can see here:\n\n '+link_url+'/\n\n Discuss away!'
+                    html_content = '<h2>Someone commented on your idea!</h2><p>"'+idea.idea+'"</p><p>Check it out <a href="'+link_url+'">here</a>!</p>'
+                    msg = EmailMultiAlternatives(subject, text_content, from_email, [encoded_email])
+                    
     voteUpForm = VoteForm({'vote':'+'})
     if edit and (idea.user == request.user):
         tagString = ''
