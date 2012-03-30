@@ -104,7 +104,6 @@ def idea(request,idea_id, edit=False):
                     clean = commentForm.cleaned_data
                     comment = Comment(text = clean['comment'],idea=idea,user = request.user)
                     comment.save()
-                    encoded_email = user.email
                     all_comments_idea = Comment.objects.filter(idea = idea)
                     if request.user != idea.user:
                         send_comment_email(request, idea, idea.user.email, comment.text)
