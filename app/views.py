@@ -104,16 +104,22 @@ def idea(request,idea_id, edit=False):
                     clean = commentForm.cleaned_data
                     comment = Comment(text = clean['comment'],idea=idea,user = request.user)
                     comment.save()
-                    from django.core.mail import EmailMultiAlternatives
-                    user = idea.user
                     encoded_email = user.email
-                    link_url = request.build_absolute_uri("/idea/"+str(idea.id)+"/")
-                    subject, from_email, to = 'Someone commented on your idea', 'Idea Otter<no-reply@ideaotter.com>', 'to@example.com'                    
-                    text_content = 'Hey,\n\n Looks like someone commented on your idea \n\n ' + idea.idea + ' \n\n which you can see here:\n\n '+link_url+'/\n\n Discuss away!'
-                    html_content = '<h2>Someone commented on your idea!</h2><p>"'+idea.idea+'"</p><h3>With the comment:</h3><p>"'+comment.text+'"<p>Check it out <a href="'+link_url+'">here</a>!</p>'
-                    msg = EmailMultiAlternatives(subject, text_content, from_email, [encoded_email])
-                    msg.attach_alternative(html_content, "text/html")
-                    msg.send() 
+                    all_comments_idea = Comment.objects.filter(idea = idea)
+                    if request.user != idea.user:
+                        send_comment_email(request, idea, idea.user.email, comment.text)
+
+                    user_emails_sent = [idea.user,]
+                    for comment_for_idea in all_comments_idea:
+                        if comment_for_idea.user != request.user:
+                            #print "send to "+comment_for_idea.user.username
+                            #print user_emails_sent
+                            #print comment_for_idea.user
+                            if not comment_for_idea.user in user_emails_sent:
+                                #print "prep email"
+                                user_emails_sent.append(comment_for_idea.user)
+                                send_comment_email(request, idea, comment_for_idea.user.email, comment.text)
+                                        #encoded_email = user.email
     voteUpForm = VoteForm({'vote':'+'})
     if edit and (idea.user == request.user):
         tagString = ''
@@ -214,4 +220,15 @@ def filterTags(cleanedTags, idea):
     for tag in cleanedTags.split(','):
         tag = Tag(tag=tag, idea = idea)
         tag.save()
+
+def send_comment_email(request, idea, email, comment_text):
+    from django.core.mail import EmailMultiAlternatives
+
+    link_url = request.build_absolute_uri("/idea/"+str(idea.id)+"/")
+    subject, from_email, to = 'Someone commented on your idea', 'Idea Otter<no-reply@ideaotter.com>', 'to@example.com'
+    text_content = 'Hey,\n\n Looks like someone commented on your idea \n\n ' + idea.idea + ' \n\n which you can see here:\n\n '+link_url+'/\n\n Discuss away!'
+    html_content = '<h2>'+request.user.username+' commented on your idea:</h2><p>"'+idea.idea+'"</p><h3>With the comment:</h3><p>"'+comment_text+'"<p>Check it out <a href="'+link_url+'">here</a>!</p>'
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [email])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
 
