@@ -241,7 +241,7 @@ form#idea-form input[type=submit]:hover{
 ul.idea_list, #register, #log-in, ul#idea-comments{
     max-width:1080px;
     width:100%;
-    margin:8em auto 10em auto;
+    margin:4em auto 6em auto;
 }
 
 li.idea{
@@ -290,6 +290,18 @@ padding:2em;
     box-shadow:0 0 1px #ccc;
 }
 .link-button a{ color:#444; }
+
+.error-list{
+    border:1px solid #ffc9bf;
+    background:#ffeeee;
+    background:rgba(255,238,238,0.4);
+    padding:12px;
+    margin:0 auto;
+    width:500px;
+    list-style:none;
+    text-align:center;
+}
+
 
 #register-list, #log-in-list, #email-form, #comment-form{text-align:center;}
 

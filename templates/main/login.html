@@ -5,10 +5,14 @@
 <div id="login">
 {% if not user.is_authenticated %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
 <h1>Log In</h1>
+{% if form.errors %}
+<ul class="error-list">
+    <li>
+        Please make sure your username and password are correct. 
+    </li>
+</ul>
+{% endif %}
 
 <form id="log-in" autocomplete="off" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 {% csrf_token %}
