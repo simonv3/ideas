@@ -180,7 +180,7 @@ def vote(voteForm, user):
         vote.save()
 
 
-
+@login_required(login_url='/accounts/login/')
 def bookmarklet(request):
     posted = False
     if request.method == 'POST': #If something has been submitted
