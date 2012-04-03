@@ -299,7 +299,8 @@ padding:2em;
     background:rgba(255,238,238,0.4);
     padding:12px;
     margin:0 auto;
-    width:500px;
+    max-width:500px;
+    width:60%;
     list-style:none;
     text-align:center;
 }
