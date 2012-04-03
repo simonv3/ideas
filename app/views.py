@@ -51,10 +51,10 @@ def splash(request):
                     import base64
                     encoded_email = clean['email']#base64.b64encode(clean['email'])
                     link_url = request.build_absolute_uri("/accounts/verify/"+user.username+"/"+m.hexdigest())
-                    subject, from_email, to = 'Idea Otter Registration', 'Idea Otter <no-reply@ideaotter.com>', 'to@example.com'
+                    subject, from_email = 'Idea Otter Registration', 'Idea Otter<no-reply@ideaotter.com>'
                     text_content = 'Hey,\n\n To complete e-mail verification, use the following link:\n\n '+link_url+'/\n\n Thanks, Simon'
                     html_content = '<h2>Welcome to Idea!</h2><p>To complete e-mail verification, click <a href="'+link_url+'">here</a></p>'
-                    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                    msg = EmailMultiAlternatives(subject, text_content, from_email, [user.email])
                     msg.attach_alternative(html_content, "text/html")
                     msg.send()
 
