@@ -291,6 +291,8 @@ padding:2em;
 }
 .link-button a{ color:#444; }
 
+.verify {max-width:500px; width:60%;margin:0 auto;padding:12px;line-height:1.2em;}
+
 .error-list{
     border:1px solid #ffc9bf;
     background:#ffeeee;
