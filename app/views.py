@@ -84,7 +84,7 @@ def idea(request,idea_id, edit=False):
     except Idea.DoesNotExist:
         return HttpResponseRedirect("/")
     tags = Tag.objects.filter(idea = idea)
-    relevant_comments = Comment.objects.filter(idea = idea)
+    relevant_comments = Comment.objects.filter(idea = idea).order_by("-date_posted")
     if request.method == 'POST': #If something has been submitted
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
@@ -199,17 +199,14 @@ def bookmarklet(request):
             context_instance=RequestContext(request))
 
 def verify(request,username, verify_hash):
-    print verify_hash
     import hashlib
     m = hashlib.sha224("some_salt1234"+username)
     m.hexdigest()
     if verify_hash == m.hexdigest():
         v_user = User.objects.get(username=username)
-        print v_user
         #v_user.groups.add(id=1)
         #v_user.save()
         verified_group = Group.objects.get(name='verified')
-        print verified_group
         v_user.groups.add(verified_group)
         
 
