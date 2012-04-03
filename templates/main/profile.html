@@ -3,9 +3,13 @@
 <div id="profile" class="center-page">
   <h2>Your Ideas</h2>
   <ul class="idea_list">
+      {% if your_ideas %}
     {% for idea in your_ideas %} 
     {% include "main/sub_idea_list_item.html" %}
     {% endfor %}
+        {% else %}
+        You haven't posted any ideas yet. <a href="/">Post some</a>!
+        {% endif %}
   </ul>
   
 </div>
