@@ -14,7 +14,7 @@
       {% for vote in voted_on %}
       {% include "main/sub_idea_list_item.html" with idea=vote.idea %}
       {% empty %}
-        You haven't posted any ideas yet. <a href="/">Post some</a>!
+        You haven't liked any ideas yet.
 
       {% endfor %}
   </ul>
