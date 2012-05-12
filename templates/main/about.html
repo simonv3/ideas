@@ -4,48 +4,12 @@
 
 {% block content %}
 
-<h1>Got an idea?<br/> Write it down!</h1>
-{% if form.errors %}
-<ul class="error-list">
-    {% if "password1" in form.errors or "password2" in form.errors%}<li> Please make sure your passwords are the same. </li>{% endif %}
-    {% if "username" in form.errors %} <li>The username you have selected is already in use.</li>{% endif %}
-</ul>
-{% endif %}
-
-<div id="register">
-<form action="" autocomplete="off" method="post">
-    {%csrf_token%}
-    <ul id="register-list">
-        {% if form.error_dict %}
-            <p class="error">Please correct the errors below.</p>
-        {% endif %}
-        {% if form.username.errors %}
-            {{ form.username.html_error_list }}
-        {% endif %}
-        <li>
-            <label class="hover-field" for="id_username">Username:</label> {{ form.username }}
-        </li>
-
-        {% if form.password1.errors %}
-            {{ form.password1.html_error_list }}
-        {% endif %}
-        <li>
-            <label class="hover-field" for="id_password1">Password:</label> {{ form.password1 }}
-        </li>
-
-
-        {% if form.password2.errors %}
-        {{ form.password2.html_error_list }}
-        {% endif %}
-        <li>
-            <label class="hover-field" for="id_password2">Password again: </label>{{ form.password2 }}
-            
-        </li>
-
-        <li><input type="submit" value="Create account" class="red-gradient submit-button"/></li>
-    </ul>
-</form>
+<div id="nav_head">
+  <a href="#about">About the Site</a><br />
+  <a href="#who" style="padding-left:15px;">About the Devs</a><br />
+  <a href="#otters" style="padding-left:30px;">About otters</a>
 </div>
+
 <div id="about">
 
   <p class="right">
@@ -86,4 +50,5 @@
 
 </div>
 {% endblock %}
+
 
