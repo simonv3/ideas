@@ -141,6 +141,13 @@ def profile(request):
     user = request.user
     your_ideas = Idea.objects.filter(user = user).order_by('-date')
 
+    if request.method == 'POST': #If something has been submitted
+            if 'vote' in request.POST:
+                voteForm = VoteForm(request.POST)
+                if voteForm.is_valid():
+                    vote(voteForm,request.user)
+
+    voted_on = Vote.objects.filter(user = user)
     #print user.first_name
     return render_to_response('main/profile.html', locals(), context_instance=RequestContext(request))
 

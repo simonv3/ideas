@@ -5,10 +5,10 @@
     <input type="hidden" name="idea" value="{{idea.id}}" id="id_idea">
     <input type="submit" name="vote" value="+" class="vote-up"/>
 </form>
-<form action="" method="post" >{% csrf_token %}
+<!--<form action="" method="post" >{% csrf_token %}
     {{voteDownForm.vote}}
     <input type="hidden" name="idea" value="{{idea.id}}" id="id_idea">
     <input type="submit" name="vote" value="-" class="vote-down"/>
-</form>
+</form>-->
 </div>
 {% endif %}
