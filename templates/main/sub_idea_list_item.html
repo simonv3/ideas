@@ -1,7 +1,6 @@
     <li class="idea">
-    <a href="/idea/{{idea.id}}/"><p>{{idea.idea}}</p><div
+    <a href="/idea/{{idea.id}}/"><p>{{idea.idea|slice:":140"}}{%if idea.idea|length > 140%}...{%endif%}</p><div
             class="author">&#126;{{idea.user.username}}<br/>
             {{idea.date|timesince}} ago</div></a>
         {% include "main/sub_vote.html"  %} 
-
     </li>
