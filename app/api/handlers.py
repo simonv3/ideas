@@ -1,5 +1,5 @@
 from piston.handler import BaseHandler
-from django.controbi.auth.models import  User
+from django.contrib.auth.models import  User
 
 
 class UserHandler(BaseHandler):
@@ -8,20 +8,20 @@ class UserHandler(BaseHandler):
     def read(self, request, user_id=None)
         base = User
 
-class LanguageHandler(BaseHandler):
+class IdeaHandler(BaseHandler):
     allowed_methods = ('GET',)
-    model = Language   
-    def read(self, request, language_id=None):
+    model = Idea
+    def read(self, request, idea_id=None):
    
         """
         Returns a single post if `blogpost_id` is given,
         otherwise a subset.
 
         """
-        base = Language.objects
+        base = Idea.objects
         
-        if language_id:
-            return base.get(pk=language_id)
+        if idea_id:
+            return base.get(pk=idea_id)
         else:
             return base.all()
 

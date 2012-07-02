@@ -1,11 +1,11 @@
 from django.conf.urls.defaults import *
 from piston.resource import Resource
-from glossy_app.api.handlers import LanguageHandler
+from app.api.handlers import IdeaHandler
 
-language_handler = Resource(LanguageHandler)
+Idea_handler = Resource(IdeaHandler)
 
 urlpatterns = patterns('',
-   url(r'^idea/(?P<language_id>[^/]+)/', language_handler),
-   url(r'^ideas/', language_handler),
+   url(r'^idea/(?P<idea_id>[^/]+)/', idea_handler),
+   url(r'^ideas/', idea_handler),
 )
 
