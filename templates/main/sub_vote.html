@@ -1,4 +1,4 @@
-{% if perms.app.can_vote %}
+{% if perms.app.can_add_vote %}
 <div id="voting">
 <form action="" method="post" >{% csrf_token %}
     {{voteUpForm.vote}}
