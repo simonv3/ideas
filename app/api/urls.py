@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from piston.resource import Resource
 from app.api.handlers import IdeaHandler
 
-Idea_handler = Resource(IdeaHandler)
+idea_handler = Resource(IdeaHandler)
 
 urlpatterns = patterns('',
    url(r'^idea/(?P<idea_id>[^/]+)/', idea_handler),

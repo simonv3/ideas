@@ -1,11 +1,11 @@
 from piston.handler import BaseHandler
 from django.contrib.auth.models import  User
-
+from app.models import Idea
 
 class UserHandler(BaseHandler):
     allowed_methods= ('GET',)
     model = User
-    def read(self, request, user_id=None)
+    def read(self, request, user_id=None):
         base = User
 
 class IdeaHandler(BaseHandler):
