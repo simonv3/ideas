@@ -25,3 +25,6 @@ class IdeaHandler(BaseHandler):
         else:
             return base.all()
 
+class AuthenticateUser(BaseHandler):
+    allow_methods = ('POST',)
+    model = User

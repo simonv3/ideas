@@ -259,10 +259,16 @@ li.idea{
 
 }
 
+
 li.idea a{
     color:#040404;
     text-decoration:none;
 }
+
+li.idea a:hover p{
+    color:#6a6a6a;
+}
+
 
 li.idea form{ display:inline-block; }
 
