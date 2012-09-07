@@ -1,16 +1,24 @@
 # Create your views here.
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django import forms
 
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib import messages
 
 from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm
 
 from app.models import Idea,Tag,Vote,Comment
+
+from settings import FACEBOOK_SECRET, FACEBOOK_ID
+
+import urllib
+import json
+
 
 def splash(request):
 
@@ -240,4 +248,49 @@ def send_comment_email(owner, request, idea, email, comment_text):
     msg = EmailMultiAlternatives(subject, text_content, from_email, [email])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
+
+#
+# Facebook Integration
+#
+
+def facebook(request):
+    if request.method == 'GET':
+        if 'error' in request.GET:
+            messages.error(request, 'To use Facebook to log in, please give' +
+                    'the IdeaOtter permission to use your details.')
+            return redirect('django.contrib.auth.views.login')
+        else:
+            url = ('https://graph.facebook.com/oauth/access_token?' +
+                    'client_id=' + str(FACEBOOK_ID) +
+                    '&redirect_uri=http://localhost:8000/accounts/facebook/' +
+                    '&client_secret=' + str(FACEBOOK_SECRET) +
+                    '&code=' + request.GET['code'])
+            fetchedinfo = urllib.urlopen(url)
+            access_token = fetchedinfo.read()
+            if 'error' in access_token:
+                messages.error(request, 'Something went wrong when ' +
+                        'activating your account, please try again later'+
+                        access_token)
+                return redirect('django.contrib.auth.views.login')
+            url = 'https://graph.facebook.com/me?'+access_token
+            fetchedinfo = urllib.urlopen(url)
+            user_info = json.loads(fetchedinfo.read())
+            try:
+                user = User.objects.get(username = user_info['username'])
+            except User.DoesNotExist:
+                user = User.objects.create_user(
+                        user_info['username'],
+                        user_info['email'],
+                        ''
+                        )
+                user.first_name=user_info['first_name']
+                user.last_name=user_info['last_name']
+                user.save()
+            user_profile = user.get_profile()
+            user_profile.facebook_access_token = access_token
+            user_profile.save()
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            login(request, user)
+            return HttpResponseRedirect("/accounts/profile/")
 

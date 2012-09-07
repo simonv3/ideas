@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout',
         {'next_page':'/accounts/login/'}),
 
+    (r'^accounts/facebook/$', facebook),
 
     # API
     (r'^api/', include('app.api.urls')),
