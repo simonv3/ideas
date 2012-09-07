@@ -61,14 +61,14 @@ a {
 /* change colours to suit your needs */
 ins {
     background-color:#ff9;
-    color:#000;
+    color:#111;
     text-decoration:none;
 }
 
 /* change colours to suit your needs */
 mark {
     background-color:#ff9;
-    color:#000;
+    color:#111;
     font-style:italic;
     font-weight:bold;
 }
@@ -122,8 +122,7 @@ img{border:none;}
  */
 
 a{
-    color:black;
-    text-decoration:none;
+    color:#111;
     transition: color .2s ease-in-out;
     -webkit-transition: color .2s ease-in-out;
     -moz-transition: color .2s ease-in-out;
