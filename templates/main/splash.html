@@ -36,13 +36,12 @@
     <li><input type="submit" value="login" class="red-gradient submit-button"/></li>
 <input type="hidden" name="next" value="{{ next }}" />
 </ul>
-
-
-</form>
-or 
-<a class="facebook-login"
+or <a class="facebook-login"
     href="https://www.facebook.com/dialog/oauth?client_id=459911974049419&scope=offline_access,email&redirect_uri=http://localhost:8000/accounts/facebook/&state={% now "ynDbjY" %}"><img
     src="{{STATIC_URL}}images/facebook-log-in.gif"/></a>
+
+</form>
+
 <div class="link-button">Not yet a member? <a href="/accounts/register/"
         title="register">Registering</a> has benefits.</div>
 </div>

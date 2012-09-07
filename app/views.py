@@ -72,9 +72,9 @@ def splash(request):
             if 'submit_idea' in request.POST:
                 add_idea(request)
             if 'submit_idea_elaborate' in request.POST:
-                print "elaborating"
                 idea = add_idea(request)
-                return HttpResponseRedirect(reverse('edit-idea', args=[idea.id]))
+                if idea:
+                    return HttpResponseRedirect(reverse('edit-idea', args=[idea.id]))
 
         voteUpForm = VoteForm({'vote':'+'})
         voteDownForm = VoteForm({'vote':'-'})
@@ -82,6 +82,16 @@ def splash(request):
 
         emailForm = EmailForm({'email':user.email})
         all_ideas = Idea.objects.all().order_by('-date')
+        #print all_ideas
+        for idea in all_ideas:
+            try:
+                Vote.objects.get(idea = idea, user = request.user)
+            except:
+                pass
+            else:
+                print idea
+                #idea.append{'voted':True}
+        #print all_ideas
         return render_to_response("main/home.html",locals(),
                 context_instance=RequestContext(request))
 

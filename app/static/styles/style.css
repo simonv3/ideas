@@ -189,10 +189,11 @@ body{
     text-shadow:2px 0px 1px #000;
     margin:.6em 0 .4em 0;
 }
+
 #content h2{
     text-align:center;
     font-family:"Georgia",Times, serif;
-    font-size:5em;
+    font-size:3em;
     color:#00424c;
     text-shadow:2px 0px 1px #000;
     margin:.6em 0 .4em 0;
@@ -232,16 +233,14 @@ opacity:.8;
     opacity:.95;
 }
 .red-gradient:active{
-
-background: rgb(255,48,25); /* Old browsers */
-background: -moz-linear-gradient(top,  rgba(255,48,25,1) 0%, rgba(165,3,3,1) 2%, rgba(207,4,4,1) 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,48,25,1)), color-stop(2%,rgba(165,3,3,1)), color-stop(100%,rgba(207,4,4,1))); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* IE10+ */
-background: linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 ); /* IE6-9 */
-
+    background: rgb(255,48,25); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(255,48,25,1) 0%, rgba(165,3,3,1) 2%, rgba(207,4,4,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,48,25,1)), color-stop(2%,rgba(165,3,3,1)), color-stop(100%,rgba(207,4,4,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* IE10+ */
+    background: linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(207,4,4,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 ); /* IE6-9 */
 }
 textarea, input[type=text]{
     width:60%;
@@ -268,7 +267,18 @@ textarea#id_comment{
 }
 
 
-form{text-align:center;}
+form{
+    text-align:center;
+}
+form .facebook-login{
+    padding-top:24px;
+    display:inline-block;
+}
+
+form .facebook-login img{
+    border-radius:4px;
+    vertical-align:middle;
+}
 
 input[type=submit]{
     font-size:1.8em;
@@ -277,10 +287,7 @@ input[type=submit]{
     color:white;
     margin:0 auto;
     cursor:pointer;
-    
-
     font-family:"Helvetica",Arial,sans-serif;
-    
 }
 
 

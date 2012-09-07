@@ -1,6 +1,9 @@
 
 {% if perms.app.add_vote %}
 <div class="voting">
+    {% if idea.voted_on %}
+        hello
+    {% endif %}
 <form action="" method="post" >{% csrf_token %}
     {{voteUpForm.vote}}
     <input type="hidden" name="idea" value="{{idea.id}}" id="id_idea">
