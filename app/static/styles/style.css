@@ -241,7 +241,7 @@ form#idea-form input[type=submit]:hover{
 ul.idea_list, #register, #log-in, ul#idea-comments{
     max-width:1080px;
     width:100%;
-    margin:4em auto 6em auto;
+    margin:4em auto 4em auto;
 }
 
 li.idea{

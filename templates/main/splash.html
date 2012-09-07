@@ -1,1 +1,86 @@
+{% extends "main/base.html" %}
+
+{% block title %}Create an account{% endblock %}
+
+{% block content %}
+
+<h1>Got an idea?<br/> Write it down!</h1>
+{% if form.errors %}
+<ul class="error-list">
+    {% if "password1" in form.errors or "password2" in form.errors%}<li> Please make sure your passwords are the same. </li>{% endif %}
+    {% if "username" in form.errors %} <li>The username you have selected is already in use.</li>{% endif %}
+</ul>
+{% endif %}
+
+<div id="login">
+{% if form.errors %}
+<ul class="error-list">
+    <li>
+        Please make sure your username and password are correct. 
+    </li>
+</ul>
+{% endif %}
+
+<form id="log-in" autocomplete="off" method="post" action="{% url django.contrib.auth.views.login %}">
+{% csrf_token %}
+<ul id="log-in-list">
+<li>
+            <label class="hover-field" for="id_username">Username:</label> 
+    {{ form.username }}
+</li>
+<li>
+            <label class="hover-field" for="id_password">Password:</label> 
+
+    {{ form.password }}
+    </li>
+    <li><input type="submit" value="login" class="red-gradient submit-button"/></li>
+<input type="hidden" name="next" value="{{ next }}" />
+</ul>
+
+
+</form>
+<div class="link-button">Not yet a member? <a href="/accounts/register/"
+        title="register">Registering</a> has benefits.</div>
+</div>
+<div id="about">
+
+  <p class="right">
+  "EUREKA!" If that is what you screamed earlier in the bathtub, you've come to
+  the right place. Do you have any idea? An inspiration? A plan? A project? An
+  answer to a question? Put it up!  </p>
+
+  <p class="left">
+  We believe in ideas. No matter how simple, ridiculous, or silly. Why? Because
+  ideas lead to movement, which is what gets us <i>there</i> (you know the
+  place I mean). That's why we set Ideas up. We want to enable you to share
+  your ideas, to get feedback on them, and to discover more. This isn't
+  twitter, full of links, pancakes, and idleness. And it's not g+, full of good
+  photos. This is an incubator - and we hope the eggs are just about to crack
+  open and fly. 
+  </p>
+
+  <p class="right">
+  How it works: Whenever you think of something, just use the
+  <em>bookmarklet</em> to jot it down. Other users of the site can than see
+  what it is you thought of, comment on it, and help you expand your ideas. Use
+  tags to make it indexable, if you can. We'll suggest some for you.
+
+  </p>
+
+  <p class="left">
+    We don't want to get in the way of you and your thoughts, so we've made the
+    process <em>as simple as possible</em>. Ideas can come at any moment, and
+    you can't always act on them. What you think of could be the next Facebook,
+    or save the planet. Maybe you don't have that idea right now - no bother - You can browse other users' ideas. If you like something, tell them. If you'd love to work on it, share it.
+    </p>
+
+    <p class="right">
+    <em>My idea isn't that good.</em> How do you know that? Maybe we'll
+    disagree. <em>I have too many ideas!</em> Uh, that's not a problem. Share
+    them all. <em>What about intellectual property?</em> Somehow, you're not getting it.
+</p>
+
+</div>
+{% endblock %}
+
 

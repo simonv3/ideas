@@ -2,9 +2,13 @@ import hmac
 import hashlib
 
 secrets = {
-        "test signature": {"sig":"MqaVh3nOiB9V4SmqEFIe366VJypec57s", "key": "dWfpeYdsAi-RPAcA"},#client key = 94d902d872e54d9b6d9c33fd9c9f25b2f3bdb7b4
-        "wyred": {"sig":"MqaVh3nOiB9V4SmqEFIe366VJypec57s", "key": "dWfpeYdsAi-RPAcA"},#client key = 94d902d872e54d9b6d9c33fd9c9f25b2f3bdb7b4
-        
+        "test signature": {"secret":"MqaVh3nOiB9V4SmqEFIe366VJypec57s", "key": "dWfpeYdsAi-RPAcA"},
+        #client # /users/1/ideas/ = 94d902d872e54d9b6d9c33fd9c9f25b2f3bdb7b4
+        #client # /register/simon/simon/ = 66c63264209c39b0fb51010540d379cf48cab2a4
+        #client # /login/simon/simon = 9dd9af0c34f79d0a189f8825af8dc954d607400f
+        #client # /idea/1/An Idea/ = 80e48a103cd6c84d9fb574c9020dbbcb67ec2b00
+        "wired in": {"secret":"T4OkQoi4MtETNk4E5XZRegwP6cxENhQo", "key": "GmZLYRiIqY-OZOaw"},
+        #client # /users/<id>/ideas/ = 07f12a1cf78314995b357e2e149bc7e6c3809945
         }
 
 def key_check(apikey, apisignature, query):
@@ -12,8 +16,11 @@ def key_check(apikey, apisignature, query):
         secret = get_secret(apikey)
     except KeyError:
         return False
-    
-    server_sig = hmac.new(secret, query, hashlib.sha1).hexdigest()
+    try:
+        print query
+        server_sig = hmac.new(secret, query, hashlib.sha1).hexdigest()
+    except TypeError:
+        return False
 
     if apisignature == server_sig:
         return True
@@ -22,10 +29,9 @@ def key_check(apikey, apisignature, query):
 
 def get_secret(api_key):
     global secrets
-
     for pair in secrets.values():
         if pair['key'] == api_key:
-            return pair['sig']
+            return pair['secret']
         
     return None
 

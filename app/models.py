@@ -10,11 +10,11 @@ from datetime import datetime
 class Idea(models.Model):
     user = models.ForeignKey(User, related_name='user_idea')
     idea = models.TextField()
+    elaborate = models.TextField(blank=True,null=True)
     date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return "idea by %s: %s" %(self.user, self.idea)
-    
 
 class Tag(models.Model):
     idea = models.ForeignKey(Idea, related_name='tag_idea')

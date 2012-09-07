@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     (r'^bookmarklet/idea/$', bookmarklet),
      
     # ADMIN
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
     # USER MANAGEMENT

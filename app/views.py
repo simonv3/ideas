@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django import forms
 
 from django.contrib.auth.models import User, Group
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import user_passes_test, login_required
 
 from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm
@@ -15,12 +15,12 @@ from app.models import Idea,Tag,Vote,Comment
 def splash(request):
 
     if not request.user.is_authenticated():
-        form = UserCreationForm()
+        form = AuthenticationForm()
         if request.method=="POST":
             register(request)
             return HttpResponseRedirect("/")
         else:
-            return render_to_response("main/register.html", locals(),
+            return render_to_response("main/splash.html", locals(),
                     context_instance=RequestContext(request))
 
     #
@@ -153,6 +153,8 @@ def profile(request):
 
 
 def register(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect("/")
     form = UserCreationForm()
     if request.method == 'POST':
         data = request.POST.copy()
@@ -173,6 +175,8 @@ def register(request):
     return render_to_response("main/register.html", locals(),
             context_instance=RequestContext(request))
 
+
+    
 
 def vote(voteForm, user):
     clean = voteForm.cleaned_data
