@@ -6,7 +6,7 @@ from app.models import Idea
 
 class IdeaForm(forms.Form):
     idea_content = forms.CharField(widget=forms.Textarea)
-    tags = forms.CharField(widget=forms.Textarea,required=False)
+    tags = forms.CharField(max_length=240,required=False)
 
 class VoteForm(forms.Form):
     vote = forms.CharField(widget=forms.HiddenInput)

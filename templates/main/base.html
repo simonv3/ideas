@@ -35,11 +35,10 @@
       <header>
       <div id="header-wrapper">
         <div class="span-12">
-          <h1>idea otter</h1>
+          <h1><a title="home" href="/">idea otter</a></h1>
           <div class="meta">
           {% if user.is_authenticated %}
           <div class="logout">hi {{user.username}}
-            <a class="" href="/">home</a>
             <a class="" href="/accounts/profile/">profile</a>
             <a class="" href="/accounts/logout/">log out</a>
           </div>

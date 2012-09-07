@@ -173,6 +173,10 @@ header{
     font-size:1.5em;
 }
 
+h1 a{
+    text-decoration:none;
+}
+
 body{ 
     background:#efefef; 
     font-family:Georgia,Times,serif;/*"Helvetica",Arial,sans-serif;*/}
@@ -226,15 +230,7 @@ opacity:.8;
 
 .red-gradient:hover{
     opacity:.95;
-/*background: -moz-linear-gradient(top,  rgba(255,48,25,0.85) 0%, rgba(207,4,4,0.92) 100%); /* FF3.6+ */
-/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,48,25,0.85)), color-stop(100%,rgba(207,4,4,0.92))); /* Chrome,Safari4+ */
-/*background: -webkit-linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* Chrome10+,Safari5.1+ */
-/*background: -o-linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* Opera 11.10+ */
-/*background: -ms-linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* IE10+ */
-/*background: linear-gradient(top,  rgba(255,48,25,0.85) 0%,rgba(207,4,4,0.92) 100%); /* W3C */
-/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9ff3019', endColorstr='#ebcf0404',GradientType=0 ); /* IE6-9 */
 }
-
 .red-gradient:active{
 
 background: rgb(255,48,25); /* Old browsers */
@@ -247,7 +243,7 @@ background: linear-gradient(top,  rgba(255,48,25,1) 0%,rgba(165,3,3,1) 2%,rgba(2
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 ); /* IE6-9 */
 
 }
-textarea{
+textarea, input[type=text]{
     width:60%;
     padding:.3em;
     font-size:2em;

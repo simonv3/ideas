@@ -3,6 +3,8 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django import forms
+from django.core.urlresolvers import reverse
+
 
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -68,14 +70,12 @@ def splash(request):
 
                     user.save()
             if 'submit_idea' in request.POST:
-                ideaForm = IdeaForm(request.POST) # A form bound to the POST data
-                if ideaForm.is_valid(): # All validation rules pass
-                    # Process the data in form.cleaned_data
-                    # ...
-                    clean = ideaForm.cleaned_data
-                    idea = Idea(idea=clean['idea_content'], user = request.user)
-                    idea.save()
-                    filterTags(clean['tags'], idea)
+                add_idea(request)
+            if 'submit_idea_elaborate' in request.POST:
+                print "elaborating"
+                idea = add_idea(request)
+                return HttpResponseRedirect(reverse('edit-idea', args=[idea.id]))
+
         voteUpForm = VoteForm({'vote':'+'})
         voteDownForm = VoteForm({'vote':'-'})
         ideaForm = IdeaForm() # An unbound form
@@ -103,7 +103,7 @@ def idea(request,idea_id, edit=False):
                 if ideaForm.is_valid():
                     clean = ideaForm.cleaned_data
                     idea.idea = clean['idea_content']
-                    filterTags(clean['tags'], idea)
+                    filter_tags(clean['tags'], idea)
                     idea.save()
 
             if 'submit_comment' in request.POST:
@@ -211,7 +211,7 @@ def bookmarklet(request):
                     clean = ideaForm.cleaned_data
                     idea = Idea(idea=clean['idea_content'], user = request.user)
                     idea.save()
-                    filterTags(clean['tags'], idea)
+                    filter_tags(clean['tags'], idea)
                     posted = True
     ideaForm = IdeaForm()
     return render_to_response("main/bookmarklet.html", locals(),
@@ -231,7 +231,18 @@ def verify(request,username, verify_hash):
 
     return HttpResponseRedirect("/")
 
-def filterTags(cleanedTags, idea):
+def add_idea(request):
+    ideaForm = IdeaForm(request.POST) # A form bound to the POST data
+    if ideaForm.is_valid(): # All validation rules pass
+        # Process the data in form.cleaned_data
+        # ...
+        clean = ideaForm.cleaned_data
+        idea = Idea(idea=clean['idea_content'], user = request.user)
+        idea.save()
+        filter_tags(clean['tags'], idea)
+        return idea
+
+def filter_tags(cleanedTags, idea):
     Tag.objects.filter(idea = idea).delete()
     for tag in cleanedTags.split(','):
         tag = Tag(tag=tag, idea = idea)

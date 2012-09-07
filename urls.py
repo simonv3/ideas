@@ -8,10 +8,16 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # URLS
     (r'^$', splash),
-    (r'^idea/(?P<idea_id>\w+)/edit/$', idea, {'edit':'true'}),
-    (r'^idea/(?P<idea_id>\w+)/$', idea),
+    url(r'^idea/(?P<idea_id>\w+)/edit/$',
+        'app.views.idea',
+        {'edit':'true'},
+        'edit-idea'
+        ),
+    url(r'^idea/(?P<idea_id>\w+)/$',
+        'app.views.idea',
+        name = 'idea',
+        ),
     (r'^bookmarklet/idea/$', bookmarklet),
-     
     # ADMIN
     #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
