@@ -83,10 +83,15 @@ def splash(request):
         emailForm = EmailForm({'email':user.email})
         all_ideas = Idea.objects.all().order_by('-date')
         #print all_ideas
-        processed_ideas = []
-        for idea in all_ideas:
+        all_ideas = process_ideas(user, all_ideas)
+        return render_to_response("main/home.html",locals(),
+                context_instance=RequestContext(request))
+
+def process_ideas(user, ideas):
+    processed_ideas = []
+    for idea in ideas:
             try:
-                Vote.objects.get(idea = idea, user = request.user)
+                Vote.objects.get(idea = idea, user = user)
             except:
                 new_idea = {
                         "idea":idea.idea,
@@ -95,7 +100,6 @@ def splash(request):
                         "voted_on":False
                         }
                 processed_ideas.append(new_idea)
-
             else:
                 new_idea = {
                         "idea":idea.idea,
@@ -103,11 +107,9 @@ def splash(request):
                         "date":idea.date,
                         "voted_on":True
                         }
-                
                 processed_ideas.append(new_idea)
-        all_ideas = processed_ideas
-        return render_to_response("main/home.html",locals(),
-                context_instance=RequestContext(request))
+    return processed_ideas
+
 
 @login_required(login_url='/accounts/login/')
 def idea(request,idea_id, edit=False):
@@ -191,7 +193,6 @@ def profile(request):
                     vote(voteForm,request.user)
 
     voted_on = Vote.objects.filter(user = user)
-    #print user.first_name
     return render_to_response('main/profile.html', locals(), context_instance=RequestContext(request))
 
 
