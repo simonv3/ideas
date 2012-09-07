@@ -83,15 +83,29 @@ def splash(request):
         emailForm = EmailForm({'email':user.email})
         all_ideas = Idea.objects.all().order_by('-date')
         #print all_ideas
+        processed_ideas = []
         for idea in all_ideas:
             try:
                 Vote.objects.get(idea = idea, user = request.user)
             except:
-                pass
+                new_idea = {
+                        "idea":idea.idea,
+                        "id":idea.id,
+                        "date":idea.date,
+                        "voted_on":False
+                        }
+                processed_ideas.append(new_idea)
+
             else:
-                print idea
-                #idea.append{'voted':True}
-        #print all_ideas
+                new_idea = {
+                        "idea":idea.idea,
+                        "id":idea.id,
+                        "date":idea.date,
+                        "voted_on":True
+                        }
+                
+                processed_ideas.append(new_idea)
+        all_ideas = processed_ideas
         return render_to_response("main/home.html",locals(),
                 context_instance=RequestContext(request))
 
