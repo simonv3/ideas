@@ -45,7 +45,7 @@ class Comment(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='extra')
-
+    facebook_access_token = models.CharField(blank=True, max_length=200)
 
 # attaches the user profile to the user
 def create_user_profile(sender, instance, created, **kwargs):

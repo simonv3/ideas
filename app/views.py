@@ -290,6 +290,8 @@ def facebook(request):
             user_profile = user.get_profile()
             user_profile.facebook_access_token = access_token
             user_profile.save()
+            verified_group = Group.objects.get(name='verified')
+            user.groups.add(verified_group)
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
             return HttpResponseRedirect("/accounts/profile/")

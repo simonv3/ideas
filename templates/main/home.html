@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="center-page">
-    <h1>Idea!</h1>
+    <h1>post your idea:</h1>
 
     {% if not perms.app.add_idea %}
 {% if emailForm.email %}
@@ -36,7 +36,6 @@
     <form action="/" id="idea-form" method="post">{% csrf_token %}
         <ul>
             <li>
-            <label for="id_idea_content">your idea:</label>
             {{ ideaForm.idea_content }}
             </li>
             <li>
