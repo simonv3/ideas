@@ -38,8 +38,7 @@
           <h1><a title="home" href="/">idea otter</a></h1>
           <div class="meta">
           {% if user.is_authenticated %}
-          <div class="logout">hi {{user.username}}
-            <a class="" href="/accounts/profile/">profile</a>
+          <div class="logout">hi <a class="" href="/accounts/profile/">{{user.username}}</a>
             <a class="" href="/accounts/logout/">log out</a>
           </div>
           {% else %}

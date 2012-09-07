@@ -142,6 +142,17 @@ def idea(request,idea_id, edit=False):
     return render_to_response('main/idea.html',locals(),
             context_instance=RequestContext(request))
 
+@login_required(login_url='/accounts/login/')
+def delete_idea(request, idea_id):
+    idea = Idea.objects.get(id = idea_id)
+    if not request.user == idea.user:
+        messages.error(request, "You're not the author of this idea")
+    else:
+        Idea.delete(idea)
+    return HttpResponseRedirect("/")
+
+
+
 
 
 @login_required(login_url='/accounts/login/')

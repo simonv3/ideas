@@ -300,20 +300,19 @@ ul.idea_list, #register, #log-in, ul#idea-comments{
 }
 
 li.idea{
-
     overflow:hidden;
     display:inline-block;
     background:#f4f4f4;
-    padding:.5em;
     border-radius:3px;
-    width:14%;
+    width:20%;
     min-width:200px;
     vertical-align:top;
-    margin:.2em;
+    margin:6px;
     border:1px solid #e0e0e0;
-
 }
-
+li.idea p{
+    padding:8px;
+}
 
 li.idea a{
     color:#040404;
@@ -324,6 +323,57 @@ li.idea a:hover p{
     color:#6a6a6a;
 }
 
+li.idea .bottom{
+    background:rgba(20,20,20,.1);
+    display:inline-block;
+    width:88%;
+    text-align:left;
+    height:40px;
+    padding:12px 7% 0px;
+}
+
+li.idea .bottom .date{
+    display:inline-block;
+    padding-top:9px;
+    font-size:.7em;
+}
+li.idea .bottom .voting{
+    float:right;
+}
+
+li.idea .bottom .delete{
+    width:20px;
+    float:right;
+    margin-top:2px;
+    height:20px;
+    background:url('../images/garbage.png') no-repeat center center;
+    display:inline-block;
+}
+
+.voting input[type="submit"]{
+  font-size:10px;
+}
+
+.voting form{
+  display:inline-block;
+}
+
+.voting input{
+  padding:0;
+  width:20px; 
+  height:20px; 
+  border:none;
+  display:block;
+}
+.vote-up{
+    background:url('../images/thumbs-up.png') no-repeat center center;
+    /*background:#58b759;*/
+    color:black;
+}
+
+.vote-down{
+  background:#fc8585;
+}
 
 li.idea form{ display:inline-block; }
 
@@ -431,7 +481,7 @@ ul#idea-comments{
 
 }
 
-#idea-comments .author, li.idea .author{
+#idea-comments .author{
     float:right;
     margin-top:1em;
     font-size:.8em;
@@ -449,30 +499,5 @@ ul#idea-comments{
  *
  * *******/
 
-#voting{
-  margin-top:1.5em;
-  font-size:10px;
-}
 
-#voting input[type="submit"]{
-  font-size:10px;
-}
 
-#voting form{
-  display:inline-block;
-}
-
-#voting input{
-  padding:0;
-  width:16px; 
-  height:16px; 
-  border:none;
-  display:block;
-}
-.vote-up{
-  background:#58b759;
-}
-
-.vote-down{
-  background:#fc8585;
-}

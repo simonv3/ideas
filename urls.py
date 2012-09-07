@@ -13,6 +13,10 @@ urlpatterns = patterns('',
         {'edit':'true'},
         'edit-idea'
         ),
+    url(r'^idea/(?P<idea_id>\w+)/delete/$',
+        'app.views.delete_idea',
+        name='delete-idea'
+        ),
     url(r'^idea/(?P<idea_id>\w+)/$',
         'app.views.idea',
         name = 'idea',
