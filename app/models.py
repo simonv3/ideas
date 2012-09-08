@@ -11,7 +11,7 @@ class Idea(models.Model):
     user = models.ForeignKey(User, related_name='user_idea')
     idea = models.TextField()
     elaborate = models.TextField(blank=True,null=True)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now_add=True)
     started = models.BooleanField(default=False)
 
     def __unicode__(self):
