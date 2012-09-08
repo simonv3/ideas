@@ -324,6 +324,10 @@ li.idea{
 }
 li.idea p{
     padding:8px;
+    transition: color .2s ease-in-out;
+    -webkit-transition: color .2s ease-in-out;
+    -moz-transition: color .2s ease-in-out;
+
 }
 
 li.idea a{
@@ -333,6 +337,9 @@ li.idea a{
 
 li.idea a:hover p{
     color:#6a6a6a;
+    transition: color .2s ease-in-out;
+    -webkit-transition: color .2s ease-in-out;
+    -moz-transition: color .2s ease-in-out;
 }
 
 li.idea .bottom{

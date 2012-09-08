@@ -1,18 +1,16 @@
 <li class="idea">
 
 <div id="idea-wrapper">
-<a href="{% url idea idea.id %}">
-    
+    {{idea.votes}}
+    <a href="{% url idea idea.id %}">
     <p>{{idea.idea|slice:":140"}}{%if idea.idea|length > 140%}...{%endif%}</p>
 </a>
-    
 <div class="bottom {% if idea.started %}started{% endif %}">
             <span class="date">{{idea.date|timesince}} ago</span>
             {% ifequal idea.user user %}
             <a href="{% url delete-idea idea.id %}" class="delete"></a>
             {% endifequal %}
-            
-            {% include "main/sub_vote.html" %} 
+            {% include "main/sub_vote.html" %}
         </div>
 </div>
     </li>

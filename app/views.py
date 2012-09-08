@@ -4,6 +4,8 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django import forms
 from django.core.urlresolvers import reverse
+from django.db.models import Count
+
 
 
 from django.contrib.auth.models import User, Group
@@ -22,7 +24,7 @@ import urllib
 import json
 
 
-def splash(request):
+def splash(request,show=''):
 
     if not request.user.is_authenticated():
         form = AuthenticationForm()
@@ -67,7 +69,6 @@ def splash(request):
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [user.email])
                     msg.attach_alternative(html_content, "text/html")
                     msg.send()
-
                     user.save()
             if 'submit_idea' in request.POST:
                 add_idea(request)
@@ -81,8 +82,15 @@ def splash(request):
         ideaForm = IdeaForm() # An unbound form
 
         emailForm = EmailForm({'email':user.email})
-        all_ideas = Idea.objects.all().order_by('-date')
-        #print all_ideas
+        all_ideas = Idea.objects.all().annotate(votes=Count('vote_on'))
+        if show == 'started':
+            all_ideas = Idea.objects.filter(started=True).annotate(votes=Count('vote_on'))
+        elif show == 'not-started':
+            all_ideas = Idea.objects.exclude(started=True).annotate(votes=Count('vote_on'))
+        if show == 'top':
+            all_ideas = all_ideas.order_by('-votes')
+        else:
+            all_ideas = all_ideas.order_by('-date')
         all_ideas = process_ideas(user, all_ideas)
         return render_to_response("main/home.html",locals(),
                 context_instance=RequestContext(request))
@@ -99,6 +107,7 @@ def process_ideas(user, ideas):
                         "started":idea.started,
                         "date":idea.date,
                         "voted_on":False,
+                        "votes":idea.votes,
                         "user":idea.user,
                         }
                 processed_ideas.append(new_idea)
@@ -108,6 +117,7 @@ def process_ideas(user, ideas):
                         "started":idea.started,
                         "user":idea.user,
                         "id":idea.id,
+                        "votes":idea.votes,
                         "date":idea.date,
                         "voted_on":True
                         }

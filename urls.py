@@ -8,6 +8,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # URLS
     (r'^$', splash),
+    url(r'^top/$', 'app.views.splash',{'show':'top'},'splash-top'),
+    url(r'^started/$', 'app.views.splash',{'show':'started'},'splash-started'),
+    url(r'^not-started/$', 'app.views.splash',{'show':'not-started'},'splash-not-started'),
     url(r'^idea/(?P<idea_id>\w+)/edit/$',
         'app.views.idea',
         {'edit':'true'},
