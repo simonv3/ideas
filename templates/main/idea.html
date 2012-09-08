@@ -11,14 +11,18 @@
         <li>
         <label for="id_idea_content"> Edit idea:</label><br/>
                 {{ ideaForm.idea_content }}
+                </li>
+                <li>
+            <label for="id_tags">Elaborate:</label><br/>
+                {{ideaForm.elaborate}}
             </li>
+
             <li>
             <label for="id_tags">Edit tags:</label><br/>
             {{ideaForm.tags}}
             </li>
             <li><input type="submit" class="red-gradient submit-button"
-            name="edit_idea" value="Edit" /></li>
-            
+            name="edit_idea" value="Save" /></li>
     </ul>
 
 

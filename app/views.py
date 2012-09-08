@@ -97,12 +97,14 @@ def process_ideas(user, ideas):
                         "idea":idea.idea,
                         "id":idea.id,
                         "date":idea.date,
-                        "voted_on":False
+                        "voted_on":False,
+                        "user":idea.user,
                         }
                 processed_ideas.append(new_idea)
             else:
                 new_idea = {
                         "idea":idea.idea,
+                        "user":idea.user,
                         "id":idea.id,
                         "date":idea.date,
                         "voted_on":True
@@ -118,7 +120,7 @@ def idea(request,idea_id, edit=False):
     except Idea.DoesNotExist:
         return HttpResponseRedirect("/")
     tags = Tag.objects.filter(idea = idea)
-    relevant_comments = Comment.objects.filter(idea = idea).order_by("-date_posted")
+    relevant_comments = Comment.objects.filter(idea = idea).order_by("date_posted")
     if request.method == 'POST': #If something has been submitted
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
@@ -129,9 +131,10 @@ def idea(request,idea_id, edit=False):
                 if ideaForm.is_valid():
                     clean = ideaForm.cleaned_data
                     idea.idea = clean['idea_content']
+                    idea.elaborate = clean['elaborate']
                     filter_tags(clean['tags'], idea)
                     idea.save()
-
+                    edit = False
             if 'submit_comment' in request.POST:
                 commentForm = CommentForm(request.POST)
                 if commentForm.is_valid():
@@ -160,7 +163,10 @@ def idea(request,idea_id, edit=False):
         for tag in tags:
             tagString += tag.tag + ","
         tagString = tagString[0:(len(tagString)-1)]
-        ideaForm = IdeaForm({'idea_content':idea.idea, 'tags':tagString})
+        ideaForm = IdeaForm({
+            'idea_content':idea.idea,
+            'elaborate':idea.elaborate,
+            'tags':tagString})
     else:
         edit = False
     voteDownForm = VoteForm({'vote':'-'})
