@@ -12,6 +12,7 @@ class Idea(models.Model):
     idea = models.TextField()
     elaborate = models.TextField(blank=True,null=True)
     date = models.DateTimeField(auto_now=True)
+    started = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "idea by %s: %s" %(self.user, self.idea)
