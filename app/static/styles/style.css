@@ -362,6 +362,11 @@ li.idea .bottom .delete{
     display:inline-block;
 }
 
+li.idea .bottom.started{
+    border-left:4px solid rgb(19,168,158);
+    border-left:4px solid rgba(19,168,158,1);
+}
+
 .voting input[type="submit"]{
   font-size:10px;
 }

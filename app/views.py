@@ -96,6 +96,7 @@ def process_ideas(user, ideas):
                 new_idea = {
                         "idea":idea.idea,
                         "id":idea.id,
+                        "started":idea.started,
                         "date":idea.date,
                         "voted_on":False,
                         "user":idea.user,
@@ -104,6 +105,7 @@ def process_ideas(user, ideas):
             else:
                 new_idea = {
                         "idea":idea.idea,
+                        "started":idea.started,
                         "user":idea.user,
                         "id":idea.id,
                         "date":idea.date,
@@ -217,7 +219,7 @@ def register(request):
                 from django.contrib.auth import authenticate, login
                 user_in_db = authenticate(username=formcd['username'],password=formcd['password1'])
                 login(request,user_in_db)
-                return HttpResponseRedirect("/accounts/profile/")
+                return HttpResponseRedirect("/")
 
     else:
         data, errors = {}, {}
@@ -347,5 +349,5 @@ def facebook(request):
             user.groups.add(verified_group)
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
-            return HttpResponseRedirect("/accounts/profile/")
+            return HttpResponseRedirect("/")
 

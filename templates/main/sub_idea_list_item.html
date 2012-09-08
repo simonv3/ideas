@@ -6,7 +6,7 @@
     <p>{{idea.idea|slice:":140"}}{%if idea.idea|length > 140%}...{%endif%}</p>
 </a>
     
-        <div class="bottom">
+<div class="bottom {% if idea.started %}started{% endif %}">
             <span class="date">{{idea.date|timesince}} ago</span>
             {% ifequal idea.user user %}
             <a href="{% url delete-idea idea.id %}" class="delete"></a>
