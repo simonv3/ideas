@@ -1,0 +1,24 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div class="center-page">
+
+    <h2>{{tag_name}}</h2>
+
+<div class="sort-by">
+    sort by <a href="/">newest</a>, <a href="{% url splash-top %}">top voted</a></div>
+<div class="show">
+    show <a href="/">all</a>, <a href="{% url splash-started %}">started</a>,
+    <a href="{% url splash-not-started %}">not started</a>
+</div>
+
+
+<ul class="idea_list">
+{% for idea in ideas%}
+  {% include "main/sub_idea_list_item.html" %}
+{% endfor %}
+</ul>
+</div>
+
+{% endblock %}
+

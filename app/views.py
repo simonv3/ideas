@@ -150,6 +150,7 @@ def idea(request,idea_id, edit=False):
                     filter_tags(clean['tags'], idea)
                     idea.save()
                     edit = False
+                    return HttpResponseRedirect("/idea/"+str(idea.id)+"/")
             if 'submit_comment' in request.POST:
                 commentForm = CommentForm(request.POST)
                 if commentForm.is_valid():
@@ -301,8 +302,9 @@ def filter_tags(cleanedTags, idea):
     Tag.objects.filter(idea = idea).delete()
     if cleanedTags:
         for tag in cleanedTags.split(','):
-            tag = Tag(tag=tag, idea = idea)
-            tag.save()
+            if tag != '':
+                tag = Tag(tag=tag.strip(), idea = idea)
+                tag.save()
 
 def send_comment_email(owner, request, idea, email, comment_text):
     link_url = request.build_absolute_uri("/idea/"+str(idea.id)+"/")

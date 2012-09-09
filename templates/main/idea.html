@@ -25,19 +25,27 @@
 
 
     {% else %}
-    <div class="center-page">
-        <p class="idea">{{idea.idea}}</p>
-        {% ifequal idea.user request.user %}
-        <a class="link-button" href="{% url app.views.idea idea.id %}edit/">edit idea</a>
+    <div class="span-4">
+        <div class="idea-container">
+        <div class="idea-vote">{% include "main/sub_vote.html" %}</div>
+            <div class="idea-blurb">{{idea.idea}}</div>
+            {% if idea.elaborate %}
+            <div class="idea-elaborate">{{idea.elaborate}}</div>
+            {% endif %}
+        </div>
+        <div class="right-bar">
+            {% ifequal idea.user request.user %}
+            <a class="edit-link {% if idea.started %}started{%endif%}" 
+                href="{% url app.views.idea idea.id %}edit/">manage idea</a>
         {% endifequal %}
-        {% include "main/sub_vote.html" %}
         {% for tag in tags %}
-        <a href="/tags/{{tag.tag}}/" title="{{tag.tag}}">{{tag.tag}}</a>
+        <a class="tag blue-gradient" href="/tags/{{tag.tag}}/" title="{{tag.tag}}">{{tag.tag}}</a>
         {#<a href="{% url view-tag tag.tag %}" title="{{tag.tag}}">{{tag.tag}}</a>#}
         {% endfor %}
+        </div>
     </div>
 {% endif %}
-
+<div style="clear:both;"></div>
 
 
 {% if not edit %}
