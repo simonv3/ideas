@@ -275,6 +275,11 @@ textarea#id_comment{
 form{
     text-align:center;
 }
+
+form .form-help{
+    padding-top:6px;
+}
+
 form .facebook-login{
     padding-top:24px;
     display:inline-block;

@@ -33,6 +33,9 @@ urlpatterns = patterns('',
     (r'^accounts/verify/(?P<username>\w+)/(?P<verify_hash>\w+)/$', verify),    
     (r'^accounts/register/$', register),
     (r'^accounts/profile/$', profile),
+    (r'^accounts/password/$', password),
+    (r'^accounts/pw_rst/(?P<user_id>\w+)$', password_reset),
+    
     (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name':
         'main/login.html'}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout',

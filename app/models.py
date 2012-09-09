@@ -45,6 +45,7 @@ class Comment(models.Model):
 
 
 class UserProfile(models.Model):
+    temp_hash = models.CharField(max_length=200, blank=True)
     user = models.OneToOneField(User, related_name='extra')
     facebook_access_token = models.CharField(blank=True, max_length=200)
 

@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django import forms
 from django.core.urlresolvers import reverse
 from django.db.models import Count
+from django.core.mail import EmailMultiAlternatives
 
 
 
@@ -303,16 +304,60 @@ def filter_tags(cleanedTags, idea):
         tag.save()
 
 def send_comment_email(owner, request, idea, email, comment_text):
-    from django.core.mail import EmailMultiAlternatives
 
     link_url = request.build_absolute_uri("/idea/"+str(idea.id)+"/")
     #temp_string = owner ? 'your idea' : 'an idea you commented on'
     subject, from_email, to = 'Someone commented on your idea' if owner else 'Someone commented on an idea you commented on', 'Idea Otter<no-reply@ideaotter.com>', 'to@example.com'
-    text_content = 'Hey,\n\n Looks like someone commented idea \n\n ' + idea.idea + ' \n\n which you can see here:\n\n '+link_url+'/\n\n Discuss away!'
+    text_content = 'Hey,\n\n Looks like someone commented on idea \n\n ' + idea.idea + ' \n\n which you can see here:\n\n '+link_url+'/\n\n Discuss away!'
     html_content = '<h2>'+request.user.username+' commented on idea:</h2><p>"'+idea.idea+'"</p><h3>With the comment:</h3><p>"'+comment_text+'"<p>Check it out <a href="'+link_url+'">here</a>!</p>'
     msg = EmailMultiAlternatives(subject, text_content, from_email, [email])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
+
+#
+# Password management
+#
+
+def password(request):
+    if request.user.is_authenticated():
+        return render_to_response("main/reset_password.html", locals(),
+                context_instance=RequestContext(request))
+    else:
+        form = EmailForm()
+        if request.method="POST":
+            form = EmailForm(request)
+            if form.is_valid():
+                clean = form.cleaned_data
+                email = clean['email']
+                user = User.objects.get(email = email)
+
+                rel_url = "/accounts/pw_rst/"+str(user.id)+"/"
+                #TODO make this more secure
+                link_url = request.build_absolute_uri(rel_url)
+                print link_url
+                subject, from_email, to = 'Password Reset' , 'Idea Otter<no-reply@ideaotter.com>', 'to@example.com'
+                text_content = 'Hey,\n\n You (or someone else) has asked to '
+                                +'reset your password. Click on the url to '
+                                +'it\n\n '
+                                +link_url
+                                +'/\n\n Discuss away!'
+                html_content = '<h2>Password Reset</h2>'
+                                +'<p>You requested a password reset</p>'
+                                +'<p>Click <a href="'+link_url+'">here</a>!</p>'
+                print text_content
+                print html_content
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [email])
+                msg.attach_alternative(html_content, "text/html")
+                print msg
+                msg.send()
+        return render_to_response("main/lost_password.html", locals(),
+                context_instance=RequestContext(request))
+
+
+def password_reset(request, user_id):
+    return render_to_response("main/reset_password.html", locals(),
+            context_instance=RequestContext(request))
 
 
 #

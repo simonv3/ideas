@@ -1,7 +1,6 @@
 <li class="idea">
 
 <div id="idea-wrapper">
-    {{idea.votes}}
     <a href="{% url idea idea.id %}">
     <p>{{idea.idea|slice:":140"}}{%if idea.idea|length > 140%}...{%endif%}</p>
 </a>
