@@ -135,6 +135,10 @@ def idea(request,idea_id, edit=False):
     except Idea.DoesNotExist:
         return HttpResponseRedirect("/")
     tags = Tag.objects.filter(idea = idea)
+    try:
+        voted_on = idea.vote_on.get(user = request.user)
+    except:
+        pass
     relevant_comments = Comment.objects.filter(idea = idea).order_by("date_posted")
     if request.method == 'POST': #If something has been submitted
             if 'vote' in request.POST:

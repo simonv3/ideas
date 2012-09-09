@@ -27,7 +27,7 @@
     {% else %}
     <div class="span-4">
         <div class="idea-container">
-        <div class="idea-vote">{% include "main/sub_vote.html" %}</div>
+            <div class="idea-vote {% if voted_on %}voted_on{% endif %}">{% include "main/sub_vote.html" %}</div>
             <div class="idea-blurb">{{idea.idea}}</div>
             {% if idea.elaborate %}
             <div class="idea-elaborate">{{idea.elaborate}}</div>

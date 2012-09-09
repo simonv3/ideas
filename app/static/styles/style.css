@@ -376,7 +376,8 @@ li.idea{
     width:20%;
     min-width:200px;
     vertical-align:top;
-    margin:6px;
+    margin:14px;
+    box-shadow:0px 0px 5px #ccc;
     border:1px solid #e0e0e0;
 }
 li.idea p{
@@ -423,6 +424,7 @@ li.idea .bottom .delete{
     margin-top:2px;
     height:20px;
     background:url('../images/garbage.png') no-repeat center center;
+    opacity:.8;
     display:inline-block;
 }
 
@@ -461,17 +463,24 @@ li.idea .bottom.started{
 .vote-up{
     background:url('../images/thumbs-up.png') no-repeat center center;
     color:black;
-    opacity:.9;
+    opacity:.8;
 }
 
 .idea-vote .vote-up{
     background:url('../images/thumbs-up-large.png') no-repeat center center;
+    opacity:.8;
 
 }
+
 
 .vote-up.voted{
     background:url('../images/thumbs-up-color.png') no-repeat center center;
 }
+
+.idea-vote.voted_on .vote-up{
+    background:url('../images/thumbs-up-large-color.png') no-repeat center center;
+}
+
 
 .vote-down{
   background:#fc8585;
