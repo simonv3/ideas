@@ -187,6 +187,7 @@ body{
 
 #content{
     margin-top:16px; /* width of menu-strip */
+    margin-bottom:96px;
 }
 
 #content h1{
@@ -206,20 +207,6 @@ body{
     text-shadow:2px 0px 1px #000;
     margin:.6em 0 .4em 0;
 }
-
-
-
-p.idea{ 
-  font-size: 2.5em;
-  color:#00313c;
-  line-height:auto;
-  padding-bottom:1.5em;
-  width:60%;
-  min-width:400px;
-  margin:0 auto;
-}
-
-
 
 .red-gradient{
     background: rgb(255,48,25); /* Old browsers */
@@ -252,6 +239,7 @@ p.idea{
 }
 textarea, input[type=text]{
     width:60%;
+    outline-width: 0;
     padding:.3em;
     font-size:2em;
     border:1px solid #9f9f9f;
@@ -260,9 +248,21 @@ textarea, input[type=text]{
     background-color:white;
     text-align:left;
     box-shadow:0px 0px 4px #888;
+    transition: box-shadow .1s linear;
+    -webkit-transition: box-shadow .1s linear;
+    -moz-transition: box-shadow .1s linear;
+
 }
 textarea#id_idea_content{
     height:4em;
+}
+
+input[type=text]:focus, textarea:focus{
+    box-shadow:0px 0px 4px #191919;
+    transition: box-shadow .1s linear;
+    -webkit-transition: box-shadow .1s linear;
+    -moz-transition: box-shadow .1s linear;
+
 }
 
 textarea#id_tags{
@@ -397,9 +397,9 @@ li.idea .bottom.started{
   border:none;
   display:block;
 }
+
 .vote-up{
     background:url('../images/thumbs-up.png') no-repeat center center;
-    /*background:#58b759;*/
     color:black;
 }
 
@@ -420,20 +420,43 @@ li.idea form input{
     display:inline-block;
 }
 
+
+p.idea{ 
+  font-size: 1.8em;
+  color:#00313c;
+  line-height:auto;
+  padding-bottom:1.5em;
+  width:60%;
+  min-width:400px;
+  margin:64px auto 0 auto;
+}
+
 #bookmarklet{text-align:center; }
 
 #bookmarklet p{
-line-height:1.5em;
-padding:2em;
+    line-height:1.5em;
+    padding:2em;
 }
 
-#bookmarklet a,.link-button{
+#bookmarklet a{
     text-align:center;
     color:#111;
     background-color:#f0f0f0;
     border-radius:2px;
     border:1px solid #e0e0e0;
     padding:6px 8px;
+}
+
+.link-button{
+    text-align:center;
+    color:#111;
+    background-color:#f0f0f0;
+    border-radius:2px;
+    border:1px solid #e0e0e0;
+    padding:6px 8px;
+    width:80px;
+    display:block;
+    margin:0 auto 8px auto;
     box-shadow:0 0 1px #ccc;
 }
 .link-button a{ color:#444; }
@@ -467,8 +490,8 @@ label{
 
 #register-list li label, #log-in-list li label, #email-form li label{
     position:absolute; 
-    top:0px; 
-    left:8px; 
+    top:0px;
+    left:8px;
     font-size:1.4em;
 }
 
@@ -488,11 +511,20 @@ label{
 
 #about p.right{float:right;clear:both;}
 
-#comment-form li label{left:10%;}
-
-
 #register-list input, #log-in-list input, #email-form input, #comment-form input{
     font-size:1.4em;width:220px;padding:4px;}
+
+
+
+/***********
+ *
+ * Comments
+ *
+ * *******/
+
+
+#comment-form li label{left:10%;}
+
 
 
 ul#idea-comments{
@@ -528,12 +560,3 @@ ul#idea-comments{
     color:#686868;
     font-size:.6em;
 }
-
-/***********
- *
- * Comments
- *
- * *******/
-
-
-

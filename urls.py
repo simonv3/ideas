@@ -25,6 +25,12 @@ urlpatterns = patterns('',
         name = 'idea',
         ),
     (r'^bookmarklet/idea/$', bookmarklet),
+
+    url(r'^tags/(?P<tag_name>[\w|\W]+)/$',
+        'app.views.tags',
+        name = 'view-tag',
+        ),
+
     # ADMIN
     #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),

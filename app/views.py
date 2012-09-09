@@ -240,7 +240,6 @@ def register(request):
             context_instance=RequestContext(request))
 
 
-    
 
 def vote(voteForm, user):
     clean = voteForm.cleaned_data
@@ -273,17 +272,18 @@ def bookmarklet(request):
     return render_to_response("main/bookmarklet.html", locals(),
             context_instance=RequestContext(request))
 
+def tags(request, tag_name):
+    ideas = Tag.objects.filter(tag__contains=tag_name)
+    return render_to_response("main/idea_list.html", locals(),
+            context_instance=RequestContext(request))
+
 def verify(request,username, verify_hash):
     m = hashlib.sha224("some_salt1234"+username)
     m.hexdigest()
     if verify_hash == m.hexdigest():
         v_user = User.objects.get(username=username)
-        #v_user.groups.add(id=1)
-        #v_user.save()
         verified_group = Group.objects.get(name='verified')
         v_user.groups.add(verified_group)
-        
-
     return HttpResponseRedirect("/")
 
 def add_idea(request):
@@ -299,12 +299,12 @@ def add_idea(request):
 
 def filter_tags(cleanedTags, idea):
     Tag.objects.filter(idea = idea).delete()
-    for tag in cleanedTags.split(','):
-        tag = Tag(tag=tag, idea = idea)
-        tag.save()
+    if cleanedTags:
+        for tag in cleanedTags.split(','):
+            tag = Tag(tag=tag, idea = idea)
+            tag.save()
 
 def send_comment_email(owner, request, idea, email, comment_text):
-
     link_url = request.build_absolute_uri("/idea/"+str(idea.id)+"/")
     #temp_string = owner ? 'your idea' : 'an idea you commented on'
     subject, from_email, to = 'Someone commented on your idea' if owner else 'Someone commented on an idea you commented on', 'Idea Otter<no-reply@ideaotter.com>', 'to@example.com'
