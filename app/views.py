@@ -15,7 +15,7 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
 
-from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm
+from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm, ResetPasswordForm
 
 from app.models import Idea,Tag,Vote,Comment
 
@@ -23,6 +23,11 @@ from settings import FACEBOOK_SECRET, FACEBOOK_ID
 
 import urllib
 import json
+import hashlib
+import base64
+import datetime
+
+
 
 
 def splash(request,show=''):
@@ -57,11 +62,8 @@ def splash(request,show=''):
                 if emailForm.is_valid():
                     clean = emailForm.cleaned_data
                     user.email = clean['email']
-                    from django.core.mail import EmailMultiAlternatives
-                    import hashlib
                     m = hashlib.sha224("some_salt1234"+user.username)
                     m.hexdigest()
-                    import base64
                     encoded_email = clean['email']#base64.b64encode(clean['email'])
                     link_url = request.build_absolute_uri("/accounts/verify/"+user.username+"/"+m.hexdigest())
                     subject, from_email = 'Idea Otter Registration', 'Idea Otter<no-reply@ideaotter.com>'
@@ -227,7 +229,6 @@ def register(request):
             if formcd['password1'] == formcd['password2']:
                 user = User.objects.create_user(formcd['username'],'',formcd['password1'])
                 user.save()
-                from django.contrib.auth import authenticate, login
                 user_in_db = authenticate(username=formcd['username'],password=formcd['password1'])
                 login(request,user_in_db)
                 return HttpResponseRedirect("/")
@@ -273,7 +274,6 @@ def bookmarklet(request):
             context_instance=RequestContext(request))
 
 def verify(request,username, verify_hash):
-    import hashlib
     m = hashlib.sha224("some_salt1234"+username)
     m.hexdigest()
     if verify_hash == m.hexdigest():
@@ -325,26 +325,22 @@ def password(request):
                 context_instance=RequestContext(request))
     else:
         form = EmailForm()
-        if request.method="POST":
-            form = EmailForm(request)
+        if request.method=="POST":
+            form = EmailForm(request.POST)
             if form.is_valid():
                 clean = form.cleaned_data
                 email = clean['email']
                 user = User.objects.get(email = email)
-
-                rel_url = "/accounts/pw_rst/"+str(user.id)+"/"
-                #TODO make this more secure
+                temp_date = datetime.datetime.now()
+                user.get_profile().temp_hash = str(temp_date)
+                user.get_profile().save()
+                m = hashlib.sha224(str(temp_date)).hexdigest()
+                rel_url = "/accounts/pw_rst/"+str(user.id)+"/"+m+"/"
                 link_url = request.build_absolute_uri(rel_url)
                 print link_url
                 subject, from_email, to = 'Password Reset' , 'Idea Otter<no-reply@ideaotter.com>', 'to@example.com'
-                text_content = 'Hey,\n\n You (or someone else) has asked to '
-                                +'reset your password. Click on the url to '
-                                +'it\n\n '
-                                +link_url
-                                +'/\n\n Discuss away!'
-                html_content = '<h2>Password Reset</h2>'
-                                +'<p>You requested a password reset</p>'
-                                +'<p>Click <a href="'+link_url+'">here</a>!</p>'
+                text_content = 'Hey,\n\n You (or someone else) has asked to reset your password. Click on the url to it\n\n ' +link_url +'\n\n'
+                html_content = '<h2>Password Reset</h2><p>You requested a password reset</p><p>Click <a href="'+link_url+'">here</a>!</p>'
                 print text_content
                 print html_content
                 msg = EmailMultiAlternatives(subject, text_content, from_email, [email])
@@ -355,7 +351,26 @@ def password(request):
                 context_instance=RequestContext(request))
 
 
-def password_reset(request, user_id):
+def password_reset(request, user_id,hashed):
+    if request.method=="POST":
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            clean = form.cleaned_data
+            print clean
+            if clean['password'] == clean['repeat_password']:
+                user = User.objects.get(id = user_id)
+                temp_date = user.get_profile().temp_hash
+                m = hashlib.sha224(str(temp_date)).hexdigest()
+                print m
+                print hashed
+                if m != hashed:
+                    return HttpResponseRedirect("/")
+                user.set_password(clean['password'])
+                user.save()
+                return HttpResponseRedirect("/")
+            else:
+                messages.error(request, "Please make sure the passwords are the same")
+    form = ResetPasswordForm()
     return render_to_response("main/reset_password.html", locals(),
             context_instance=RequestContext(request))
 
