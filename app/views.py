@@ -321,6 +321,15 @@ def send_comment_email(owner, request, idea, email, comment_text):
 
 def password(request):
     if request.user.is_authenticated():
+        form = ResetPasswordForm()
+        if request.method=="POST":
+            form = ResetPasswordForm(request.POST)
+            if form.is_valid():
+                clean = form.cleaned_data
+                if clean['password'] == clean['repeat_password']:
+                    request.user.set_password(clean['password'])
+                    request.user.save()
+                    return HttpResponseRedirect("/accounts/profile/")
         return render_to_response("main/reset_password.html", locals(),
                 context_instance=RequestContext(request))
     else:
@@ -356,13 +365,10 @@ def password_reset(request, user_id,hashed):
         form = ResetPasswordForm(request.POST)
         if form.is_valid():
             clean = form.cleaned_data
-            print clean
             if clean['password'] == clean['repeat_password']:
                 user = User.objects.get(id = user_id)
                 temp_date = user.get_profile().temp_hash
                 m = hashlib.sha224(str(temp_date)).hexdigest()
-                print m
-                print hashed
                 if m != hashed:
                     return HttpResponseRedirect("/")
                 user.set_password(clean['password'])

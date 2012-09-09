@@ -147,7 +147,6 @@ em{
 
 
 header{
-    height:24px;
 }
 
 #header-wrapper{
@@ -185,6 +184,10 @@ h1 a{
 body{ 
     background:#efefef; 
     font-family:Georgia,Times,serif;/*"Helvetica",Arial,sans-serif;*/}
+
+#content{
+    margin-top:16px; /* width of menu-strip */
+}
 
 #content h1{
     text-align:center;
