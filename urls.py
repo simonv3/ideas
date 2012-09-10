@@ -20,6 +20,10 @@ urlpatterns = patterns('',
         'app.views.delete_idea',
         name='delete-idea'
         ),
+    url(r'^idea/(?P<idea_id>\w+)/start/$',
+        'app.views.start_idea',
+        name='start-idea'
+        ),
     url(r'^idea/(?P<idea_id>\w+)/$',
         'app.views.idea',
         name = 'idea',

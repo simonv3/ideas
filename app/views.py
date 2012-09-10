@@ -140,6 +140,8 @@ def idea(request,idea_id, edit=False):
     except:
         pass
     relevant_comments = Comment.objects.filter(idea = idea).order_by("date_posted")
+    commentForm = CommentForm(request.POST or None)
+    
     if request.method == 'POST': #If something has been submitted
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
@@ -190,7 +192,7 @@ def idea(request,idea_id, edit=False):
     else:
         edit = False
     voteDownForm = VoteForm({'vote':'-'})
-    commentForm = CommentForm()
+    commentForm = CommentForm(None)
     return render_to_response('main/idea.html',locals(),
             context_instance=RequestContext(request))
 
@@ -203,7 +205,15 @@ def delete_idea(request, idea_id):
         Idea.delete(idea)
     return HttpResponseRedirect("/")
 
-
+@login_required(login_url='/accounts/login/')
+def start_idea(request, idea_id):
+    idea = Idea.objects.get(id = idea_id)
+    if not request.user == idea.user:
+        messages.error(request, "You're not the author of this idea")
+    else:
+        idea.started = True
+        idea.save()
+    return HttpResponseRedirect("/idea/"+str(idea.id)+"/")
 
 
 

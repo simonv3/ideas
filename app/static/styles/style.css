@@ -362,7 +362,7 @@ form#idea-form input[type=submit]:hover{
     box-shadow:2px 2px 4px #a0a0a0;
 }
 
-ul.idea_list, #register, #log-in, ul#idea-comments{
+ul.idea_list, #register, #log-in {
     max-width:1080px;
     width:100%;
     margin:4em auto 4em auto;
@@ -557,6 +557,10 @@ li.idea form input{
     color:#fff;
 }
 
+.right-bar .idea-author{
+    margin-top:24px;
+}
+
 
 #bookmarklet{
     text-align:center; 
@@ -605,9 +609,9 @@ li.idea form input{
 }
 
 
-#register-list, #log-in-list, #email-form, #comment-form{text-align:center;}
+#register-list, #log-in-list, #email-form{text-align:center;}
 
-#register-list li, #log-in-list li, #email-form li, #comment-form li{
+#register-list li, #log-in-list li, #email-form li{
     display:inline-block;
     position:relative;
 }
@@ -651,14 +655,42 @@ label{
  *
  * *******/
 
+#comment-form{
+    margin-top:48px;
+    width:60%;
+    text-align:left;
+}
 
-#comment-form li label{left:10%;}
+#comment-form textarea{
+    font-size:1em;
+    width:100%;
+    height:4em;
+}
 
+#comment-form input[type=submit]{
+    font-size:1em;
+    width:128px;
+}
+
+
+#comment-form li{
+    list-style:none;
+}
+
+#comment-form li label{
+    line-height:1.4em;
+    margin:0;
+}
+
+#comment-form .submit-button{
+    margin:auto;
+}
 
 
 ul#idea-comments{
     list-style:none;
-    width:80%;
+    width:60%;
+    margin-top:48px;
     max-width:600px;
     border:1px solid #efefef;
     border-radius:4px;
@@ -666,26 +698,48 @@ ul#idea-comments{
 }
 
 #idea-comments li{
-    font-size:1.5em;
-    padding:.5em;
-    background:#efefef;
-    background:rgba(230,230,230,.70);
+    font-size:1.2em;
+    padding:.8em;
+    background:rgb(225,225,225);
+    margin:12px 0;
+    border-radius:2px;
+    background:rgba(225,225,225,.70);
 }
 
 #idea-comments li.odd{
-    background:#d0d0d0;
-    background:rgba(210,210,210,.70);
-
+    background:#f1f1f1;
+    background:rgb(230,230,230);
+    background:rgba(232,232,232,.70);
 }
 
-#idea-comments .author{
-    float:right;
-    margin-top:1em;
+#idea-comments li header{
+    height:24px;
+    position:relative;
+    vertical-align:middle;
+}
+
+
+.author{
+    color:#efefef;
     font-size:.8em;
-    text-align:right;
+    vertical-align:top;
+    padding:2px 6px;
+    background-color:#2bb673;
+    border-radius:3px;
+    box-shadow:0px 0px 10px #aaa;
+}
+
+#idea-comments li header .author.current{
+    background-color:#2bb0b5;
+
 }
 
 #idea-comments .timesince{
     color:#686868;
+    float:right;
     font-size:.6em;
+}
+
+#idea-comments .text{
+    margin-top:12px;
 }

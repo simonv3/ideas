@@ -34,44 +34,61 @@
             {% endif %}
         </div>
         <div class="right-bar">
+
             {% ifequal idea.user request.user %}
             <a class="edit-link {% if idea.started %}started{%endif%}" 
                 href="{% url app.views.idea idea.id %}edit/">manage idea</a>
+            {% if not idea.started %}
+            <a class="edit-link"
+                href="{% url app.views.start_idea idea.id %}">start idea</a>
+            {% endif %}
+
         {% endifequal %}
         {% for tag in tags %}
         <a class="tag blue-gradient" href="/tags/{{tag.tag}}/" title="{{tag.tag}}">{{tag.tag}}</a>
         {#<a href="{% url view-tag tag.tag %}" title="{{tag.tag}}">{{tag.tag}}</a>#}
         {% endfor %}
+        <div class="idea-author">created by 
+            <span class="author {% ifequal user idea.user %}current{%endifequal%}">{{idea.user}}
+            </span>
+        </div>
         </div>
     </div>
 {% endif %}
 <div style="clear:both;"></div>
-
+<div class="span-4">
 
 {% if not edit %}
 {% if perms.app.add_comment %}
 
 <form action="" method="post" id="comment-form">{% csrf_token %}
     <ul>
-        <li><label for="id_comment">Add a comment:</label><br/>
+        <li><label for="id_comment">Add a comment:</label>
         {{ commentForm.comment }}</li>
     </ul>
-<input type="submit" class="red-gradient submit-button" name="submit_comment" value="Submit" />
+<input type="submit" class="red-gradient submit-button" name="submit_comment"
+value="Add Comment" />
 </form>
 {% endif %}
 {% endif %}
 {% if relevant_comments %}
 
 <ul id="idea-comments">
-{% for comment in relevant_comments %}
-<li class="{% cycle 'odd' 'even' %}">{{comment.text}}  <span
-    class="author">&#126;
-    {{comment.user}}<br/>
-    <span class="timesince">{{comment.date_posted|timesince}} ago</span></span>
+    {% for comment in relevant_comments %}
+
+    <li class="{% cycle 'odd' 'even' %}">
+    <header>
+        <span class="author {% ifequal user comment.user %}current{%endifequal%}">{{comment.user}}</span>
+        <span class="timesince">{{comment.date_posted|timesince}} ago</span>
+    </header>
+    <div class="text">
+        {{comment.text}}
+    </div>
     <div style="clear:both;"></div>
 </li>
 {% endfor %}
 </ul>
+</div>
 {% endif %}
 {% endblock %}
 
