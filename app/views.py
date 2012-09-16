@@ -296,14 +296,14 @@ def search(request, query=""):
             #print "redirecting"
             return HttpResponseRedirect("/search/"+cd['query']+"/")
     idea_results = []
-    ideas_with_tags = Tag.objects.filter(tag__contains=query)
-    all_ideas = Idea.objects.filter(idea__contains=query)
-    for idea in ideas_with_tags:
-        idea_results.append(idea.idea)
-    for idea in all_ideas:
-        pass
-        if idea not in idea_results:
-            idea_results.append(idea)
+    if query != "":
+        ideas_with_tags = Tag.objects.filter(tag__contains=query)
+        all_ideas = Idea.objects.filter(idea__contains=query)
+        for idea in ideas_with_tags:
+            idea_results.append(idea.idea)
+        for idea in all_ideas:
+            if idea not in idea_results:
+                idea_results.append(idea)
     return render_to_response("main/idea_list.html", locals(),
             context_instance=RequestContext(request))
 
