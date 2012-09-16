@@ -785,3 +785,7 @@ ul#idea-comments{
 #idea-comments .text{
     margin-top:12px;
 }
+
+.not-found img{
+    margin:0 auto;
+}
