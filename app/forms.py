@@ -26,6 +26,7 @@ class EmailForm(forms.Form):
 
 class ResetPasswordForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
-
     repeat_password = forms.CharField(widget=forms.PasswordInput())
 
+class SearchForm(forms.Form):
+    query = forms.CharField(max_length=240)

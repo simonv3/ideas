@@ -621,7 +621,7 @@ li.idea form input{
 
 #register-list, #log-in-list, #email-form{text-align:center;}
 
-#register-list li, #log-in-list li, #email-form li{
+#register-list li, #log-in-list li, #email-form li, #search-form li{
     display:inline-block;
     position:relative;
 }
@@ -631,12 +631,39 @@ label{
   margin:.5em 0 .3em 0;
 }
 
-#register-list li label, #log-in-list li label, #email-form li label{
+#register-list li label, #log-in-list li label, #email-form li label, #search-form li label{
     position:absolute; 
     top:0px;
     left:8px;
     font-size:1.4em;
 }
+
+#search-form{
+    margin-top:24px;
+}
+
+#search-form input[type=text]{
+    background:#EFEFEF;
+    border-top:none;
+    border-right:none;
+    border-left:none;
+    border-radius:0;
+    box-shadow: 0px 0px 0px #efefef;
+}
+
+#search-form input[type=submit]{
+    margin-left:12px;
+    width:auto;
+}
+
+#search-form input[type=text]:focus{
+    background:#fefefe;
+    /*box-shadow:0px 2px 1px #191919;*/
+    transition: background-color .1s linear;
+    -webkit-transition: background-color .1s linear;
+    -moz-transition: background-color .1s linear;
+}
+
 
 #about{
     max-width:960px;
@@ -657,6 +684,11 @@ label{
 #register-list input, #log-in-list input, #email-form input, #comment-form input{
     font-size:1.4em;width:220px;padding:4px;}
 
+#search-form input{
+    width:400px;
+    margin-left:-8px;
+    margin-top:-8px;
+}
 
 
 /***********

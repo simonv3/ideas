@@ -29,10 +29,13 @@ urlpatterns = patterns('',
         name = 'idea',
         ),
     (r'^bookmarklet/idea/$', bookmarklet),
-
-    url(r'^tags/(?P<tag_name>[\w|\W]+)/$',
-        'app.views.tags',
-        name = 'view-tag',
+    url(r'^search/$',
+        'app.views.search',
+        name = 'no-query-search',
+        ),
+    url(r'^search/(?P<query>[\w|\W]+)/$',
+        'app.views.search',
+        name = 'view-search',
         ),
 
     # ADMIN

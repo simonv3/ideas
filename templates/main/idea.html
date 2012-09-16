@@ -45,7 +45,7 @@
 
         {% endifequal %}
         {% for tag in tags %}
-        <a class="tag blue-gradient" href="/tags/{{tag.tag}}/" title="{{tag.tag}}">{{tag.tag}}</a>
+        <a class="tag blue-gradient" href="/search/{{tag.tag}}/" title="{{tag.tag}}">{{tag.tag}}</a>
         {#<a href="{% url view-tag tag.tag %}" title="{{tag.tag}}">{{tag.tag}}</a>#}
         {% endfor %}
         <div class="idea-author">created by 

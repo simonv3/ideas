@@ -65,12 +65,30 @@
     show <a href="/">all</a>, <a href="{% url splash-started %}">started</a>,
     <a href="{% url splash-not-started %}">not started</a>
 </div>
-
+<div class="search">
+    <form method="GET" action="/search/" id="search-form">
+    <ul>
+        <li>
+        <label class="hover-field" for="id_query">Search Ideas</label> 
+        {{searchForm.query}}
+        </li>
+        <li>
+        <input type="submit" class="red-gradient submit-button"
+        name="submit_idea"value="Search" />
+        </li>
+    </ul>
+    </form>
+</div>
 
 <ul class="idea_list">
-{% for idea in all_ideas %}
-  {% include "main/sub_idea_list_item.html" %}
-{% endfor %}
+    {{idea_results}}
+    {% for idea in all_ideas %}
+        {% include "main/sub_idea_list_item.html" %}
+    {% empty %}
+    <div class="not-found">We couldn't find any ideas, just otters:/ </div>
+    <img src="{{STATIC_URL}}images/otters-404.gif"/>
+    
+    {% endfor %}
 </ul>
 </div>
 

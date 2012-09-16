@@ -14,8 +14,13 @@
 
 
 <ul class="idea_list">
-{% for idea in ideas%}
-  {% include "main/sub_idea_list_item.html" %}
+{% for idea in idea_results%}
+{% include "main/sub_idea_list_item.html" %}
+{% empty %}
+<div class="not-found">We couldn't find any ideas, just otters :/
+</div>
+    
+    <img src="{{STATIC_URL}}images/otters-404.gif"/>
 {% endfor %}
 </ul>
 </div>

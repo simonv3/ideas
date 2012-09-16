@@ -15,7 +15,7 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
 
-from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm, ResetPasswordForm
+from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm, ResetPasswordForm, SearchForm
 
 from app.models import Idea,Tag,Vote,Comment
 
@@ -82,8 +82,8 @@ def splash(request,show=''):
 
         voteUpForm = VoteForm({'vote':'+'})
         voteDownForm = VoteForm({'vote':'-'})
-        ideaForm = IdeaForm() # An unbound form
-
+        ideaForm = IdeaForm()
+        searchForm = SearchForm() 
         emailForm = EmailForm({'email':user.email})
         all_ideas = Idea.objects.all().annotate(votes=Count('vote_on'))
         if show == 'started':
@@ -287,8 +287,23 @@ def bookmarklet(request):
     return render_to_response("main/bookmarklet.html", locals(),
             context_instance=RequestContext(request))
 
-def tags(request, tag_name):
-    ideas = Tag.objects.filter(tag__contains=tag_name)
+def search(request, query=""):
+    searchForm = SearchForm(request.GET or None)
+    if request.method == "GET":
+        if searchForm.is_valid():
+            cd = searchForm.cleaned_data
+            #redirect to this function, but send the search into the query. 
+            #print "redirecting"
+            return HttpResponseRedirect("/search/"+cd['query']+"/")
+    idea_results = []
+    ideas_with_tags = Tag.objects.filter(tag__contains=query)
+    all_ideas = Idea.objects.filter(idea__contains=query)
+    for idea in ideas_with_tags:
+        idea_results.append(idea.idea)
+    for idea in all_ideas:
+        pass
+        if idea not in idea_results:
+            idea_results.append(idea)
     return render_to_response("main/idea_list.html", locals(),
             context_instance=RequestContext(request))
 
