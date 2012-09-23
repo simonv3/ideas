@@ -19,7 +19,8 @@ from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm, ResetPasswordF
 
 from app.models import Idea,Tag,Vote,Comment
 
-from settings import FACEBOOK_SECRET, FACEBOOK_ID
+from settings import FACEBOOK_SECRET, FACEBOOK_ID, CLIENT_SUB_DOMAIN
+import app.helpers
 
 import urllib
 import json
@@ -31,7 +32,7 @@ import datetime
 
 
 def splash(request,show=''):
-
+    client_sub_domain = CLIENT_SUB_DOMAIN
     if not request.user.is_authenticated():
         form = AuthenticationForm()
         if request.method=="POST":
@@ -56,7 +57,7 @@ def splash(request,show=''):
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
                 if voteForm.is_valid():
-                    vote(voteForm,request.user)
+                    helpers.vote(voteForm,request.user)
             if 'submit_email' in request.POST:
                 emailForm = EmailForm(request.POST)
                 if emailForm.is_valid():
@@ -146,14 +147,14 @@ def idea(request,idea_id, edit=False):
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
                 if voteForm.is_valid():
-                    vote(voteForm,request.user)
+                    helpers.vote(voteForm,request.user)
             if 'edit_idea' in request.POST:
                 ideaForm = IdeaForm(request.POST)
                 if ideaForm.is_valid():
                     clean = ideaForm.cleaned_data
                     idea.idea = clean['idea_content']
                     idea.elaborate = clean['elaborate']
-                    filter_tags(clean['tags'], idea)
+                    helpers.filter_tags(clean['tags'], idea)
                     idea.save()
                     edit = False
                     return HttpResponseRedirect("/idea/"+str(idea.id)+"/")
@@ -166,7 +167,7 @@ def idea(request,idea_id, edit=False):
                     all_comments_idea = Comment.objects.filter(idea = idea)
                     #if the user posting the comment doesn't own the idea, send the email to the user who owns the idea
                     if request.user != idea.user:
-                        send_comment_email(True, request, idea, idea.user.email, comment.text)
+                        helpers.send_comment_email(True, request, idea, idea.user.email, comment.text)
                     #add the user who owns the idea to the list, because either they've already received it from above, or they're the ones posting the comment
                     user_emails_sent = [idea.user,]
                     #for every comment on the idea
@@ -177,7 +178,7 @@ def idea(request,idea_id, edit=False):
                             if not comment_for_idea.user in user_emails_sent:
 
                                 user_emails_sent.append(comment_for_idea.user)
-                                send_comment_email(False, request, idea, comment_for_idea.user.email, comment.text)
+                                helpers.send_comment_email(False, request, idea, comment_for_idea.user.email, comment.text)
                                         #encoded_email = user.email
     voteUpForm = VoteForm({'vote':'+'})
     if edit and (idea.user == request.user):
@@ -226,13 +227,14 @@ def profile(request):
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
                 if voteForm.is_valid():
-                    vote(voteForm,request.user)
+                    helpers.vote(voteForm,request.user)
 
     voted_on = Vote.objects.filter(user = user)
     return render_to_response('main/profile.html', locals(), context_instance=RequestContext(request))
 
 
 def register(request):
+    client_sub_domain = CLIENT_SUB_DOMAIN
     if request.user.is_authenticated():
         return HttpResponseRedirect("/")
     form = UserCreationForm()
@@ -255,20 +257,6 @@ def register(request):
             context_instance=RequestContext(request))
 
 
-
-def vote(voteForm, user):
-    clean = voteForm.cleaned_data
-    idea = Idea.objects.get(id = clean['idea'])
-    try:
-        vote= Vote.objects.get(user = user, idea = idea)
-    except:
-        vote = Vote(vote = clean['vote'], user = user, idea = idea)
-        vote.save()
-    else:
-        vote.vote = clean['vote']
-        vote.save()
-
-
 @login_required(login_url='/accounts/login/')
 def bookmarklet(request):
     posted = False
@@ -281,7 +269,7 @@ def bookmarklet(request):
                     clean = ideaForm.cleaned_data
                     idea = Idea(idea=clean['idea_content'], user = request.user)
                     idea.save()
-                    filter_tags(clean['tags'], idea)
+                    helpers.filter_tags(clean['tags'], idea)
                     posted = True
     ideaForm = IdeaForm()
     return render_to_response("main/bookmarklet.html", locals(),
@@ -324,26 +312,8 @@ def add_idea(request):
         clean = ideaForm.cleaned_data
         idea = Idea(idea=clean['idea_content'], user = request.user)
         idea.save()
-        filter_tags(clean['tags'], idea)
+        helpers.filter_tags(clean['tags'], idea)
         return idea
-
-def filter_tags(cleanedTags, idea):
-    Tag.objects.filter(idea = idea).delete()
-    if cleanedTags:
-        for tag in cleanedTags.split(','):
-            if tag != '':
-                tag = Tag(tag=tag.strip(), idea = idea)
-                tag.save()
-
-def send_comment_email(owner, request, idea, email, comment_text):
-    link_url = request.build_absolute_uri("/idea/"+str(idea.id)+"/")
-    #temp_string = owner ? 'your idea' : 'an idea you commented on'
-    subject, from_email, to = 'Someone commented on your idea' if owner else 'Someone commented on an idea you commented on', 'Idea Otter<no-reply@ideaotter.com>', 'to@example.com'
-    text_content = 'Hey,\n\n Looks like someone commented on idea \n\n ' + idea.idea + ' \n\n which you can see here:\n\n '+link_url+'/\n\n Discuss away!'
-    html_content = '<h2>'+request.user.username+' commented on idea:</h2><p>"'+idea.idea+'"</p><h3>With the comment:</h3><p>"'+comment_text+'"<p>Check it out <a href="'+link_url+'">here</a>!</p>'
-    msg = EmailMultiAlternatives(subject, text_content, from_email, [email])
-    msg.attach_alternative(html_content, "text/html")
-    msg.send()
 
 
 #
@@ -351,6 +321,7 @@ def send_comment_email(owner, request, idea, email, comment_text):
 #
 
 def password(request):
+
     if request.user.is_authenticated():
         form = ResetPasswordForm()
         if request.method=="POST":
@@ -411,12 +382,30 @@ def password_reset(request, user_id,hashed):
     return render_to_response("main/reset_password.html", locals(),
             context_instance=RequestContext(request))
 
+#
+# About
+#
+
+def about(request):
+    return render_to_response("main/about.html", locals(),
+            context_instance=RequestContext(request))
+
+#
+# Contact
+#
+
+def contact(request):
+    return render_to_response("main/contact.html", locals(),
+            context_instance=RequestContext(request))
+
 
 #
 # Facebook Integration
 #
 
 def facebook(request):
+    client_sub_domain = CLIENT_SUB_DOMAIN
+    
     if request.method == 'GET':
         if 'error' in request.GET:
             messages.error(request, 'To use Facebook to log in, please give' +
@@ -428,6 +417,7 @@ def facebook(request):
                     '&redirect_uri=http://localhost:8000/accounts/facebook/' +
                     '&client_secret=' + str(FACEBOOK_SECRET) +
                     '&code=' + request.GET['code'])
+            request.get['state']
             fetchedinfo = urllib.urlopen(url)
             access_token = fetchedinfo.read()
             if 'error' in access_token:

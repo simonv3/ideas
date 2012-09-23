@@ -8,6 +8,13 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # URLS
     (r'^$', splash),
+
+    #semi-static
+    url(r'^about/$', 'app.views.about', name='about'),
+    url(r'^contact/$', 'app.views.contact', name='contact'),
+
+
+    #functionality
     url(r'^top/$', 'app.views.splash',{'show':'top'},'splash-top'),
     url(r'^started/$', 'app.views.splash',{'show':'started'},'splash-started'),
     url(r'^not-started/$', 'app.views.splash',{'show':'not-started'},'splash-not-started'),

@@ -790,3 +790,27 @@ ul#idea-comments{
     margin:0 auto;
     display:block;
 }
+
+
+/*
+ *
+ * About, Contact
+ *
+ * */
+
+#contact{
+    width:540px;
+    margin: 0 auto;
+}
+
+#about p, #contact p{
+    margin: 12px 0;
+}
+
+#about h1, #contact h1{
+    margin:72px 0;
+}
+#about h1 + a{
+    float:right;
+}
+
