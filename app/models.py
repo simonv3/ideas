@@ -13,7 +13,7 @@ class Idea(models.Model):
     elaborate = models.TextField(blank=True,null=True)
     date = models.DateTimeField(auto_now_add=True)
     started = models.BooleanField(default=False)
-
+    private = models.BooleanField(default=False)
     def __unicode__(self):
         return "idea by %s: %s" %(self.user, self.idea)
 
@@ -48,6 +48,7 @@ class UserProfile(models.Model):
     temp_hash = models.CharField(max_length=200, blank=True)
     user = models.OneToOneField(User, related_name='extra')
     facebook_access_token = models.CharField(blank=True, max_length=200)
+    default_private = models.BooleanField(default=False)
 
 # attaches the user profile to the user
 def create_user_profile(sender, instance, created, **kwargs):
@@ -56,3 +57,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 post_save.connect(create_user_profile, sender=User)
 
+class Slate(models.Model):
+    users = models.ManyToManyField(User)
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    ideas = models.ManyToManyField(Idea)

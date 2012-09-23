@@ -7,8 +7,6 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.core.mail import EmailMultiAlternatives
 
-
-
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate,login
@@ -86,11 +84,11 @@ def splash(request,show=''):
         ideaForm = IdeaForm()
         searchForm = SearchForm() 
         emailForm = EmailForm({'email':user.email})
-        all_ideas = Idea.objects.all().annotate(votes=Count('vote_on'))
+        all_ideas = Idea.objects.exclude(private=True).annotate(votes=Count('vote_on'))
         if show == 'started':
-            all_ideas = Idea.objects.filter(started=True).annotate(votes=Count('vote_on'))
+            all_ideas = Idea.objects.filter(started=True).exclude(private=True).annotate(votes=Count('vote_on'))
         elif show == 'not-started':
-            all_ideas = Idea.objects.exclude(started=True).annotate(votes=Count('vote_on'))
+            all_ideas = Idea.objects.exclude(started=True).exclude(private=True).annotate(votes=Count('vote_on'))
         if show == 'top':
             all_ideas = all_ideas.order_by('-votes')
         else:
@@ -267,7 +265,8 @@ def bookmarklet(request):
                     # Process the data in form.cleaned_data
                     # ...
                     clean = ideaForm.cleaned_data
-                    idea = Idea(idea=clean['idea_content'], user = request.user)
+                    idea = Idea(idea=clean['idea_content'], user =
+                            request.user, private=clean['private'])
                     idea.save()
                     app.helpers.filter_tags(clean['tags'], idea)
                     posted = True
@@ -305,12 +304,18 @@ def verify(request,username, verify_hash):
     return HttpResponseRedirect("/")
 
 def add_idea(request):
-    ideaForm = IdeaForm(request.POST) # A form bound to the POST data
+    print "submitting idea"
+    ideaForm = IdeaForm(request.POST)
+    print ideaForm
     if ideaForm.is_valid(): # All validation rules pass
         # Process the data in form.cleaned_data
         # ...
         clean = ideaForm.cleaned_data
-        idea = Idea(idea=clean['idea_content'], user = request.user)
+        idea = Idea(
+                idea=clean['idea_content'], 
+                user = request.user, 
+                private = clean['private'],
+                )
         idea.save()
         app.helpers.filter_tags(clean['tags'], idea)
         return idea

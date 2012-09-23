@@ -631,6 +631,8 @@ label{
   margin:.5em 0 .3em 0;
 }
 
+label[for=id_private]{display:inline-block}
+
 #register-list li label, #log-in-list li label, #email-form li label, #search-form li label{
     position:absolute; 
     top:0px;

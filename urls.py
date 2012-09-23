@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
 from app.views import *
+from app.slate import *
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 from django.views.generic.simple import direct_to_template
@@ -43,6 +44,16 @@ urlpatterns = patterns('',
     url(r'^search/(?P<query>[\w|\W]+)/$',
         'app.views.search',
         name = 'view-search',
+        ),
+
+    # SLATE
+    url(r'^slate/(?P<slate_id>\w+)/$',
+        'app.slate.view_slate',
+        name='view-slate'
+        ),
+    url(r'^slate/$',
+        'app.slate.slate',
+        name='slate'
         ),
 
     # ADMIN
