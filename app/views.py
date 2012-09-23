@@ -57,7 +57,7 @@ def splash(request,show=''):
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
                 if voteForm.is_valid():
-                    helpers.vote(voteForm,request.user)
+                    app.helpers.vote(voteForm,request.user)
             if 'submit_email' in request.POST:
                 emailForm = EmailForm(request.POST)
                 if emailForm.is_valid():
@@ -147,14 +147,14 @@ def idea(request,idea_id, edit=False):
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
                 if voteForm.is_valid():
-                    helpers.vote(voteForm,request.user)
+                    app.helpers.vote(voteForm,request.user)
             if 'edit_idea' in request.POST:
                 ideaForm = IdeaForm(request.POST)
                 if ideaForm.is_valid():
                     clean = ideaForm.cleaned_data
                     idea.idea = clean['idea_content']
                     idea.elaborate = clean['elaborate']
-                    helpers.filter_tags(clean['tags'], idea)
+                    app.helpers.filter_tags(clean['tags'], idea)
                     idea.save()
                     edit = False
                     return HttpResponseRedirect("/idea/"+str(idea.id)+"/")
@@ -167,7 +167,7 @@ def idea(request,idea_id, edit=False):
                     all_comments_idea = Comment.objects.filter(idea = idea)
                     #if the user posting the comment doesn't own the idea, send the email to the user who owns the idea
                     if request.user != idea.user:
-                        helpers.send_comment_email(True, request, idea, idea.user.email, comment.text)
+                        app.helpers.send_comment_email(True, request, idea, idea.user.email, comment.text)
                     #add the user who owns the idea to the list, because either they've already received it from above, or they're the ones posting the comment
                     user_emails_sent = [idea.user,]
                     #for every comment on the idea
@@ -178,7 +178,7 @@ def idea(request,idea_id, edit=False):
                             if not comment_for_idea.user in user_emails_sent:
 
                                 user_emails_sent.append(comment_for_idea.user)
-                                helpers.send_comment_email(False, request, idea, comment_for_idea.user.email, comment.text)
+                                app.helpers.send_comment_email(False, request, idea, comment_for_idea.user.email, comment.text)
                                         #encoded_email = user.email
     voteUpForm = VoteForm({'vote':'+'})
     if edit and (idea.user == request.user):
@@ -227,7 +227,7 @@ def profile(request):
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
                 if voteForm.is_valid():
-                    helpers.vote(voteForm,request.user)
+                    app.helpers.vote(voteForm,request.user)
 
     voted_on = Vote.objects.filter(user = user)
     return render_to_response('main/profile.html', locals(), context_instance=RequestContext(request))
@@ -269,7 +269,7 @@ def bookmarklet(request):
                     clean = ideaForm.cleaned_data
                     idea = Idea(idea=clean['idea_content'], user = request.user)
                     idea.save()
-                    helpers.filter_tags(clean['tags'], idea)
+                    app.helpers.filter_tags(clean['tags'], idea)
                     posted = True
     ideaForm = IdeaForm()
     return render_to_response("main/bookmarklet.html", locals(),
@@ -312,7 +312,7 @@ def add_idea(request):
         clean = ideaForm.cleaned_data
         idea = Idea(idea=clean['idea_content'], user = request.user)
         idea.save()
-        helpers.filter_tags(clean['tags'], idea)
+        app.helpers.filter_tags(clean['tags'], idea)
         return idea
 
 
