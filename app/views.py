@@ -417,7 +417,7 @@ def facebook(request):
                     '&redirect_uri=http://localhost:8000/accounts/facebook/' +
                     '&client_secret=' + str(FACEBOOK_SECRET) +
                     '&code=' + request.GET['code'])
-            request.get['state']
+            request.GET['state']
             fetchedinfo = urllib.urlopen(url)
             access_token = fetchedinfo.read()
             if 'error' in access_token:
