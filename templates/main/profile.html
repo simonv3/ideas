@@ -1,8 +1,12 @@
 {% extends "main/base.html" %}
 {% block content %}
 <div id="profile" class="center-page">
+    <p>
     <a href="/accounts/password/">Reset Password</a>
-    
+    </p>
+    <p>
+    <a href="/slate/">Your Slates</a>
+    </p>
   <h2>Your Ideas</h2>
   <ul class="idea_list">
     {% for idea in your_ideas %} 

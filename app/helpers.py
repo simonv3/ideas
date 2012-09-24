@@ -1,6 +1,6 @@
 from django.core.mail import EmailMultiAlternatives
-from app.models import Idea,Tag,Vote,Comment
-
+from app.models import Idea,Tag,Vote,Comment,Slate
+from app.forms import IdeaForm
 
 def send_comment_email(owner, request, idea, email, comment_text):
     link_url = request.build_absolute_uri("/idea/"+str(idea.id)+"/")
@@ -35,7 +35,8 @@ def filter_tags(cleanedTags, idea):
 
 
 
-def add_idea(request):
+def add_idea(request, slate_id=None):
+    print slate_id
     ideaForm = IdeaForm(request.POST)
     if ideaForm.is_valid(): # All validation rules pass
         # Process the data in form.cleaned_data
@@ -47,6 +48,13 @@ def add_idea(request):
                 private = clean['private'],
                 )
         idea.save()
-        app.helpers.filter_tags(clean['tags'], idea)
+        if slate_id:
+            print "add to slate"
+            slate = Slate.objects.get(id=slate_id)
+            slate.ideas.add(idea)
+            slate.save()
+        filter_tags(clean['tags'], idea)
+        print "returning idea"
         return idea
+
 

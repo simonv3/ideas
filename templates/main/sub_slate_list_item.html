@@ -1,0 +1,10 @@
+<li class="idea">
+
+<div id="idea-wrapper">
+    <a href="{% url view-slate slate.id %}">
+        <p>{{slate.name|slice:":140"}}{%if slate.name|length > 140%}...{%endif%}</p>
+    </a>
+
+    </div>
+</li>
+

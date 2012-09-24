@@ -1,0 +1,71 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div class="center-page">
+
+    <h1>Your Slates</h1>
+
+    <p> Slates are an easy way to get a group of people together and talking
+    about topics that you want to talk about. </p>
+
+<ul class="idea_list">
+{% for slate in your_slates%}
+{% include "main/sub_slate_list_item.html" %}
+{% empty %}
+{% if query %}
+    <div class="not-found">We couldn't find any ideas, just otters :/
+    </div>
+    <img src="{{STATIC_URL}}images/otters-404.gif"/>
+    {% endif %}
+{% endfor %}
+</ul>
+
+
+    {# <div class="sort-by"> #}
+    {# sort by <a href="/">newest</a>, <a href="{% url splash-top %}">top voted</a></div> #}
+    {# <div class="show"> #}
+    {# show <a href="/">all</a>, <a href="{% url splash-started %}">started</a>, #}
+    {# <a href="{% url splash-not-started %}">not started</a> #}
+    {# </div> #}
+
+    {# {% include "main/sub_search_form.html" %} #}
+    <h3>Create a new slate</h3>
+
+    {% for message in messages %}
+    <ul class="error-list">
+        <li>{{message}}</li>
+    </ul>    
+    {% endfor %}
+    {% if slateForm.errors %}
+    <ul class="error-list">
+        <li>
+        Please make sure you've filled in all fields.
+        </li>
+        </ul>
+    {% endif %}
+
+    <form action="" method="POST" id="create-slate" class="inline-form">
+        {%csrf_token%}
+        <ul>
+            <li>
+            <label for="id_name">Slate Name</label>
+            {{slateForm.name}}
+            </li>
+            <li>
+            <label for="id_description">Slate Description</label>
+            {{slateForm.description}}
+            </li>
+            <br/>
+            <li><input type="submit" class="red-gradient submit-button"
+            name="edit_idea" value="Create Slate" /></li>
+
+        </ul>
+    </form>
+
+
+
+</div>
+
+{% endblock %}
+
+

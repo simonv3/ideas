@@ -1,0 +1,74 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div class="center-page">
+    <h1>post an idea to {{slate.name}}</h1>
+
+    {% if not perms.app.add_idea %}
+{% if emailForm.email %}
+                <ul class="error-list"><li>
+                Thanks! Be sure to check your inbox for the verification
+                e-mail!</li>
+</ul><br/>
+            {% endif %}
+
+
+    <div class="link-button verify">Enter your e-mail address and we'll send you an e-mail just to make
+        sure you're a real person, click on the link and we'll have you posting
+    ideas in no time!</div>
+    <br/>
+    <form action="/" id="email-form" method="post">{% csrf_token %}
+        <ul>
+            <li>
+
+            <label class="hover-field" for="id_email">Email</label> 
+                {{ emailForm.email }}
+            </li>
+            <li>
+            <input type="submit" class="red-gradient submit-button"
+            name="submit_email"value="verify" />
+            </li>
+        </ul>
+    
+    </form>
+    {% else %}
+
+    <form action="" id="idea-form" method="post">{% csrf_token %}
+        <ul>
+            <li>
+            {{ ideaForm.idea_content }}
+            </li>
+            <li>
+            <label for="id_tags">
+            add some tags (comma separated):
+            </label>
+            {{ ideaForm.tags }}
+            </li>
+            <li>
+            <label for="id_private">keep as private?</label>
+                <input type="checkbox" name="private" id="id_private"
+                checked="true">
+            </li>
+        </ul>
+    <br/>
+    <br/>
+    <input type="submit" class="red-gradient submit-button" name="submit_idea"value="Add it" />
+    <input type="submit" class="red-gradient submit-button"
+    name="submit_idea_elaborate"value="Add and elaborate it" />
+    
+</form>
+{% endif %}
+
+<ul class="idea_list">
+    {{idea_results}}
+    {% for idea in slate_ideas %}
+        {% include "main/sub_idea_list_item.html" %}
+    {% empty %}
+    <div class="not-found">No one has submitted any ideas yet, we could only otters :/ </div>
+    <img src="{{STATIC_URL}}images/otters-404.gif"/>
+    {% endfor %}
+</ul>
+</div>
+
+{% endblock %}
+
