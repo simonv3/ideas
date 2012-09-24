@@ -1,16 +1,18 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<div class="center-page">
-    <h1>post an idea to {{slate.name}}</h1>
+<div class="span-5">
+<div class="slate-idea-container">
+
+    <h2>post an idea to {{slate.name}}</h2>
 
     {% if not perms.app.add_idea %}
-{% if emailForm.email %}
+        {% if emailForm.email %}
                 <ul class="error-list"><li>
                 Thanks! Be sure to check your inbox for the verification
                 e-mail!</li>
-</ul><br/>
-            {% endif %}
+                </ul><br/>
+        {% endif %}
 
 
     <div class="link-button verify">Enter your e-mail address and we'll send you an e-mail just to make
@@ -54,20 +56,45 @@
     <br/>
     <input type="submit" class="red-gradient submit-button" name="submit_idea"value="Add it" />
     <input type="submit" class="red-gradient submit-button"
-    name="submit_idea_elaborate"value="Add and elaborate it" />
-    
+     name="submit_idea_elaborate"value="Add and elaborate it" />
+
 </form>
 {% endif %}
+</div><!-- ./slate-idea-container-->
+<div class="right-bar">
+    <h4>Participants:</h4>
+    <ul>
+    {% for participant in slate.users.all %}
+    <li><span class="participant">{{participant}}</span></li>
+    {% endfor %}
+</ul>
 
+<h4>Invite Users:</h4>
+<form method="POST" action="">
+    {% csrf_token %}
+    <ul>
+        <li>
+    {{inviteForm.invite_list}}
+    </li>
+</ul>
+<br/>
+    <input type="submit" class="red-gradient submit-button"
+    name="invite"value="Invite Users" />
+
+</form>
+    
+</div>
+<div style="clear:both;"></div>
+<div class="center-page">
 <ul class="idea_list">
-    {{idea_results}}
     {% for idea in slate_ideas %}
         {% include "main/sub_idea_list_item.html" %}
     {% empty %}
-    <div class="not-found">No one has submitted any ideas yet, we could only otters :/ </div>
+    <div class="not-found">No one has submitted any ideas yet, we could find only otters :/ </div>
     <img src="{{STATIC_URL}}images/otters-404.gif"/>
     {% endfor %}
 </ul>
+</div>
 </div>
 
 {% endblock %}

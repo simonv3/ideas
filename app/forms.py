@@ -34,3 +34,6 @@ class SearchForm(forms.Form):
 class SlateForm(forms.Form):
     name = forms.CharField(max_length=200)
     description = forms.CharField(widget=forms.Textarea, required=False)
+
+class InviteForm(forms.Form):
+    invite_list = forms.CharField(widget=forms.Textarea)

@@ -57,9 +57,16 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 post_save.connect(create_user_profile, sender=User)
 
+class Invitee(models.Model):
+    email = models.CharField(max_length=200)
+    accepted = models.BooleanField(default=False)
+
 class Slate(models.Model):
     creator = models.ForeignKey(User, related_name='slate_creator',blank=True)
     users = models.ManyToManyField(User)
     name = models.CharField(max_length=200)
+    invitees = models.ManyToManyField(Invitee, related_name='invite_for')
     description = models.TextField(blank=True, null=True)
     ideas = models.ManyToManyField(Idea)
+
+

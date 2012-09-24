@@ -29,6 +29,7 @@ time, mark, audio, video {
 
 body {
     line-height:1;
+    color:#3b3b3b;
 }
 
 article,aside,details,figcaption,figure,
@@ -216,6 +217,11 @@ body{
 #content h3{
     font-size:2em;
     margin:.6em 0 .4em 0;
+}
+
+#content h4{
+    font-size:1.4em;
+    margin:2em 0 .8em 0;
 }
 
 .red-gradient{
@@ -500,7 +506,7 @@ li.idea form input{
     display:inline-block;
 }
 
-.idea-container{
+.idea-container, .slate-idea-container{
     float:left;
     display:block;
     width:65%;
@@ -510,7 +516,7 @@ li.idea form input{
 }
 
 
-.idea-blurb, .idea-elaborate{ 
+.idea-blurb, .idea-elaborate, .slate-idea-container{ 
     font-size: 1.2em;
     color:#00313c;
     line-height:auto;
@@ -738,6 +744,9 @@ label[for=id_private]{display:inline-block}
     margin:auto;
 }
 
+ul{
+    list-style:none;
+}
 
 ul#idea-comments{
     list-style:none;
@@ -771,13 +780,14 @@ ul#idea-comments{
 }
 
 
-.author{
+.author, .participant{
     color:#efefef;
     font-size:.8em;
     vertical-align:top;
     padding:2px 6px;
     background-color:#2bb673;
     border-radius:3px;
+    display:inline-block;
     box-shadow:0px 0px 10px #aaa;
 }
 
@@ -801,6 +811,61 @@ ul#idea-comments{
     display:block;
 }
 
+
+/*
+ *
+ * Slate
+ *
+ * */
+
+#content .slate-idea-container{
+    text-align:left;
+    margin-top:12px;
+}
+
+.slate-idea-container form{
+    text-align:left;
+}
+
+.slate-idea-container input[type=text]{
+    width:80%;
+}
+
+.slate-idea-container textarea{
+    width:80%;
+}
+
+
+#content .slate-idea-container h2{
+    font-size:2em;
+    text-align:left;
+}
+
+.slate-idea-container + .right-bar{
+    margin-top:32px;
+}
+
+#content .right-bar h4:first-child{
+    margin-top:0px;
+}
+
+.right-bar .participant{
+    font-size:1em;
+    margin:4px 4px 4px 0;
+}
+
+.right-bar form{
+    text-align:left;
+}
+.right-bar form textarea{
+    width:100%;
+    font-size:1em;
+}
+
+.right-bar form input[type=submit].submit-button{
+    font-size:1em;
+    width:128px;
+}
 
 /*
  *
