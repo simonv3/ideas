@@ -309,6 +309,16 @@ def verify(request,username, verify_hash):
         v_user = User.objects.get(username=username)
         verified_group = Group.objects.get(name='verified')
         v_user.groups.add(verified_group)
+        invite_list = Invitee.objects.filter(email=v_user.email)
+        for invite in invite_list:
+            print "user invited"
+            slate = Slate.objects.get(invite_for__email = invite_for.email)
+            slate.users.add(v_user)
+            slate.save()
+            Invitee.remove(email=v_user.email)
+            messages.info((
+                    "you've been added to slate %s"
+                    ) % (slate.name))
     return HttpResponseRedirect("/")
 
 

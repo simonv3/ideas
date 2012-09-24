@@ -6,6 +6,7 @@ admin.site.register(Tag)
 admin.site.register(Vote)
 admin.site.register(Comment)
 admin.site.register(Slate)
+admin.site.register(Invitee)
 admin.site.register(UserProfile)
 
 

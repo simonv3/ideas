@@ -11,7 +11,7 @@ from django.core.mail import EmailMultiAlternatives
 
 from app import helpers
 from app.forms import SlateForm, IdeaForm, VoteForm, InviteForm
-from app.models import Slate
+from app.models import Slate, Invitee
 from django.contrib.auth.models import User
 
 from django.contrib import messages
@@ -80,13 +80,63 @@ def view_slate(request, slate_id):
                         try:
                             user = User.objects.get(email = invite)
                         except User.DoesNotExist:
-                            # user doesn't exist, send email TODO
-                            pass
+                            # user doesn't exist
+                            # create an invitee item
+                            try:
+                                invite = Invitee.objects.get(email = invite,
+                                        slate = slate.id)
+                            except Invitee.DoesNotExist:
+                                pass
+                            else:
+                                continue
+                            invite = Invitee.objects.create(
+                                    email=invite,slate=slate)
+                            invite.save()
+                            link_url = request.build_absolute_uri("/slate/"+str(slate.id)+"/")
+                            subject =   (
+                                    "%s invited you to a slate %s on "
+                                    "IdeaOtter"
+                                    ) %(
+                                    request.user.username, slate.name
+                                    )
+                            from_email = "Idea Otter <contact@ideaotter.com>"
+                            text_content = (
+                                        "Hey, \n\n %s invited you to slate"
+                                        " %s you can view it here: \n\n %s "
+                                        ) % (
+                                                request.user.username, slate.name,
+                                                link_url
+                                                )
+                            html_content = (
+                                    "<h2>%s Invited you to:</h2>"
+                                    "<p>slate %s</p><p>Check it out <a "
+                                    "href=%s>here</a>!</p>"
+                                    "<p>IdeaOtter is a site for storing ideas"
+                                    "and getting people brainstorming together"
+                                    "</p>"
+                                    ) % (
+                                            request.user.username,slate.name,
+                                            link_url)
+                            msg = EmailMultiAlternatives(subject, text_content,
+                                    from_email, [invite.email])
+                            msg.attach_alternative(html_content, "text/html")
+                            try:
+                                msg.send()
+                            except:
+                                print "email failed to send"
+                                print html_content
+                                pass
                         else:
                             # user exists, add them to the project
-                            if slate.users.get(id=user.id):
+                            try:
+                                slate.users.get(id=user.id)
                                 #user already in project, continue with next
                                 #iteration of the loop
+                            except User.DoesNotExist:
+                                #everything is normal
+                                pass
+                            else:
+                                #user is already here
                                 continue
                             slate.users.add(user)
                             slate.save()
@@ -106,7 +156,13 @@ def view_slate(request, slate_id):
                             msg = EmailMultiAlternatives(subject, text_content,
                                     from_email, [user.email])
                             msg.attach_alternative(html_content, "text/html")
-                            msg.send()
+                            try:
+                                msg.send()
+                            except:
+                                #email failed to send
+                                print "failed to send email"
+                                print html_content
+                                pass
 
 
     ideaForm = IdeaForm()
