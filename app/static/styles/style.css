@@ -213,6 +213,11 @@ body{
     margin:.6em 0 .4em 0;
 }
 
+#content h3{
+    font-size:2em;
+    margin:.6em 0 .4em 0;
+}
+
 .red-gradient{
     background: rgb(255,48,25); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(255,48,25,1) 0%, rgba(207,4,4,1) 100%); /* FF3.6+ */
@@ -302,7 +307,7 @@ textarea, input[type=text]{
     -moz-transition: box-shadow .1s linear;
 
 }
-textarea#id_idea_content{
+textarea{
     height:4em;
 }
 
@@ -619,7 +624,10 @@ li.idea form input{
 }
 
 
-#register-list, #log-in-list, #email-form{text-align:center;}
+
+#register-list, #log-in-list, #email-form{
+    text-align:center;
+}
 
 #register-list li, #log-in-list li, #email-form li, #search-form li{
     display:inline-block;

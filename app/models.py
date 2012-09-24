@@ -58,6 +58,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 post_save.connect(create_user_profile, sender=User)
 
 class Slate(models.Model):
+    creator = models.ForeignKey(User, related_name='slate_creator',blank=True)
     users = models.ManyToManyField(User)
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)

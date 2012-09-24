@@ -35,4 +35,18 @@ def filter_tags(cleanedTags, idea):
 
 
 
+def add_idea(request):
+    ideaForm = IdeaForm(request.POST)
+    if ideaForm.is_valid(): # All validation rules pass
+        # Process the data in form.cleaned_data
+        # ...
+        clean = ideaForm.cleaned_data
+        idea = Idea(
+                idea=clean['idea_content'], 
+                user = request.user, 
+                private = clean['private'],
+                )
+        idea.save()
+        app.helpers.filter_tags(clean['tags'], idea)
+        return idea
 

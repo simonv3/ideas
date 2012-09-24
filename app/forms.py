@@ -30,3 +30,7 @@ class ResetPasswordForm(forms.Form):
 
 class SearchForm(forms.Form):
     query = forms.CharField(max_length=240)
+
+class SlateForm(forms.Form):
+    name = forms.CharField(max_length=200)
+    description = forms.CharField(widget=forms.Textarea, required=False)

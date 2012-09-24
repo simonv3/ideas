@@ -73,9 +73,9 @@ def splash(request,show=''):
                     msg.send()
                     user.save()
             if 'submit_idea' in request.POST:
-                add_idea(request)
+                app.helpers.add_idea(request)
             if 'submit_idea_elaborate' in request.POST:
-                idea = add_idea(request)
+                idea = app.helpers.add_idea(request)
                 if idea:
                     return HttpResponseRedirect(reverse('edit-idea', args=[idea.id]))
 
@@ -303,22 +303,6 @@ def verify(request,username, verify_hash):
         v_user.groups.add(verified_group)
     return HttpResponseRedirect("/")
 
-def add_idea(request):
-    print "submitting idea"
-    ideaForm = IdeaForm(request.POST)
-    print ideaForm
-    if ideaForm.is_valid(): # All validation rules pass
-        # Process the data in form.cleaned_data
-        # ...
-        clean = ideaForm.cleaned_data
-        idea = Idea(
-                idea=clean['idea_content'], 
-                user = request.user, 
-                private = clean['private'],
-                )
-        idea.save()
-        app.helpers.filter_tags(clean['tags'], idea)
-        return idea
 
 
 #
