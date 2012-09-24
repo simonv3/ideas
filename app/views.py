@@ -6,6 +6,9 @@ from django import forms
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.core.mail import EmailMultiAlternatives
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+
 
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -62,16 +65,8 @@ def splash(request,show=''):
                 if emailForm.is_valid():
                     clean = emailForm.cleaned_data
                     user.email = clean['email']
-                    m = hashlib.sha224("some_salt1234"+user.username)
-                    m.hexdigest()
-                    encoded_email = clean['email']#base64.b64encode(clean['email'])
-                    link_url = request.build_absolute_uri("/accounts/verify/"+user.username+"/"+m.hexdigest())
-                    subject, from_email = 'Idea Otter Registration', 'Idea Otter<no-reply@ideaotter.com>'
-                    text_content = 'Hey,\n\n To complete e-mail verification, use the following link:\n\n '+link_url+'/\n\n Thanks, Simon'
-                    html_content = '<h2>Welcome to Idea!</h2><p>To complete e-mail verification, click <a href="'+link_url+'">here</a></p>'
-                    msg = EmailMultiAlternatives(subject, text_content, from_email, [user.email])
-                    msg.attach_alternative(html_content, "text/html")
-                    msg.send()
+                    helpers.send_verify_email(clean['email'],user,request)
+                    
                     user.save()
             if 'submit_idea' in request.POST:
                 idea = helpers.add_idea(request)
@@ -247,6 +242,18 @@ def register(request):
                 user.save()
                 user_in_db = authenticate(username=formcd['username'],password=formcd['password1'])
                 login(request,user_in_db)
+
+                try: 
+                    #if user uses an e-mail address to sign up
+                    #send an e-mail right away
+                    validate_email ( formcd['username'] )
+                except:
+                    #can fail silently, because then everything is just normal 
+                    pass
+                else:
+                    user_in_db.email = formcd['username']
+                    user_in_db.save()
+                    helpers.send_verify_email(formcd['username'], user, request)
                 return HttpResponseRedirect("/")
 
     else:

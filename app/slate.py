@@ -74,6 +74,7 @@ def view_slate(request, slate_id):
                     try:
                         validate_email( invite )
                     except ValidationError:
+                        #not an email address, continue with next invite
                         continue
                     else:
                         try:

@@ -1,4 +1,6 @@
 {% extends "main/base.html" %}
+{% load micawber_tags %}
+{% load markup %}
 
 {% block content %}
 
@@ -28,9 +30,9 @@
     <div class="span-4">
         <div class="idea-container">
             <div class="idea-vote {% if voted_on %}voted_on{% endif %}">{% include "main/sub_vote.html" %}</div>
-            <div class="idea-blurb">{{idea.idea}}</div>
+            <div class="idea-blurb">{{idea.idea|markdown|oembed_html}}</div>
             {% if idea.elaborate %}
-            <div class="idea-elaborate">{{idea.elaborate}}</div>
+            <div class="idea-elaborate">{{idea.elaborate|markdown|oembed_html}}</div>
             {% endif %}
         </div>
         <div class="right-bar">
@@ -82,7 +84,7 @@ value="Add Comment" />
         <span class="timesince">{{comment.date_posted|timesince}} ago</span>
     </header>
     <div class="text">
-        {{comment.text}}
+        {{comment.text|oembed_html}}
     </div>
     <div style="clear:both;"></div>
 </li>

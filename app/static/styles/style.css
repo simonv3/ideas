@@ -523,7 +523,9 @@ li.idea form input{
     padding-bottom:1.5em;
     display:block;
 }
-.idea-blurb{
+#content .idea-elaborate h1, #content .idea-elaborate h2{
+    font-size:1.5em;
+    text-align:left;
 }
 
 .idea-blurb:first-line{
