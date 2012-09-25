@@ -194,6 +194,8 @@ body{
 #content{
     margin-top:44px; /* width of menu-strip */
     margin-bottom:96px;
+    display:block;
+    width:auto;
 }
 
 #content h1{
@@ -203,6 +205,7 @@ body{
     color:#00424c;
     text-shadow:2px 0px 1px #000;
     margin:0 0 .4em 0;
+
 }
 
 #content h2{
@@ -609,6 +612,7 @@ li.idea form input{
 
 #login .link-button{
     width:100%;
+    padding:8px 0;
 }
 
 .verify {
@@ -683,21 +687,7 @@ label[for=id_private]{display:inline-block}
 }
 
 
-#about{
-    max-width:960px;
-    margin:50px auto 0;
-    padding:1em;
-    line-height:2em;
-}
 
-#about p{
-    margin-bottom:5em;
-    max-width:450px;;
-    font-size:1.3em;
-    clear:both;
-}
-
-#about p.right{float:right;clear:both;}
 
 #register-list input, #log-in-list input, #email-form input, #comment-form input{
     font-size:1.4em;width:220px;padding:4px;}
@@ -836,7 +826,12 @@ ul#idea-comments{
 .slate-idea-container textarea{
     width:80%;
 }
-
+.slate-idea-container input[type=submit]{
+    font-size:1.4em;
+}
+.slate-idea-container ~ .center-page > .idea_list{
+    margin-top:2em;
+}
 
 #content .slate-idea-container h2{
     font-size:2em;
@@ -874,6 +869,50 @@ ul#idea-comments{
  * About, Contact
  *
  * */
+#about{
+    max-width:1080px;
+    margin:50px auto 0;
+    padding:1em;
+    line-height:2em;
+}
+
+#about h1{
+    margin-top:24px;
+    text-align:left;
+    font-size:2em;
+}
+#about h2{
+    margin-top:58px;
+    text-align:left;
+    font-size:1.8em;
+    color:#333;
+    text-shadow:none;
+}
+
+#about .left-menu{
+    text-align:right;
+    width:180px;
+    font-size:1.4em;
+    line-height:2.0em;
+    margin-top:48px;
+    float:left;
+    display:inline-block;
+}
+
+#about .about-text{
+    display:block;
+    float:right;
+    margin:0 270px 180px 0;
+}
+
+#about p{
+    margin-bottom:5em;
+    max-width:450px;;
+    font-size:1.3em;
+    clear:both;
+}
+
+#about p.right{float:right;clear:both;}
 
 #contact{
     width:540px;
@@ -884,9 +923,6 @@ ul#idea-comments{
     margin: 12px 0;
 }
 
-#about h1, #contact h1{
-    margin:72px 0;
-}
 #about h1 + a{
     float:right;
 }

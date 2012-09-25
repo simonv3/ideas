@@ -41,14 +41,14 @@
           <h1><a title="home" href="/">idea otter</a></h1>
           <div class="meta">
           {% if user.is_authenticated %}
-          <span class="logout">hi <a class="" href="/accounts/profile/">{{user.username}}</a>
+          <span class="logout">hi <a class="" title="your profile" href="/accounts/profile/">{{user.username}}</a>
+            <a href="{% url slate %}" title="view slates">slates</a>
             <a class="" href="/accounts/logout/">log out</a>
           </span>
           {% else %}
           <a class="log-in" href="/accounts/login/">log in</a>
           {% endif %}
           <a class="about" title="contact and about" href="/about/">@</a>
-          
         </div><!-- /meta -->
 
       </div><!-- /span-12 -->

@@ -12,7 +12,6 @@ urlpatterns = patterns('',
 
     #semi-static
     url(r'^about/$', 'app.views.about', name='about'),
-    url(r'^contact/$', 'app.views.contact', name='contact'),
 
 
     #functionality
