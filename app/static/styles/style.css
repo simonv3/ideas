@@ -736,10 +736,6 @@ label[for=id_private]{display:inline-block}
     margin:auto;
 }
 
-ul{
-    list-style:none;
-}
-
 ul#idea-comments{
     list-style:none;
     width:60%;
@@ -897,6 +893,7 @@ ul#idea-comments{
     margin-top:48px;
     float:left;
     display:inline-block;
+    list-style:none;
 }
 
 #about .about-text{
