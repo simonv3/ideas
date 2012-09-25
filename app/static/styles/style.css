@@ -342,6 +342,10 @@ form{
     text-align:center;
 }
 
+form ul{
+    list-style:none;
+}
+
 form .form-help{
     padding-top:6px;
 }
@@ -540,6 +544,10 @@ li.idea form input{
     width:25%;
     vertical-align:top;
     padding:12px;
+}
+
+.right-bar ul{
+    list-style:none;
 }
 
 .right-bar .edit-link{
