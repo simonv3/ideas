@@ -622,6 +622,10 @@ li.idea form input{
     padding:8px 0;
 }
 
+#login h1, #register h1{
+    text-align:center;
+}
+
 .verify {
     max-width:500px; 
     width:60%;
@@ -655,7 +659,7 @@ li.idea form input{
 
 label{
   display:block;
-  margin:.5em 0 .3em 0;
+  margin:.8em 0 .3em 0;
 }
 
 label[for=id_private]{display:inline-block}
