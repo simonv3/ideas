@@ -197,8 +197,9 @@ def convert_idea(request, idea_id):
     idea.started = True
     idea.save()
     slate.ideas.add(idea)
+    slate.save()
     #
-    return redirect("view-slate", slate_id)
+    return redirect("view-slate", slate.id)
 
 def clean_slate(request, slate_id):
     #remove ideas from slate
