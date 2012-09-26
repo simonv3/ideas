@@ -1,28 +1,63 @@
 {% extends "main/base.html" %}
 {% block content %}
-<div id="profile" class="center-page">
-    <p>
-    <a href="/accounts/password/">Reset Password</a>
-    </p>
-    <p>
-    <a href="/slate/">Your Slates</a>
-    </p>
-  <h2>Your Ideas</h2>
-  <ul class="idea_list">
-    {% for idea in your_ideas %} 
-    {% include "main/sub_idea_list_item.html" %}
-    {% empty %}
-        You haven't posted any ideas yet. <a href="/">Post some</a>!
-        {% endfor %}
-    </ul>
-    <h2>Ideas You Liked</h2>
-  <ul class="idea_list">
-      {% for vote in voted_on %}
-      {% include "main/sub_idea_list_item.html" with idea=vote.idea %}
-      {% empty %}
-        You haven't liked any ideas yet.
+<div id="profile" class="span-5">
+    <div class="idea-container">
+        <h1>{{user.username}}</h1>
+        <span>{{user.email}}</span>
+        <div><a class="edit-link" href="/accounts/password/">Reset
+                Password</a></div>
 
-      {% endfor %}
-  </ul>
+        <div class="profile-box first">
+            <h3><a href="#ideas">Posted {{ideas_len}} ideas</a></h3>
+            <a href="/" title="add an idea">Add an idea</a>.
+        </div>
+        <div class="profile-box">
+            <h3><a href="/slate/">Created {{slates_len}} slates</a></h3>
+            <a href="/slate/" title="create a slate">Create a slate</a>.
+            
+        </div>
+</div><!-- ./container-->
+<div class="right-bar">
+    <p>
+    <a class="edit-link" href="/accounts/password/">Reset Password</a>
+    </p>
+    <p>
+    <a class="edit-link" href="/slate/">Your Slates</a>
+    </p>
+</div>
+<div style="clear:both;"></div>
+        <div class="profile-box wide first">
+            <h3>Liked {{voted_len}} ideas</h3>
+            Most recent:
+            <ul class="idea_list">
+                {% for vote in voted_on %}
+                {% include "main/sub_idea_list_item.html" with idea=vote.idea %}
+                {% empty %}
+                You haven't liked any ideas yet.
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="profile-box wide first">
+            <h3>Commented on {{comments_len}} ideas</h3>
+            Most recent:
+            <ul class="idea_list">
+                {% for idea in commented_on %}
+                {% include "main/sub_idea_list_item.html" %}
+                {% empty %}
+                You haven't liked any ideas yet.
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="profile-box wide first">
+            <h3 id="ideas">Your ideas:</h3>
+            <ul class="idea_list">
+                {% for idea in your_ideas %} 
+                {% include "main/sub_idea_list_item.html" %}
+                {% empty %}
+                You haven't posted any ideas yet. <a href="/">Post some</a>!
+                {% endfor %}
+            </ul>
+        </div>
 </div>
 {% endblock %}

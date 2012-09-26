@@ -134,7 +134,7 @@ img{border:none;}
 }
 
 a{
-    color:#111;
+    color:#333;
     transition: color .2s ease-in-out;
     -webkit-transition: color .2s ease-in-out;
     -moz-transition: color .2s ease-in-out;
@@ -199,7 +199,6 @@ body{
 }
 
 #content h1{
-    text-align:center;
     font-family:"Georgia",Times, serif;
     font-size:3em;
     color:#00424c;
@@ -386,7 +385,7 @@ ul.idea_list, #register, #log-in {
     margin:4em auto 4em auto;
 }
 
-li.idea{
+ul.idea_list li.idea{
     overflow:hidden;
     display:inline-block;
     background:#f4f4f4;
@@ -398,7 +397,7 @@ li.idea{
     box-shadow:0px 0px 5px #ccc;
     border:1px solid #e0e0e0;
 }
-li.idea p{
+ul.idea_list li.idea p{
     padding:8px;
     transition: color .2s ease-in-out;
     -webkit-transition: color .2s ease-in-out;
@@ -406,19 +405,19 @@ li.idea p{
 
 }
 
-li.idea a{
+ul.idea_list li.idea a{
     color:#040404;
     text-decoration:none;
 }
 
-li.idea a:hover p{
+ul.idea_list li.idea a:hover p{
     color:#6a6a6a;
     transition: color .2s ease-in-out;
     -webkit-transition: color .2s ease-in-out;
     -moz-transition: color .2s ease-in-out;
 }
 
-li.idea .bottom{
+ul.idea_list li.idea .bottom{
     background:rgba(20,20,20,.1);
     display:inline-block;
     width:88%;
@@ -427,16 +426,16 @@ li.idea .bottom{
     padding:12px 7% 0px;
 }
 
-li.idea .bottom .date{
+ul.idea_list li.idea .bottom .date{
     display:inline-block;
     padding-top:9px;
     font-size:.7em;
 }
-li.idea .bottom .voting{
+ul.idea_list li.idea .bottom .voting{
     float:right;
 }
 
-li.idea .bottom .delete{
+ul.idea_list li.idea .bottom .delete{
     width:20px;
     float:right;
     margin-top:2px;
@@ -446,7 +445,7 @@ li.idea .bottom .delete{
     display:inline-block;
 }
 
-li.idea .bottom.started{
+ul.idea_list li.idea .bottom.started{
     border-left:4px solid rgb(19,168,158);
     border-left:4px solid rgba(19,168,158,1);
 }
@@ -663,7 +662,7 @@ label[for=id_private]{display:inline-block}
 
 #register-list li label, #log-in-list li label, #email-form li label, #search-form li label{
     position:absolute; 
-    top:0px;
+    top:-10px;
     left:8px;
     font-size:1.4em;
 }
@@ -935,3 +934,31 @@ ul#idea-comments{
     float:right;
 }
 
+
+/*
+ *
+ * Profile 
+ *
+ * ********/
+
+
+#profile h1{
+    margin-top:24px;
+}
+
+#profile h3 a{
+    text-decoration:none;
+}
+
+#profile .profile-box{
+    display:inline-block;
+    margin:2em 0 1em 8em;
+}
+
+#profile  .profile-box.first{
+    margin-left:0;
+}
+
+#profile .idea_list{
+    margin:0;
+}

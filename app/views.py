@@ -18,7 +18,7 @@ from django.contrib import messages
 
 from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm, ResetPasswordForm, SearchForm
 
-from app.models import Idea,Tag,Vote,Comment
+from app.models import Idea,Tag,Vote,Comment,Slate
 
 from settings import FACEBOOK_SECRET, FACEBOOK_ID, CLIENT_SUB_DOMAIN
 
@@ -216,6 +216,9 @@ def start_idea(request, idea_id):
 def profile(request):
     user = request.user
     your_ideas = Idea.objects.filter(user = user).order_by('-date')
+    ideas_len = len(your_ideas)
+    your_slates = Slate.objects.filter(creator = user).order_by('-id')
+    slates_len = len(your_slates)
 
     if request.method == 'POST': #If something has been submitted
             if 'vote' in request.POST:
@@ -224,6 +227,10 @@ def profile(request):
                     helpers.vote(voteForm,request.user)
 
     voted_on = Vote.objects.filter(user = user)
+    voted_len = len(voted_on)
+    commented_on = user.get_profile().get_ideas_commented_on()
+    comments_len = len(commented_on)
+
     return render_to_response('main/profile.html', locals(), context_instance=RequestContext(request))
 
 

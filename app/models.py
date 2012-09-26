@@ -40,6 +40,7 @@ class Comment(models.Model):
     idea = models.ForeignKey(Idea, related_name='idea_comment')
     text = models.TextField()
     date_posted = models.DateTimeField(auto_now = True)
+
     def __unicode__(self):
         return "comment %s for %s by %s" %(self.text,self.idea,self.user)
 
@@ -50,10 +51,17 @@ class UserProfile(models.Model):
     facebook_access_token = models.CharField(blank=True, max_length=200)
     default_private = models.BooleanField(default=False)
 
+    def get_ideas_commented_on(self):
+        idea = Idea.objects.filter(idea_comment__user = self.user).distinct()
+        return idea
+
+
 # attaches the user profile to the user
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+
+
 
 post_save.connect(create_user_profile, sender=User)
 
