@@ -11,7 +11,7 @@ from django.core.mail import EmailMultiAlternatives
 
 from app import helpers
 from app.forms import SlateForm, IdeaForm, VoteForm, InviteForm
-from app.models import Slate, Invitee
+from app.models import Slate, Invitee, Idea
 from django.contrib.auth.models import User
 
 from django.contrib import messages
@@ -174,3 +174,29 @@ def view_slate(request, slate_id):
     slate_ideas = slate_ideas.order_by('-date')
     return render_to_response("main/view_slate.html", locals(),
             context_instance = RequestContext(request))
+
+@login_required(login_url='/accounts/login/')
+def convert_idea(request, idea_id):
+    print "converting idea"
+    idea = Idea.objects.get(id = idea_id)
+
+    #check whether the user is the creator of the idea
+    if request.user != idea.user:
+        return redirect("idea", idea_id)
+    #create a slate for the idea
+    slate = Slate(
+            creator = request.user,
+            name = idea.idea,
+            description = idea.elaborate
+            )
+    slate.save()
+
+    #set the idea to private and add it to the slate
+    slate.users.add(request.user)
+    idea.private = True
+    idea.started = True
+    idea.save()
+    slate.ideas.add(idea)
+    #
+    return redirect("view-slate", slate.id)
+

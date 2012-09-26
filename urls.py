@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     url(r'^top/$', 'app.views.splash',{'show':'top'},'splash-top'),
     url(r'^started/$', 'app.views.splash',{'show':'started'},'splash-started'),
     url(r'^not-started/$', 'app.views.splash',{'show':'not-started'},'splash-not-started'),
+
+    # IDEA
     url(r'^idea/(?P<idea_id>\w+)/edit/$',
         'app.views.idea',
         {'edit':'true'},
@@ -31,6 +33,12 @@ urlpatterns = patterns('',
         'app.views.start_idea',
         name='start-idea'
         ),
+
+    url(r'^idea/(?P<idea_id>\w+)/convert_to_slate/$',
+        'app.slate.convert_idea',
+        name = 'convert-idea',
+        ),
+
     url(r'^idea/(?P<idea_id>\w+)/$',
         'app.views.idea',
         name = 'idea',

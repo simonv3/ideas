@@ -304,7 +304,7 @@ textarea, input[type=text]{
     width:60%;
     outline-width: 0;
     padding:.3em;
-    font-size:2em;
+    font-size:1.4em;
     border:1px solid #9f9f9f;
     border-radius:4px;
     color:#585858;
@@ -361,7 +361,7 @@ form .facebook-login img{
 }
 
 input[type=submit]{
-    font-size:1.8em;
+    font-size:1.6em;
     border-radius:4px;
     padding:.2em .4em;
     color:white;

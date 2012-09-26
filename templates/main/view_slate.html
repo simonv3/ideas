@@ -1,10 +1,10 @@
 {% extends "main/base.html" %}
-
+{% load markup %}
 {% block content %}
 <div class="span-5">
 <div class="slate-idea-container">
 
-    <h2>post an idea to {{slate.name}}</h2>
+    <h2>post an idea to {{slate.name|markdown:"safe"}}</h2>
 
     {% if not perms.app.add_idea %}
         {% if emailForm.email %}
