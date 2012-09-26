@@ -79,7 +79,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     # USER MANAGEMENT
-    (r'^accounts/verify/(?P<username>\w+)/(?P<verify_hash>\w+)/$', verify),    
+    (r'^accounts/verify/(?P<username>\w+)/(?P<verify_hash>\w+=*)/$', verify),    
     (r'^accounts/register/$', register),
     (r'^accounts/profile/$', profile),
     url(r'^accounts/password/$', 
