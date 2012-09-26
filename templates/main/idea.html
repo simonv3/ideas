@@ -43,7 +43,7 @@
             <a class="edit-link"
                 href="{% url app.views.start_idea idea.id %}">start idea</a>
             {% endif %}
-            <a class="edit-link"
+            <a class="edit-link" id="convert"
                 href="{% url convert-idea idea.id %}">turn into slate</a>
 
         {% endifequal %}

@@ -67,9 +67,16 @@
 
 <script>
 $(document).ready(function(){
-  $("label.hover-field").inFieldLabels();
+    $("label.hover-field").inFieldLabels();
+    $("#convert").click(function(event){
+        var c = confirm("Are you sure you want to convert this idea into a slate?")
+        if (c == true)
+            return 
+        else 
+            event.preventDefault()
+
+    });
 });
-    
 </script>
     </body>
 </html>
