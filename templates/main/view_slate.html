@@ -82,7 +82,16 @@
     name="invite"value="Invite Users" />
 
 </form>
-    
+<br/>
+
+        {% ifequal slate.creator request.user %}
+            <a class="edit-link" id="release"
+                href="{% url release-slate slate.id %}">release & clean</a>
+            <a class="edit-link" id="clean"
+                href="{% url clean-slate slate.id %}">clean slate</a>
+
+        {% endifequal %}
+
 </div>
 <div style="clear:both;"></div>
 <div class="center-page">

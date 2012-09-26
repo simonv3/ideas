@@ -54,6 +54,17 @@ urlpatterns = patterns('',
         ),
 
     # SLATE
+    url(r'^slate/(?P<slate_id>\w+)/clean/$',
+        'app.slate.clean_slate',
+        name='clean-slate'
+        ),
+    url(r'^slate/(?P<slate_id>\w+)/release/$',
+        'app.slate.release_slate',
+        name='release-slate'
+        ),
+
+
+
     url(r'^slate/(?P<slate_id>\w+)/$',
         'app.slate.view_slate',
         name='view-slate'

@@ -198,5 +198,30 @@ def convert_idea(request, idea_id):
     idea.save()
     slate.ideas.add(idea)
     #
-    return redirect("view-slate", slate.id)
+    return redirect("view-slate", slate_id)
 
+def clean_slate(request, slate_id):
+    #remove ideas from slate
+    slate = Slate.objects.get(id=slate_id)
+    
+    if request.user != slate.creator:
+        return redirect("slate", slate_id)
+
+    slate.ideas.all().delete()
+    slate.save()
+    return redirect("view-slate", slate_id)
+
+def release_slate(request, slate_id):
+    slate = Slate.objects.get(id=slate_id)
+    #get the ideas and set each item to not private.
+    if request.user != slate.creator:
+        return redirect("slate", slate_id)
+
+    ideas = slate.ideas.all()
+    for idea in ideas:
+        idea.private = False
+        idea.save()
+        slate.ideas.remove(idea)
+        slate.save()
+    return redirect("view-slate", slate_id)
+    

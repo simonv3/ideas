@@ -72,9 +72,22 @@ $(document).ready(function(){
         var c = confirm("Are you sure you want to convert this idea into a slate?")
         if (c == true)
             return 
-        else 
+        else
             event.preventDefault()
-
+        });
+    $("#release").click(function(event){
+        var c = confirm("Are you sure you want to release all of these ideas into the wild? This will remove them from your slate permanently.")
+        if (c == true)
+            return 
+        else
+            event.preventDefault()
+    });
+    $("#clean").click(function(event){
+        var c = confirm("Are you sure you want to clean this slate? This will delete these ideas permanently")
+        if (c == true)
+            return 
+        else
+            event.preventDefault()
     });
 });
 </script>
