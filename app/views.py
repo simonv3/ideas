@@ -26,8 +26,8 @@ from app import helpers
 
 import urllib
 import json
-import hashlib
 import base64
+import hashlib
 import datetime
 
 
@@ -310,10 +310,11 @@ def search(request, query=""):
             context_instance=RequestContext(request))
 
 def verify(request,username, verify_hash):
-    m = hashlib.sha224("some_salt1234"+username)
+    username_decode = base64.b64decode(username)
+    m = hashlib.sha224("some_salt1234"+username_decode)
     m.hexdigest()
     if verify_hash == m.hexdigest():
-        v_user = User.objects.get(username=username)
+        v_user = User.objects.get(username=username_decode)
         verified_group = Group.objects.get(name='verified')
         v_user.groups.add(verified_group)
         invite_list = Invitee.objects.filter(email=v_user.email)
