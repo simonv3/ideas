@@ -4,15 +4,16 @@
 
 {% block content %}
 
-<h1>Got an idea?<br/> Write it down!</h1>
+
+
+<div id="login">
+  <h1>Got an idea?<br/> Write it down!</h1>
 {% if form.errors %}
 <ul class="error-list">
     {% if "password1" in form.errors or "password2" in form.errors%}<li> Please make sure your passwords are the same. </li>{% endif %}
     {% if "username" in form.errors %} <li>The username you have selected is already in use.</li>{% endif %}
 </ul>
 {% endif %}
-
-<div id="login">
 {% if form.errors %}
 <ul class="error-list">
     <li>
