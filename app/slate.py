@@ -40,7 +40,7 @@ def slate(request):
                         " need, but you really want more, contact us at "+
                         "contact@ideaotter.com")
 
-    your_slates = Slate.objects.filter(creator=request.user)
+    your_slates = Slate.objects.filter(users__contains=request.user)
     return render_to_response("main/slate.html", locals(),
             context_instance = RequestContext(request))
 

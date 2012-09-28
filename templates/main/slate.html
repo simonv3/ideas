@@ -28,13 +28,14 @@
     {# <a href="{% url splash-not-started %}">not started</a> #}
     {# </div> #}
 
-    {# {% include "main/sub_search_form.html" %} #}
+{# {% include "main/sub_search_form.html" %} #}
+{% if not perms.app.add_idea %}
     <h3>Create a new slate</h3>
 
     {% for message in messages %}
     <ul class="error-list">
         <li>{{message}}</li>
-    </ul>    
+    </ul>
     {% endfor %}
     {% if slateForm.errors %}
     <ul class="error-list">
@@ -62,7 +63,7 @@
         </ul>
     </form>
 
-
+    {% endif %}
 
 </div>
 

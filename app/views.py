@@ -329,10 +329,10 @@ def verify(request,id, verify_hash):
         invite_list = Invitee.objects.filter(email=v_user.email)
         for invite in invite_list:
             print "user invited"
-            slate = Slate.objects.get(invite_for__email = invite_for.email)
+            slate = Slate.objects.get(id= invite.slate.id)
             slate.users.add(v_user)
             slate.save()
-            Invitee.remove(email=v_user.email)
+            invite.delete()
             messages.info((
                     "you've been added to slate %s"
                     ) % (slate.name))
