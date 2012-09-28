@@ -18,7 +18,7 @@ from django.contrib import messages
 
 from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm, ResetPasswordForm, SearchForm
 
-from app.models import Idea,Tag,Vote,Comment,Slate
+from app.models import Idea,Tag,Vote,Comment,Slate,Invitee
 
 from settings import FACEBOOK_SECRET, FACEBOOK_ID, CLIENT_SUB_DOMAIN
 
