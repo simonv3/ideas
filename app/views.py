@@ -65,8 +65,8 @@ def splash(request,show=''):
                 if emailForm.is_valid():
 
                     clean = emailForm.cleaned_data
-                    exists = User.objects.filter(email=clean.email)
-                    if exists:
+                    exists = User.objects.filter(email=clean['email'])
+                    if len(exists) > 0:
                         messages.error(request, (
                             "That e-mail address is "
                             "already in use, have you signed up before "

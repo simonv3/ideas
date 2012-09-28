@@ -5,13 +5,14 @@
     <h1>post your idea:</h1>
 
     {% if not perms.app.add_idea %}
-{% if emailForm.email %}
-                <ul class="error-list"><li>
-                Thanks! Be sure to check your inbox for the verification
-                e-mail!</li>
-</ul><br/>
-            {% endif %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li class="error-list">{{message}}</li>
+        {% endfor %}
+    </uL>
 
+    {% endif %}
 
     <div class="link-button verify">Enter your e-mail address and we'll send you an e-mail just to make
         sure you're a real person, click on the link and we'll have you posting
