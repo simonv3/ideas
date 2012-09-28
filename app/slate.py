@@ -40,7 +40,7 @@ def slate(request):
                         " need, but you really want more, contact us at "+
                         "contact@ideaotter.com")
 
-    your_slates = Slate.objects.filter(users__contains=request.user)
+    your_slates = Slate.objects.filter(users=request.user)
     return render_to_response("main/slate.html", locals(),
             context_instance = RequestContext(request))
 
@@ -111,7 +111,7 @@ def view_slate(request, slate_id):
                                     "<h2>%s Invited you to:</h2>"
                                     "<p>slate %s</p><p>Check it out <a "
                                     "href=%s>here</a>!</p>"
-                                    "<p>IdeaOtter is a site for storing ideas"
+                                    "<p>IdeaOtter is a site for storing ideas "
                                     "and getting people brainstorming together"
                                     "</p>"
                                     ) % (

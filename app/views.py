@@ -326,17 +326,9 @@ def verify(request,id, verify_hash):
         v_user = User.objects.get(id=id)
         verified_group = Group.objects.get(name='verified')
         v_user.groups.add(verified_group)
-        invite_list = Invitee.objects.filter(email=v_user.email)
-        for invite in invite_list:
-            print "user invited"
-            slate = Slate.objects.get(id= invite.slate.id)
-            slate.users.add(v_user)
-            slate.save()
-            invite.delete()
-            messages.info((
-                    "you've been added to slate %s"
-                    ) % (slate.name))
-    return HttpResponseRedirect("/")
+        helpers.register_invites(v_user)
+        v_user.save()
+        return HttpResponseRedirect("/")
 
 
 
@@ -468,7 +460,9 @@ def facebook(request):
             user_profile.save()
             verified_group = Group.objects.get(name='verified')
             user.groups.add(verified_group)
+            register_invites(user)
             user.backend = 'django.contrib.auth.backends.ModelBackend'
+            user.save()
             login(request, user)
             return HttpResponseRedirect("/")
 

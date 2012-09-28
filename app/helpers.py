@@ -1,5 +1,5 @@
 from django.core.mail import EmailMultiAlternatives
-from app.models import Idea,Tag,Vote,Comment,Slate
+from app.models import Idea,Tag,Vote,Comment,Slate,Invitee
 from app.forms import IdeaForm
 
 import hashlib
@@ -71,4 +71,16 @@ def send_verify_email(email, user, request):
     msg = EmailMultiAlternatives(subject, text_content, from_email, [user.email])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
+def register_invites(v_user):
+    invite_list = Invitee.objects.filter(email=v_user.email)
+    for invite in invite_list:
+            print "user invited"
+            slate = Slate.objects.get(id= invite.slate.id)
+            slate.users.add(v_user)
+            slate.save()
+            invite.delete()
+            messages.info((
+                    "you've been added to slate %s"
+                    ) % (slate.name))
 
