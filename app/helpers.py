@@ -81,7 +81,7 @@ def register_invites(v_user):
             slate.users.add(v_user)
             slate.save()
             invite.delete()
-            messages.info((
+            messages.info(request, (
                     "you've been added to slate %s"
                     ) % (slate.name))
 
