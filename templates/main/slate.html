@@ -29,7 +29,7 @@
     {# </div> #}
 
 {# {% include "main/sub_search_form.html" %} #}
-{% if not perms.app.add_idea %}
+{% if perms.app.add_idea %}
     <h3>Create a new slate</h3>
 
     {% for message in messages %}
