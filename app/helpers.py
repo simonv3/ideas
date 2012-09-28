@@ -1,6 +1,7 @@
 from django.core.mail import EmailMultiAlternatives
 from app.models import Idea,Tag,Vote,Comment,Slate,Invitee
 from app.forms import IdeaForm
+from django.contrib import messages
 
 import hashlib
 

@@ -460,7 +460,7 @@ def facebook(request):
             user_profile.save()
             verified_group = Group.objects.get(name='verified')
             user.groups.add(verified_group)
-            register_invites(user)
+            helpers.register_invites(user)
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             user.save()
             login(request, user)
