@@ -320,7 +320,7 @@ def search(request, query=""):
             context_instance=RequestContext(request))
 
 def verify(request,id, verify_hash):
-    m = hashlib.sha224("some_salt1234"+id)
+    m = hashlib.sha224("some_salt1234"+str(id))
     m.hexdigest()
     if verify_hash == m.hexdigest():
         v_user = User.objects.get(id=id)

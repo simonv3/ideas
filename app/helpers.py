@@ -62,7 +62,7 @@ def add_idea(request, slate_id=None):
         return idea
 
 def send_verify_email(email, user, request):
-    m = hashlib.sha224("some_salt1234"+user.id)
+    m = hashlib.sha224("some_salt1234"+str(user.id))
     encoded_email = email#base64.b64encode(clean['email'])
     link_url = request.build_absolute_uri("/accounts/verify/"+user.id+"/"+m.hexdigest())
     subject, from_email = 'Idea Otter Registration', 'Idea Otter<contact@ideaotter.com>'
