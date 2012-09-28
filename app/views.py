@@ -63,10 +63,20 @@ def splash(request,show=''):
             if 'submit_email' in request.POST:
                 emailForm = EmailForm(request.POST)
                 if emailForm.is_valid():
+
                     clean = emailForm.cleaned_data
-                    user.email = clean['email']
-                    helpers.send_verify_email(clean['email'],user,request)
+                    exists = User.objects.filter(email=clean.email)
+                    if exists:
+                        messages.error(request, (
+                            "That e-mail address is "
+                            "already in use, have you signed up before "
+                            "using a different username?"))
+                        return HttpResponseRedirect("/")
                     
+                    user.email = clean['email']
+
+                    helpers.send_verify_email(clean['email'],user,request)
+
                     user.save()
             if 'submit_idea' in request.POST:
                 idea = helpers.add_idea(request)
@@ -309,12 +319,11 @@ def search(request, query=""):
     return render_to_response("main/idea_list.html", locals(),
             context_instance=RequestContext(request))
 
-def verify(request,username, verify_hash):
-    username_decode = base64.b64decode(username)
-    m = hashlib.sha224("some_salt1234"+username_decode)
+def verify(request,id, verify_hash):
+    m = hashlib.sha224("some_salt1234"+id)
     m.hexdigest()
     if verify_hash == m.hexdigest():
-        v_user = User.objects.get(username=username_decode)
+        v_user = User.objects.get(id=id)
         verified_group = Group.objects.get(name='verified')
         v_user.groups.add(verified_group)
         invite_list = Invitee.objects.filter(email=v_user.email)
