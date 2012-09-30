@@ -948,7 +948,7 @@ ul#idea-comments{
 #profile #profile-pic{
     display:inline-block;
     float:left;
-    margin:24px 12px 0 0;
+    margin:24px 18px 0 0;
     width:100px;
     height:100px;
     position:relative;
@@ -971,6 +971,24 @@ ul#idea-comments{
     right:0;
     padding:0;
     margin: 0;
+    cursor:pointer;
+}
+
+#profile #profile-pic span{
+    display:none;
+}
+
+#profile #profile-pic:hover span{
+    position:absolute;
+    bottom:0;
+    padding:4px;
+    width:100%;
+    color:#efefef;
+    font-weight:500;
+    font-family:"Lucida Grande", sans-serif;
+    background-color:rgb(0,20,22);
+    background-color:rgba(0,20,22,.8);
+    display:inline-block;
 }
 
 #profile form{

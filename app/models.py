@@ -63,6 +63,9 @@ class UserProfile(models.Model):
         else:
             return self.image
 
+    def __unicode__(self):
+        return self.user.username + " profile"
+
 
 # attaches the user profile to the user
 def create_user_profile(sender, instance, created, **kwargs):

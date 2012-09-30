@@ -230,6 +230,7 @@ def start_idea(request, idea_id):
 @login_required(login_url='/accounts/login/')
 def profile(request):
     user = request.user
+    print user.get_profile().photo
     your_ideas = Idea.objects.filter(user = user).order_by('-date')
     ideas_len = len(your_ideas)
     your_slates = Slate.objects.filter(creator = user).order_by('-id')
@@ -240,7 +241,7 @@ def profile(request):
                 if voteForm.is_valid():
                     helpers.vote(voteForm,request.user)
             if 'profile' in request.POST:
-                
+
                 profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.get_profile())
                 print profile_form
                 if profile_form.is_valid():
@@ -252,15 +253,19 @@ def profile(request):
                     except:#no image
                         pass
                     else:
+                        print "found photo"
                         success, string = helpers.handle_uploaded_file(photo, write_url, "profile")
                         if success:
                             user.get_profile().photo = photo_string + ".png"
+                            user.get_profile().save()
                         else:
                             messages.error(request, "That file was too large.")
                         user.save()
+                        return HttpResponseRedirect("/accounts/profile/")
 
 
-    profile_form = ProfileForm(instance=request.user.get_profile())
+
+    profile_form = ProfileForm()
 
     voted_on = Vote.objects.filter(user = user)
     voted_len = len(voted_on)
