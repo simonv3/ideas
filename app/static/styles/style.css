@@ -945,6 +945,16 @@ ul#idea-comments{
  *
  * ********/
 
+#profile #profile-pic{
+    display:inline-block;
+    float:left;
+    margin:24px 12px 0 0;
+}
+
+#profile #profile-pic img{
+    width:100px;
+    height:100px;
+}
 
 #profile h1{
     margin-top:24px;

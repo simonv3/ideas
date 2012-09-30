@@ -220,7 +220,6 @@ def release_slate(request, slate_id):
 
     ideas = slate.ideas.all()
     for idea in ideas:
-        idea.private = False
         idea.save()
         slate.ideas.remove(idea)
         slate.save()

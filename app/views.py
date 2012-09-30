@@ -149,7 +149,8 @@ def idea(request,idea_id, edit=False):
         pass
     relevant_comments = Comment.objects.filter(idea = idea).order_by("date_posted")
     commentForm = CommentForm(request.POST or None)
-    
+    comments_num = len(relevant_comments)
+
     if request.method == 'POST': #If something has been submitted
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)

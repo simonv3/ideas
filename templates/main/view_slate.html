@@ -49,7 +49,8 @@
             <li>
             <label for="id_private">keep as private?</label>
                 <input type="checkbox" name="private" id="id_private"
-                checked="true">
+                checked="true"> <label class="extra-info">This will ensure that your idea stays private
+                    after the slate's ideas are released.</label>
             </li>
         </ul>
     <br/>
@@ -87,9 +88,14 @@
         {% ifequal slate.creator request.user %}
             <a class="edit-link" id="release"
                 href="{% url release-slate slate.id %}">release & clean</a>
+            Releasing ideas and cleaning the slate will release the ideas
+            marked as public into the public stream, and will remove all the
+            private ideas from the slate. All ideas will still be in your personal
+            list of ideas.<br/><br/>
             <a class="edit-link" id="clean"
                 href="{% url clean-slate slate.id %}">clean slate</a>
-
+            Cleaning the slate will permanently erase all the ideas on this
+            slate.
         {% endifequal %}
 
 </div>

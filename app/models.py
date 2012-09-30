@@ -50,7 +50,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='extra')
     facebook_access_token = models.CharField(blank=True, max_length=200)
     default_private = models.BooleanField(default=False)
-
+    profile_pic = models.CharField(max_length=200, default="ideaotter.jpg")
     def get_ideas_commented_on(self):
         idea = Idea.objects.filter(idea_comment__user = self.user).distinct()
         return idea

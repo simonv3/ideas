@@ -2,10 +2,15 @@
 {% block content %}
 <div id="profile" class="span-5">
     <div class="idea-container">
+        <div id="profile-pic">
+            <a href="" title="edit profile image"><img
+                src="{{user.get_profile.profile_pic}}"></a>
+        </div>
         <h1>{{user.username}}</h1>
         <span>{{user.email}}</span>
         <div><a class="edit-link" href="/accounts/password/">Reset
                 Password</a></div>
+        <br/>
 
         <div class="profile-box first">
             <h3><a href="#ideas">Posted {{ideas_len}} ideas</a></h3>
@@ -14,7 +19,7 @@
         <div class="profile-box">
             <h3><a href="/slate/">Created {{slates_len}} slates</a></h3>
             <a href="/slate/" title="create a slate">Create a slate</a>.
-            
+
         </div>
 </div><!-- ./container-->
 <div class="right-bar">
