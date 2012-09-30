@@ -1,16 +1,30 @@
 {% extends "main/base.html" %}
 {% block content %}
+{% for message in messages %}
+    {{message}}
+{% endfor %}
 <div id="profile" class="span-5">
     <div class="idea-container">
+        <form action="" method="POST" id="profile" enctype="multipart/form-data">{% csrf_token %}
         <div id="profile-pic">
-            <a href="" title="edit profile image"><img
-                src="{{user.get_profile.profile_pic}}"></a>
+            <img
+            src="{{STATIC_URL}}users/{{user.get_profile.photo}}">
+            <input type="file" name="photo" id="id_photo">
         </div>
+        
+    <div class="main-profile">
         <h1>{{user.username}}</h1>
         <span>{{user.email}}</span>
         <div><a class="edit-link" href="/accounts/password/">Reset
                 Password</a></div>
-        <br/>
+        
+    </div>
+    <br/>
+    <input type="submit" value="Save Changes" class="red-gradient submit-button"
+    name="profile">
+
+    </form>
+    
 
         <div class="profile-box first">
             <h3><a href="#ideas">Posted {{ideas_len}} ideas</a></h3>

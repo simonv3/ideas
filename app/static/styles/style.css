@@ -949,11 +949,48 @@ ul#idea-comments{
     display:inline-block;
     float:left;
     margin:24px 12px 0 0;
+    width:100px;
+    height:100px;
+    position:relative;
+    overflow:hidden;
 }
 
 #profile #profile-pic img{
+    width:100%;
+    height:100%;
+    position:absolute;
+}
+
+#profile #profile-pic #id_photo{
+    font: 500px monospace;
+    opacity:0;
+    filter: alpha(opacity=0);
+    position: absolute;
+    z-index: 1;
+    top:0;
+    right:0;
+    padding:0;
+    margin: 0;
+}
+
+#profile form{
+    text-align:left;
+}
+
+#profile form input[type="file"]{
+    font-size:.8em;
+    display:block;
     width:100px;
-    height:100px;
+}
+
+
+#profile form input[type="submit"]{
+    font-size:.8em;
+}
+
+#profile .main-profile{
+    display:inline-block;
+    margin-bottom:24px;
 }
 
 #profile h1{

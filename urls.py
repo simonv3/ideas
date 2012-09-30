@@ -88,7 +88,7 @@ urlpatterns = patterns('',
     url(r'^accounts/pw_rst/(?P<user_id>\w+)/(?P<hashed>\w+)/$',
         'app.views.password_reset',
         name='password_reset'),
-    
+
     (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name':
         'main/login.html'}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout',

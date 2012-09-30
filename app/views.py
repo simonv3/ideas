@@ -16,11 +16,11 @@ from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib import messages
 
-from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm, ResetPasswordForm, SearchForm
+from app.forms import IdeaForm, VoteForm, CommentForm, EmailForm, ResetPasswordForm, SearchForm, ProfileForm
 
 from app.models import Idea,Tag,Vote,Comment,Slate,Invitee
 
-from settings import FACEBOOK_SECRET, FACEBOOK_ID, CLIENT_SUB_DOMAIN
+from settings import FACEBOOK_SECRET, FACEBOOK_ID, CLIENT_SUB_DOMAIN, STATIC_DOC_ROOT
 
 from app import helpers
 
@@ -234,12 +234,33 @@ def profile(request):
     ideas_len = len(your_ideas)
     your_slates = Slate.objects.filter(creator = user).order_by('-id')
     slates_len = len(your_slates)
-
     if request.method == 'POST': #If something has been submitted
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
                 if voteForm.is_valid():
                     helpers.vote(voteForm,request.user)
+            if 'profile' in request.POST:
+                
+                profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.get_profile())
+                print profile_form
+                if profile_form.is_valid():
+                    print "valid"
+                    photo_string = hashlib.sha224("profile_pic"+str(user.id)).hexdigest()
+                    write_url = '%susers/%s.png' %(STATIC_DOC_ROOT,photo_string)
+                    try:
+                        photo = request.FILES['photo']
+                    except:#no image
+                        pass
+                    else:
+                        success, string = helpers.handle_uploaded_file(photo, write_url, "profile")
+                        if success:
+                            user.get_profile().photo = photo_string + ".png"
+                        else:
+                            messages.error(request, "That file was too large.")
+                        user.save()
+
+
+    profile_form = ProfileForm(instance=request.user.get_profile())
 
     voted_on = Vote.objects.filter(user = user)
     voted_len = len(voted_on)
@@ -470,4 +491,5 @@ def facebook(request):
             user.save()
             login(request, user)
             return HttpResponseRedirect("/")
+
 

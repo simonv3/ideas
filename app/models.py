@@ -50,10 +50,18 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='extra')
     facebook_access_token = models.CharField(blank=True, max_length=200)
     default_private = models.BooleanField(default=False)
-    profile_pic = models.CharField(max_length=200, default="ideaotter.jpg")
+    photo  = models.ImageField(upload_to = 'users/', null=True, blank=True)
+
     def get_ideas_commented_on(self):
         idea = Idea.objects.filter(idea_comment__user = self.user).distinct()
         return idea
+
+    def get_image(self):
+        if not self.image:
+            # depending on your template
+            return "ideaotter.png"
+        else:
+            return self.image
 
 
 # attaches the user profile to the user

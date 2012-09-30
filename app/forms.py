@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from app.models import Idea
+from app.models import Idea, UserProfile
 
 # CREATE FORMS HERE
 
@@ -37,3 +37,9 @@ class SlateForm(forms.Form):
 
 class InviteForm(forms.Form):
     invite_list = forms.CharField(widget=forms.Textarea)
+
+class ProfileForm(forms.ModelForm):
+        class Meta:
+            model = UserProfile
+            exclude = ('user')
+

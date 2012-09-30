@@ -3,6 +3,7 @@ from app.models import Idea,Tag,Vote,Comment,Slate,Invitee
 from app.forms import IdeaForm
 from django.contrib import messages
 
+import settings
 import hashlib
 
 import base64
@@ -85,3 +86,11 @@ def register_invites(v_user):
                     "you've been added to slate %s"
                     ) % (slate.name))
 
+def handle_uploaded_file(f, url, file_type):
+    print url
+    if f.size > 400000:
+        return False, "large"
+    with open(url, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+        return True, "success"
