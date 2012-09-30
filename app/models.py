@@ -72,7 +72,7 @@ class Slate(models.Model):
     users = models.ManyToManyField(User)
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
-    ideas = models.ManyToManyField(Idea)
+    ideas = models.ManyToManyField(Idea, related_name='idea_on_slate')
 
     def __unicode__(self):
         return "slate %s" %(self.name)

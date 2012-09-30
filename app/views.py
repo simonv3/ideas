@@ -72,7 +72,7 @@ def splash(request,show=''):
                             "already in use, have you signed up before "
                             "using a different username?"))
                         return HttpResponseRedirect("/")
-                    
+
                     user.email = clean['email']
 
                     helpers.send_verify_email(clean['email'],user,request)
@@ -106,6 +106,9 @@ def splash(request,show=''):
 def process_ideas(user, ideas):
     processed_ideas = []
     for idea in ideas:
+        if idea.idea_on_slate.all():
+            continue
+        else:
             try:
                 Vote.objects.get(idea = idea, user = user)
             except:
@@ -159,6 +162,7 @@ def idea(request,idea_id, edit=False):
                     idea.idea = clean['idea_content']
                     idea.elaborate = clean['elaborate']
                     helpers.filter_tags(clean['tags'], idea)
+                    idea.private = clean['private']
                     idea.save()
                     edit = False
                     return HttpResponseRedirect("/idea/"+str(idea.id)+"/")
@@ -421,7 +425,7 @@ def contact(request):
 
 def facebook(request):
     client_sub_domain = CLIENT_SUB_DOMAIN
-    
+
     if request.method == 'GET':
         if 'error' in request.GET:
             messages.error(request, 'To use Facebook to log in, please give' +
