@@ -188,9 +188,16 @@ h1 a{
 }
 
 body{ 
-    background:#efefef; 
+    background:#efefef;
+    position:relative;
     font-family:Georgia,Times,serif;/*"Helvetica",Arial,sans-serif;*/}
 
+img.ideaotter{
+    position:absolute;
+    bottom:-48px;
+    left:48px;
+    opacity:.4;
+}
 #content{
     margin-top:44px; /* width of menu-strip */
     margin-bottom:96px;
