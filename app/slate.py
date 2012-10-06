@@ -71,6 +71,7 @@ def view_slate(request, slate_id):
                             )
                     return redirect("view-slate", slate_id = slate.id)
                 for invite in clean['invite_list'].split(','):
+                    invite = invite.strip()
                     try:
                         validate_email( invite )
                     except ValidationError:
