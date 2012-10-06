@@ -597,7 +597,12 @@ li.idea form input{
     margin-top:24px;
 }
 
+.right-bar .share-links{
+  margin-top:12px;
+}
+
 .right-bar .share-via-email a{
+  font-size:.9em;
     display:inline-block;
     padding:6px 8px;
     border-radius:4px;
