@@ -2,7 +2,11 @@
 {% load markup %}
 
 {% block content %}
-
+{% for message in messages %}
+    <ul class="error-list">
+        <li>{{message}}</li>
+    </ul>
+    {% endfor %}
 {% if edit %}
 
 <form action="" method="POST" id="edit-idea">{%csrf_token%}

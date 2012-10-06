@@ -16,7 +16,14 @@ def send_comment_email(owner, request, idea, email, comment_text):
     html_content = '<h2>'+request.user.username+' commented on idea:</h2><p>"'+idea.idea+'"</p><h3>With the comment:</h3><p>"'+comment_text+'"<p>Check it out <a href="'+link_url+'">here</a>!</p>'
     msg = EmailMultiAlternatives(subject, text_content, from_email, [email])
     msg.attach_alternative(html_content, "text/html")
-    msg.send()
+    try:
+        msg.send()
+    except Exception:
+        print Exception
+        messages.error(request,(
+                "We had a problem sending the e-mail, the"
+                "problem has been reported"
+                ))
 
 def vote(voteForm, user):
     clean = voteForm.cleaned_data

@@ -168,6 +168,7 @@ def idea(request,idea_id, edit=False):
                     edit = False
                     return HttpResponseRedirect("/idea/"+str(idea.id)+"/")
             if 'submit_comment' in request.POST:
+                print "submit"
                 commentForm = CommentForm(request.POST)
                 if commentForm.is_valid():
                     clean = commentForm.cleaned_data
@@ -188,6 +189,7 @@ def idea(request,idea_id, edit=False):
 
                                 user_emails_sent.append(comment_for_idea.user)
                                 helpers.send_comment_email(False, request, idea, comment_for_idea.user.email, comment.text)
+                    return HttpResponseRedirect("/idea/"+str(idea.id)+"/")
                                         #encoded_email = user.email
     voteUpForm = VoteForm({'vote':'+'})
     if edit and (idea.user == request.user):
