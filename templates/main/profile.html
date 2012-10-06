@@ -1,8 +1,13 @@
 {% extends "main/base.html" %}
 {% block content %}
-{% for message in messages %}
-    {{message}}
-{% endfor %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li class="error-list">{{message}}</li>
+        {% endfor %}
+    </uL>
+
+{% endif %}
 <div id="profile" class="span-5">
     <div class="idea-container">
         <form action="" method="POST" id="profile" enctype="multipart/form-data">{% csrf_token %}
