@@ -597,6 +597,24 @@ li.idea form input{
     margin-top:24px;
 }
 
+.right-bar .twitter-share-button{
+    display:inline-block;
+    padding:6px 8px;
+    border-radius:4px;
+    background-color:#fefefe;
+    transition: background-color .1s linear;
+    -webkit-transition: background-color .1s linear;              
+    -moz-transition: background-color .1s linear;  
+
+}
+
+.right-bar .twitter-share-button:hover{
+    background-color:#fafafa;
+    transition: background-color .1s linear;
+    -webkit-transition: background-color .1s linear;          
+    -moz-transition: background-color .1s linear;  
+}
+
 
 #bookmarklet{
     text-align:center; 

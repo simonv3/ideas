@@ -1,6 +1,8 @@
 {% extends "main/base.html" %}
 {% load markup %}
 
+{% block title %}: {{idea.idea}}{%endblock %}
+
 {% block content %}
 {% for message in messages %}
     <ul class="error-list">
@@ -56,7 +58,12 @@
         {% endifequal %}
         {% for tag in tags %}
           <a class="tag blue-gradient" href="/search/{{tag.tag}}/" title="{{tag.tag}}">{{tag.tag}}</a>
-        {% endfor %}
+          {% endfor %}
+        <div>
+              <a href="https://twitter.com/share" class="twitter-share-button"
+                  data-via="twitterapi" data-lang="en">Tweet This Idea</a>
+        </div>
+
         <div class="idea-author">created by 
             <span class="author {% ifequal user idea.user %}current{%endifequal%}">{{idea.user}}
             </span>
