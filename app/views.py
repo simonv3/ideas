@@ -243,17 +243,17 @@ def profile(request):
             if 'profile' in request.POST:
 
                 profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.get_profile())
-                print profile_form
                 if profile_form.is_valid():
-                    print "valid"
-                    photo_string = hashlib.sha224("profile_pic"+str(user.id)).hexdigest()
+                    photo_string = hashlib.sha224(
+                            "profile_pic"+
+                            CLIENT_SUB_DOMAIN+
+                            str(user.id)).hexdigest()
                     write_url = '%susers/%s.png' %(STATIC_DOC_ROOT,photo_string)
                     try:
                         photo = request.FILES['photo']
                     except:#no image
                         pass
                     else:
-                        print "found photo"
                         success, string = helpers.handle_uploaded_file(photo, write_url, "profile")
                         if success:
                             user.get_profile().photo = photo_string + ".png"
