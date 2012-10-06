@@ -59,10 +59,15 @@
         {% for tag in tags %}
           <a class="tag blue-gradient" href="/search/{{tag.tag}}/" title="{{tag.tag}}">{{tag.tag}}</a>
           {% endfor %}
-        <div>
-              <a href="https://twitter.com/share" class="twitter-share-button"
-                  data-via="twitterapi" data-lang="en">Tweet This Idea</a>
-        </div>
+          <div>
+<a href="https://twitter.com/share" class="twitter-share-button" data-via="ideaotter" data-size="large" data-count="none">Tweet</a>
+              
+          </div>
+          <div class="share-via-email">
+              <a href="mailto:?subject=I wanted share this Idea with you.&amp;body=I thought you'd be interested in this idea I posted on Idea Otter: %0D%0A%0D%0A{{ request.build_absolute_uri }}" title="Share by Email">
+                  Email this idea
+                </a>
+          </div>
 
         <div class="idea-author">created by 
             <span class="author {% ifequal user idea.user %}current{%endifequal%}">{{idea.user}}
