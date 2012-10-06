@@ -1,3 +1,4 @@
 *.pyc
+app/migrations/*
 database.db
 settings.py
