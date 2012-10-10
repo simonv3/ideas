@@ -22,7 +22,7 @@ def send_comment_email(owner, request, idea, email, comment_text):
         print Exception
         messages.error(request,(
                 "We had a problem sending the e-mail, the"
-                "problem has been reported"
+                " problem has been reported"
                 ))
 
 def vote(voteForm, user):

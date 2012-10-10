@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 # in models.py
 
 from django.db.models.signals import post_save
-from datetime import datetime
+import datetime
 
 # Create models here.
 
@@ -50,11 +50,24 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='extra')
     facebook_access_token = models.CharField(blank=True, max_length=200)
     default_private = models.BooleanField(default=False)
+    emails = models.BooleanField(default=True)
     photo  = models.ImageField(upload_to = 'users/', null=True, blank=True)
 
     def get_ideas_commented_on(self):
         idea = Idea.objects.filter(idea_comment__user = self.user).distinct()
         return idea
+
+    def comments_on_owned_ideas(self, num_days):
+        user = self.user
+        commented_on_ideas = user.user_idea.filter(
+                    idea_comment__date_posted__gte=datetime.date.today()-datetime.timedelta(num_days)
+                    ).distinct()
+        return commented_on_ideas
+    
+    def new_ideas_in_slate(self, num_days):
+        user = self.user
+        ideas = user.slates
+
 
     def get_image(self):
         if not self.image:
@@ -80,7 +93,9 @@ post_save.connect(create_user_profile, sender=User)
 
 class Slate(models.Model):
     creator = models.ForeignKey(User, related_name='slate_creator',blank=True)
-    users = models.ManyToManyField(User)
+    date_created = models.DateTimeField(auto_now_add=True,
+            default=datetime.datetime.now())
+    users = models.ManyToManyField(User, related_name='slates')
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     ideas = models.ManyToManyField(Idea, related_name='idea_on_slate')
@@ -93,3 +108,8 @@ class Invitee(models.Model):
     slate = models.ForeignKey(Slate, related_name="invite_for")
     def __unicode__(self):
         return "Invite for %s on %s" %(self.email, self.slate)
+
+#class Email_Message(models.Model):
+#    content = models.TextField()
+#    sent = models.BooleanField()
+#    date = models.DateField(auto_now = True)
