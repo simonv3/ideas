@@ -1,0 +1,2 @@
+Hello {{ user.username }}, this is your weekly digest.
+
