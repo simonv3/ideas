@@ -74,7 +74,7 @@ urlpatterns = patterns('',
         name='slate'
         ),
 
-    url(r'^invite/slate/(?P<slate_id>\w+)/(?P<invite_id>\w+)/(?P<slate_name>[-w]+)/$',
+    url(r'^invite/slate/(?P<slate_id>\w+)/(?P<invite_id>\w+)/(?P<slate_name>[\w\d-]+)/$',
         'app.slate.accept_invite',
         name='accept-invite'
         ),
