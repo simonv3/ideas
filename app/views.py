@@ -232,7 +232,6 @@ def start_idea(request, idea_id):
 @login_required(login_url='/accounts/login/')
 def profile(request):
     user = request.user
-    print user.get_profile().photo
     your_ideas = Idea.objects.filter(user = user).order_by('-date')
     ideas_len = len(your_ideas)
     your_slates = Slate.objects.filter(creator = user).order_by('-id')
@@ -245,12 +244,14 @@ def profile(request):
             if 'profile' in request.POST:
 
                 profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.get_profile())
+                print profile_form
                 if profile_form.is_valid():
                     photo_string = hashlib.sha224(
                             "profile_pic"+
                             CLIENT_SUB_DOMAIN+
                             str(user.id)).hexdigest()
                     write_url = '%susers/%s.png' %(STATIC_DOC_ROOT,photo_string)
+                    print photo_string
                     try:
                         photo = request.FILES['photo']
                     except:#no image
@@ -258,9 +259,11 @@ def profile(request):
                     else:
                         success, string = helpers.handle_uploaded_file(photo, write_url, "profile")
                         if success:
+                            print success
                             user.get_profile().photo = photo_string + ".png"
                             user.get_profile().save()
                         else:
+
                             messages.error(request, "That file was too large.")
                         user.save()
                         return HttpResponseRedirect("/accounts/profile/")
@@ -454,7 +457,6 @@ def contact(request):
 
 def facebook(request):
     client_sub_domain = CLIENT_SUB_DOMAIN
-
     if request.method == 'GET':
         if 'error' in request.GET:
             messages.error(request, 'To use Facebook to log in, please give' +

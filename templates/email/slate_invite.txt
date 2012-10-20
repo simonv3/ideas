@@ -1,0 +1,12 @@
+Hey, \n\n
+
+Your e-mail address has been invited to a slate on IdeaOtter.\n\n
+
+To accept this invite, click on the following link: \n\n
+
+{{ link }}\n\n
+
+\n
+Thanks,\n
+The Idea Otter
+

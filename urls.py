@@ -74,6 +74,12 @@ urlpatterns = patterns('',
         name='slate'
         ),
 
+    url(r'^invite/slate/(?P<slate_id>\w+)/(?P<invite_id>\w+)/(?P<slate_name>\w+)/$',
+        'app.slate.accept_invite',
+        name='accept-invite'
+        ),
+
+
     # ADMIN
     #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),

@@ -4,8 +4,8 @@
 <div class="span-5">
 <div class="slate-idea-container">
 
-    <h2>post an idea to {{slate.name|markdown:"safe"}}</h2>
-
+    <h2>{{slate.name|markdown:"safe"}}</h2>
+    <h6>Post an idea</h6><br/>
     {% if not perms.app.add_idea %}
         {% if emailForm.email %}
                 <ul class="error-list"><li>
@@ -63,6 +63,12 @@
 {% endif %}
 </div><!-- ./slate-idea-container-->
 <div class="right-bar">
+    {% if slate.description %}
+    <h4>Description:</h4>
+    <div>
+        {{slate.description}}
+    </div>
+    {% endif %}
     <h4>Participants:</h4>
     <ul>
     {% for participant in slate.users.all %}
@@ -71,6 +77,10 @@
 </ul>
 
 <h4>Invite Users:</h4>
+<p>{% if invites %} 
+You have invited: {% for invite in invites %} {{invite.email}}{% if not forloop.last %},{% endif %} {% endfor %}
+{% endif %}</p>
+<br/>
 Enter the e-mail addresses of the users you'd like to invite. <br/><br/>
 <form method="POST" action="">
     {% csrf_token %}

@@ -1,18 +1,25 @@
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth import logout, authenticate,login
+
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.template.loader import get_template
+from django.template import Context
+
+from django.template.defaultfilters import slugify
 
 from django.core.mail import EmailMultiAlternatives
 
 
 from app import helpers
 from app.forms import SlateForm, IdeaForm, VoteForm, InviteForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from app.models import Slate, Invitee, Idea
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from django.contrib import messages
 
@@ -47,6 +54,7 @@ def slate(request):
 @login_required(login_url='/accounts/login/')
 def view_slate(request, slate_id):
     slate = Slate.objects.get(id=slate_id)
+    invites = Invitee.objects.filter(slate = slate_id)
     try:
         slate.users.get(id = request.user.id)
     except User.DoesNotExist:
@@ -78,9 +86,6 @@ def view_slate(request, slate_id):
                         #not an email address, continue with next invite
                         continue
                     else:
-                        try:
-                            user = User.objects.get(email = invite)
-                        except User.DoesNotExist:
                             # user doesn't exist
                             # create an invitee item
                             try:
@@ -89,79 +94,40 @@ def view_slate(request, slate_id):
                             except Invitee.DoesNotExist:
                                 pass
                             else:
+                                #invite already exists, let's pass
                                 continue
+
                             invite = Invitee.objects.create(
                                     email=invite,slate=slate)
                             invite.save()
-                            link_url = request.build_absolute_uri("/slate/"+str(slate.id)+"/")
+                            link_url = request.build_absolute_uri(
+                                "/invite/slate/%i/%i/%s/"%(slate.id,invite.id,slugify(slate.name))
+                                )
                             subject =   (
-                                    "%s invited you to a slate %s on "
+                                    "%s invited you to a slate on "
                                     "IdeaOtter"
                                     ) %(
-                                    request.user.username, slate.name
+                                    request.user.username
                                     )
                             from_email = "Idea Otter <contact@ideaotter.com>"
-                            text_content = (
-                                        "Hey, \n\n %s invited you to slate"
-                                        " %s you can view it here: \n\n %s "
-                                        ) % (
-                                                request.user.username, slate.name,
-                                                link_url
-                                                )
-                            html_content = (
-                                    "<h2>%s Invited you to:</h2>"
-                                    "<p>slate %s</p><p>Check it out <a "
-                                    "href=%s>here</a>!</p>"
-                                    "<p>IdeaOtter is a site for storing ideas "
-                                    "and getting people brainstorming together"
-                                    "</p>"
-                                    ) % (
-                                            request.user.username,slate.name,
-                                            link_url)
+                            plaintext = get_template('email/slate_invite.txt')
+                            htmly = get_template('email/slate_invite.html')
+                            d = Context(
+                                { 
+                                'username': request.user.email, 
+                                'url': link_url,
+                                'email': invite.email
+                                }
+                                )
+                            text_content = plaintext.render(d)
+                            html_content = htmly.render(d)
                             msg = EmailMultiAlternatives(subject, text_content,
                                     from_email, [invite.email])
                             msg.attach_alternative(html_content, "text/html")
                             try:
+                                print "sending email"
                                 msg.send()
                             except:
-                                print "email failed to send"
-                                print html_content
-                                pass
-                        else:
-                            # user exists, add them to the project
-                            try:
-                                slate.users.get(id=user.id)
-                                #user already in project, continue with next
-                                #iteration of the loop
-                            except User.DoesNotExist:
-                                #everything is normal
-                                pass
-                            else:
-                                #user is already here
-                                continue
-                            slate.users.add(user)
-                            slate.save()
-                            link_url = request.build_absolute_uri("/slate/"+str(slate.id)+"/")
-                            subject =   "%s invited you to slate %s" %(
-                                    request.user.username, slate.name
-                                    )
-                            from_email = "Idea Otter <contact@ideaotter.com>"
-                            text_content = (
-                                        "Hey, \n\n %s invited you to slate"
-                                        " %s view it here: \n\n %s "
-                                        ) % (
-                                                request.user.username, slate.name,
-                                                link_url
-                                                )
-                            html_content = '<h2>'+request.user.username+' invited you to:</h2><p>"'+slate.name+'"</p><p>Check it out <a href="'+link_url+'">here</a>!</p>'
-                            msg = EmailMultiAlternatives(subject, text_content,
-                                    from_email, [user.email])
-                            msg.attach_alternative(html_content, "text/html")
-                            try:
-                                msg.send()
-                            except:
-                                #email failed to send
-                                print "failed to send email"
                                 print html_content
                                 pass
 
@@ -178,7 +144,6 @@ def view_slate(request, slate_id):
 
 @login_required(login_url='/accounts/login/')
 def convert_idea(request, idea_id):
-    print "converting idea"
     idea = Idea.objects.get(id = idea_id)
 
     #check whether the user is the creator of the idea
@@ -226,3 +191,73 @@ def release_slate(request, slate_id):
         slate.save()
     return redirect("view-slate", slate_id)
     
+def accept_invite(request, slate_id, invite_id, slate_name=""):
+    slate = Slate.objects.get(id=slate_id)
+    invite = Invitee.objects.get(id=invite_id)
+    if request.method == 'POST':
+        if 'register' in request.POST:
+            data = {
+                'username':request.POST['username'],
+                'password1':request.POST['password1'],
+                'password2':request.POST['password1'],
+                }
+            userCreationForm = UserCreationForm(data)
+            #userCreationForm['password2'] = userCreationForm['password1']
+            if userCreationForm.is_valid():
+                formcd = userCreationForm.cleaned_data
+                user = User.objects.create_user(
+                    formcd['username'], 
+                    invite.email,
+                    formcd['password1'],
+                    )
+                user.save()
+                user_in_db = authenticate(
+                    username=user.username, 
+                    password=formcd['password1']
+                    )
+                slate.users.add(user_in_db)
+                verified_group = Group.objects.get(name='verified')
+                user_in_db.groups.add(verified_group)
+                Invitee.delete(invite)
+                login(request, user_in_db)
+                return redirect("view-slate", slate_id)
+
+
+        elif 'verify' in request.POST:
+            authenticationForm = AuthenticationForm(data=request.POST)
+            if authenticationForm.is_valid():
+                formcd = authenticationForm.cleaned_data
+                user_in_db = authenticate(
+                    username=formcd['username'], 
+                    password=formcd['password']
+                    )
+                login(request, user_in_db)
+                slate.users.add(user_in_db)
+                verified_group = Group.objects.get(name='verified')
+
+                user_in_db.groups.add(verified_group)
+                Invitee.delete(invite)
+                return redirect("view-slate", slate_id)
+
+    if request.user.is_authenticated():
+        #user is logged in, let's show them the slate, 
+        if request.user.email == invite.email:
+            #user was invited, add them to the slate. 
+            slate.users.add(request.user)
+            slate.save()
+        else:
+            #the logged in user is not the invited user
+            logout(request)
+            #TODO: are you maybe user (logged in user)? if so, please verify
+    try:
+        user = User.objects.get(email = invite.email)
+    except User.DoesNotExist:
+        #user doesn't exist, so let's tell them about to slate.
+        user_creation = True
+        form = UserCreationForm({'username':invite.email})
+        return render_to_response("main/accept_invite.html", locals(),
+            context_instance = RequestContext(request))
+    else:
+        form = AuthenticationForm(data={'username':invite.email})
+        return render_to_response("main/accept_invite.html", locals(),
+            context_instance = RequestContext(request))

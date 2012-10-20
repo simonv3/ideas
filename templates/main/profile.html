@@ -1,5 +1,12 @@
 {% extends "main/base.html" %}
 {% block content %}
+{% if form.errors %}
+    <ul>
+        {% for error in form.errors %}
+            <li class="error-list">{{error}}</li>
+        {% endfor %}
+    </uL>
+{% endif %}
     {% if messages %}
     <ul>
         {% for message in messages %}

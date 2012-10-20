@@ -1,0 +1,71 @@
+{% extends "main/base.html" %}
+
+{% block title %}Create an Account{% endblock %}
+
+{% block content %}
+
+
+
+<div id="register">
+    <h1>You've been invited to <br/>{{slate.name}}</h1>
+    <br/>
+    <p class="invite"> To participate in this slate, please take some time to {% if user_creation %} set a password for {% else %} verify {% endif %} yourself.</p>
+
+    {% if "username" in form.errors %} 
+      <ul class="error-list"  ><li>The username you have selected is already in use.</li></ul>
+    {% endif %}
+
+{% if user_creation %}
+<form action="" autocomplete="off" method="post">
+    {%csrf_token%}
+    <ul id="register-list">
+        {% if form.error_dict %}
+            <p class="error">Please correct the errors below.</p>
+        {% endif %}
+        {% if form.username.errors %}
+            {{ form.username.html_error_list }}
+        {% endif %}
+        <li>
+            <label class="hover-field" for="id_username">Nickname</label> {{ form.username }}
+        </li>
+
+        {% if form.password1.errors %}
+            {{ form.password1.html_error_list }}
+        {% endif %}
+        <li>
+            <label class="hover-field" for="id_password1">Secret Word</label> {{ form.password1 }}
+        </li>
+
+
+
+        <li><input type="submit" name="register" value="Create account" class="red-gradient submit-button"/></li>
+    </ul>
+</form>
+{% else %}
+<form id="log-in" autocomplete="off" method="post" action="">
+{% csrf_token %}
+<ul id="log-in-list">
+<li>
+            <label class="hover-field" for="id_username">Username</label> 
+    {{ form.username }}
+</li>
+<li>
+            <label class="hover-field" for="id_password">Password</label> 
+
+    {{ form.password }}
+    </li>
+    <li><input type="submit" name="verify" value="login" class="red-gradient submit-button"/></li>
+<input type="hidden" name="next" value="{{ next }}" />
+</ul>
+<div class="form-help"><a href="/accounts/password/"
+        title="forgot password">Forgot your password?</a></div>
+
+</form>
+{% endif %}
+
+</div>
+<div class="slate-info">
+{{slate.description}}
+</div>
+{% endblock %}
+
