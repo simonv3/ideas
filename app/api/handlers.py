@@ -4,6 +4,7 @@ from app.models import Idea
 from app.forms import IdeaForm
 
 from app.api.auth import key_check, secrets
+from django.contrib.auth import authenticate
 
 
 class UserHandler(BaseHandler):
@@ -68,41 +69,46 @@ class IdeaHandler(BaseHandler):
             return base.all()
 
 class UserRegistrationHandler(BaseHandler):
-    allowed_methods = ('GET',)
-    def read(
-            self, request, username, 
-            password, apikey, apisignature, 
+    allowed_methods = ('POST',)
+    def create(
+            self, request, apikey, apisignature, 
             ):
         if not key_check(
                 apikey, apisignature, 
-                '/register/%s/%s/' % (username, password)):
+                '/register/'):
             return {'error': 'authentication failed'}
-        print "get here2"
         try: 
-            User.objects.get(username=username)
+            User.objects.get(username=request.POST['username'])
             return {'registration' : 'failure', 'reason' : 'exists' }
         except:
-            user = User.objects.create_user(username,'',password)
+            try:
+                user = User.objects.create_user(request.POST['username'],'',request.POST['password'])
+            except:
+                return {'error':'FormPOSTError'}
             user.save()
             return user
         #return tigatag.views.login.register_basic(request, username, password, email)
 
 class UserLogInHandler(BaseHandler):
-    allowed_methods = ('GET',)
-    def read(
-            self, request, username, 
-            password, apikey, apisignature):
+    allowed_methods = ('POST',)
+    def create(
+            self, request, apikey, apisignature):
         if not key_check(
                 apikey, apisignature, 
-                '/login/%s/%s/' % (username, password)):
-            return {'error': 'authentication failed'}
+                '/login/'):
+            return {'error': 'APIAuthFailure'}
         else:
-            from django.contrib.auth import authenticate
-            user_in_db = authenticate(username=username,password=password)
-            if user_in_db:
-                return user_in_db
+            if request.method == "POST":
+                try:
+                    user_in_db = authenticate(username=request.POST['username'],password=request.POST['password'])
+                except:
+                    return {'error':'FormAuthError'}
+                if user_in_db:
+                    return user_in_db
+                else:
+                    return {'error':'User.DoesNotExist'}
             else:
-                return {'error':'not a user'}
+                return {'error':'FormPOSTError'}
 
 
 class AuthenticateUser(BaseHandler):
