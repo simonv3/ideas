@@ -73,8 +73,8 @@
             </div>
 
         <div class="idea-author">created by 
-            <span class="author {% ifequal user idea.user %}current{%endifequal%}">{{idea.user}}
-            </span>
+            <a href="{% url view-user idea.user.id %}" title="{{idea.user.username}}"><span class="author {% ifequal user idea.user %}current{%endifequal%}">{{idea.user}}
+            </span></a>
         </div>
         </div>
     </div>
@@ -102,7 +102,7 @@ value="Add Comment" />
 
     <li class="{% cycle 'odd' 'even' %}">
     <header>
-        <span class="author {% ifequal user comment.user %}current{%endifequal%}">{{comment.user}}</span>
+        <a href="{% url view-user comment.user.id %}" title="{{comment.user.username}}"><span class="author {% ifequal user comment.user %}current{%endifequal%}">{{comment.user.username}}</span></a>
         <span class="timesince">{{comment.date_posted|timesince}} ago</span>
     </header>
     <div class="text">
