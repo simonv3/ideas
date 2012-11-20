@@ -237,15 +237,17 @@ def profile(request):
     your_slates = Slate.objects.filter(creator = user).order_by('-id')
     slates_len = len(your_slates)
     if request.method == 'POST': #If something has been submitted
+            print "post"
             if 'vote' in request.POST:
                 voteForm = VoteForm(request.POST)
                 if voteForm.is_valid():
                     helpers.vote(voteForm,request.user)
             if 'profile' in request.POST:
-
+                print "profile"
                 profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.get_profile())
                 print profile_form
                 if profile_form.is_valid():
+                    print "valid"
                     photo_string = hashlib.sha224(
                             "profile_pic"+
                             CLIENT_SUB_DOMAIN+

@@ -20,7 +20,7 @@
         <form action="" method="POST" id="profile" enctype="multipart/form-data">{% csrf_token %}
         <div id="profile-pic">
             <img
-            src="{{STATIC_URL}}users/{% if user.get_profile.photo %}{{user.get_profile.photo}}{% else %}ideaotter.png{%endif%}">
+            src="{{STATIC_URL}}users/{% if user.get_profile.photo %}{{user.get_profile.photo}}{% else %}ideaotter2.png{%endif%}">
             <input type="file" name="photo" id="id_photo">
             <span>Click to edit</span>
         </div>

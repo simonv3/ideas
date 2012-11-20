@@ -403,15 +403,15 @@ ul.idea_list li.idea{
     display:inline-block;
     background:#f4f4f4;
     border-radius:3px;
-    width:20%;
-    min-width:200px;
+    width:30%;
+    min-width:320px;
     vertical-align:top;
-    margin:24px;
-    box-shadow:0px 0px 5px #ccc;
-    border:1px solid #e0e0e0;
+    margin:10px;
+    box-shadow:0px 0px 3px #ccc;
+    border:0px solid #e0e0e0;
 }
 ul.idea_list li.idea p{
-    padding:8px;
+    padding: 18px;
     transition: color .2s ease-in-out;
     -webkit-transition: color .2s ease-in-out;
     -moz-transition: color .2s ease-in-out;
@@ -431,7 +431,7 @@ ul.idea_list li.idea a:hover p{
 }
 
 ul.idea_list li.idea .bottom{
-    background:rgba(20,20,20,.1);
+    background:rgba(50,50,50,.1);
     display:inline-block;
     width:88%;
     text-align:left;
