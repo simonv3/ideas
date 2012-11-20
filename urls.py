@@ -79,6 +79,12 @@ urlpatterns = patterns('',
         name='accept-invite'
         ),
 
+    # USERS
+
+    url(r'^user/(?P<user_id>\w+)/$',
+        'app.user.user',
+        name='view-user'
+        ),
 
     # ADMIN
     #url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

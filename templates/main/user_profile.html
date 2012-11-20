@@ -17,41 +17,28 @@
 {% endif %}
 <div id="profile" class="span-5">
     <div class="idea-container">
-        <form action="" method="POST" id="profile" enctype="multipart/form-data">{% csrf_token %}
+        
         <div id="profile-pic">
-            {% include "main/sub_profile_images.html" with user=profile_user %}
-            <input type="file" name="photo" id="id_photo">
-            <span>Click to edit</span>
+            {% include "main/sub_profile_images.html" %}
         </div>
 
     <div class="main-profile">
-        <h1>{{profile_user.username}}</h1>
-        <span>{{profile_user.email}}</span>
-        <div><a class="edit-link" href="/accounts/password/">Reset
-                Password</a></div>
+        <h1>{{user.username}}</h1>
+        <span>{{user.email}}</span>
 
     </div>
     <br/>
-    <input type="submit" value="Save Changes" class="red-gradient submit-button"
-    name="profile">
-
-    </form>
 
 
         <div class="profile-box first">
             <h3><a href="#ideas">Posted {{ideas_len}} ideas</a></h3>
-            <a href="/" title="add an idea">Add an idea</a>.
         </div>
         <div class="profile-box">
             <h3><a href="/slate/">Created {{slates_len}} slates</a></h3>
-            <a href="/slate/" title="create a slate">Create a slate</a>.
 
         </div>
 </div><!-- ./container-->
 <div class="right-bar">
-    <p>
-    <a class="edit-link" href="/accounts/password/">Reset Password</a>
-    </p>
     <p>
     <a class="edit-link" href="/slate/">Your Slates</a>
     </p>
