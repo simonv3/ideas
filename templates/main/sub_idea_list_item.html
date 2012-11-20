@@ -8,7 +8,7 @@
 </a>
 <div class="bottom {% if idea.started %}started{% endif %}">
 	<a href="{% url view-user idea.user.id %}" title="{{idea.user}}">
-	                {% include "main/sub_profile_images.html" with user=idea.user size="small"%}
+	                {% include "main/sub_profile_images.html" with user=idea.user size="small" %}
 	            </a>	
 
             <span class="date">{{idea.date|timesince}} ago</span>

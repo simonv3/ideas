@@ -19,13 +19,13 @@
     <div class="idea-container">
         
         <div id="profile-pic">
-            {% include "main/sub_profile_images.html" %}
+            {% include "main/sub_profile_images.html" with user=profile_user%}
         </div>
 
     <div class="main-profile">
-        <h1>{{user.username}}</h1>
-        <span>{{user.email}}</span>
-
+        <h1>{{profile_user.username}}</h1>
+        <span>{{profile_user.email}}</span>
+        {% if not profile_user.email %}<br/>{% endif %}
     </div>
     <br/>
 
