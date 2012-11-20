@@ -7,6 +7,8 @@
     <p>{{idea.idea|slice:":140"}}{%if idea.idea|length > 140%}...{%endif%}</p>
 </a>
 <div class="bottom {% if idea.started %}started{% endif %}">
+	                {% include "main/sub_profile_images.html" with user=idea.user size="small"%}
+
             <span class="date">{{idea.date|timesince}} ago</span>
             {% ifequal idea.user user %}
             <a href="{% url delete-idea idea.id %}" class="delete"></a>

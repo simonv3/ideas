@@ -433,10 +433,21 @@ ul.idea_list li.idea a:hover p{
 ul.idea_list li.idea .bottom{
     background:rgba(50,50,50,.1);
     display:inline-block;
-    width:88%;
+    width:90%;
     text-align:left;
     height:40px;
-    padding:12px 7% 0px;
+    padding:6px 5% 0px;
+}
+
+ul.idea_list li.idea .bottom img{
+    width:35px;
+    height:35px;
+    vertical-align:middle;
+    display:inline-block;
+    border-radius:2px;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    -o-border-radius:2px;
 }
 
 ul.idea_list li.idea .bottom .date{
@@ -446,15 +457,17 @@ ul.idea_list li.idea .bottom .date{
 }
 ul.idea_list li.idea .bottom .voting{
     float:right;
+    margin-top:4px;
 }
 
 ul.idea_list li.idea .bottom .delete{
     width:20px;
     float:right;
-    margin-top:2px;
     height:20px;
     background:url('../images/garbage.png') no-repeat center center;
     opacity:.8;
+    margin-top:7px;
+
     display:inline-block;
 }
 
