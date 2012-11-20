@@ -89,6 +89,7 @@ class UserRegistrationHandler(BaseHandler):
             return user
         #return tigatag.views.login.register_basic(request, username, password, email)
 
+
 class UserLogInHandler(BaseHandler):
     allowed_methods = ('POST',)
     def create(

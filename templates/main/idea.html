@@ -49,9 +49,13 @@
             <a class="edit-link {% if idea.started %}started{%endif%}" 
                 href="{% url app.views.idea idea.id %}edit/">manage idea</a>
             {% if not idea.started %}
+            <p>Have you started working on this idea?</p><br/>
+            <br/>
             <a class="edit-link"
                 href="{% url app.views.start_idea idea.id %}">start idea</a>
             {% endif %}
+            <p>Turning this idea into a slate will let you invite other people to brainstorm and get the idea off the ground.</p>
+            <br/>
             <a class="edit-link" id="convert"
                 href="{% url convert-idea idea.id %}">turn into slate</a>
 

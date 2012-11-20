@@ -72,7 +72,7 @@
     <h4>Participants:</h4>
     <ul>
     {% for participant in slate.users.all %}
-    <li><span class="participant">{{participant}}</span></li>
+    <li><a href="{% url view-user participant.id %}" title="{{participant.username}}"><span class="participant">{{participant}}</span></a></li>
     {% endfor %}
 </ul>
 
