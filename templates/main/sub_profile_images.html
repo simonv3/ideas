@@ -1,1 +1,1 @@
-<img src="{{STATIC_URL}}users/{% if user.get_profile.photo %}{{user.get_profile.photo}}{% else %}ideaotter2{{size}}.png{%endif%}">
+<img width={{size}} height={{size}} src="{{STATIC_URL}}users/{% if user.get_profile.photo %}{{user.get_profile.photo}}{% else %}ideaotter2{{size}}.png{%endif%}">
