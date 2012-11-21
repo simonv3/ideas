@@ -106,7 +106,9 @@ value="Add Comment" />
 
     <li class="{% cycle 'odd' 'even' %}">
     <header>
-        <a href="{% url view-user comment.user.id %}" title="{{comment.user.username}}"><span class="author {% ifequal user comment.user %}current{%endifequal%}">{{comment.user.username}}</span></a>
+        <a href="{% url view-user comment.user.id %}" title="{{comment.user.username}}">{% include "main/sub_profile_images.html" with user=idea.user size="35" %}
+            <span class="author {% ifequal user comment.user %}current{%endifequal%}">{{comment.user.username}}</span>
+        </a>
         <span class="timesince">{{comment.date_posted|timesince}} ago</span>
     </header>
     <div class="text">
