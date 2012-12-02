@@ -52,6 +52,10 @@ urlpatterns = patterns('',
         'app.views.search',
         name = 'view-search',
         ),
+    url(r'^ideas/$',
+        'app.views.all_ideas',
+        name = 'all-ideas',
+        ),
 
     # SLATE
     url(r'^slate/(?P<slate_id>\w+)/clean/$',

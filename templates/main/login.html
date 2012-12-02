@@ -14,7 +14,7 @@
 </ul>
 {% endif %}
 
-<form id="log-in" autocomplete="off" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<form id="log-in" class="show" autocomplete="off" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 {% csrf_token %}
 <ul id="log-in-list">
 <li>

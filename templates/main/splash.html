@@ -1,14 +1,15 @@
 {% extends "main/base.html" %}
 
-{% block title %}Create an account{% endblock %}
+{% block title %} - Welcome{% endblock %}
+
+{% block set-show %}splash{% endblock %}
 
 {% block content %}
 
 
 
 <div id="login">
-  <h1>Got an idea?<br/> Write it down!</h1>
-{% if form.errors %}
+  {% if form.errors %}
 <ul class="error-list">
     {% if "password1" in form.errors or "password2" in form.errors%}<li> Please make sure your passwords are the same. </li>{% endif %}
     {% if "username" in form.errors %} <li>The username you have selected is already in use.</li>{% endif %}
@@ -22,36 +23,50 @@
 </ul>
 {% endif %}
 
-<form id="log-in" autocomplete="off" method="post" action="{% url django.contrib.auth.views.login %}">
+<form id="log-in" class="hide" autocomplete="off" method="post" action="{% url django.contrib.auth.views.login %}">
 {% csrf_token %}
-<ul id="log-in-list">
-<li>
+  <ul id="log-in-list">
+    <li>
             <label class="hover-field" for="id_username">Username:</label> 
-    {{ form.username }}
-</li>
-<li>
+      {{ form.username }}
+    </li>
+    <li>
             <label class="hover-field" for="id_password">Password:</label> 
 
-    {{ form.password }}
+      {{ form.password }}
     </li>
     <li><input type="submit" value="login" class="red-gradient submit-button"/></li>
-<input type="hidden" name="next" value="{{ next }}" />
-</ul>
-<div class="form-help"><a href="/accounts/password/"
-        title="forgot password">Forgot your password?</a></div>
+    <input type="hidden" name="next" value="{{ next }}" />
+  </ul>
+
+  <div class="form-help"><a href="/accounts/password/"
+        title="forgot password">Forgot your password?</a>
+  </div>
 or <a class="facebook-login"
   href="https://www.facebook.com/dialog/oauth?client_id=459911974049419&scope=offline_access,email&redirect_uri=http://localhost:8000/accounts/facebook/&state={% now "ynDbjY" %}{{client_sub_domain}}"><img
     src="{{STATIC_URL}}images/facebook-log-in.gif"/></a>
 
 </form>
+<img class="otter" style="float:left;position:absolute;" src="{{STATIC_URL}}images/ideaotterbw.gif"/>
 
-<div class="link-button">Not yet a member? <a href="/accounts/register/"
-        title="register">Registering</a> has benefits.
-    Read more <a href="/about/">about us</a>.
+  <h1>Remember Ideas</h1><h1> Be Inspired </h1><h1> Work Together</h1>
+
+
+<div id="recent-ideas">
+  <h3> Here's what some people have been thinking up: </h3>
+  <ul class="idea_list">
+
+  {% for idea in recent_ideas %}
+        {% include "main/sub_idea_list_item.html" %}
+ 
+  {% endfor %}
+  </ul>
+  <a href="{% url all-ideas %}" title="view more ideas">view more ideas</a>
 </div>
+
+
 </div>
 <div id="about">
-<img class="otter" src="{{STATIC_URL}}images/ideaotterbw.gif"/>
 
   <p class="right">
   "EUREKA!" If that is what you screamed earlier in the bathtub, you've come to

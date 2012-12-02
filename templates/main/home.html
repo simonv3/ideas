@@ -2,7 +2,6 @@
 
 {% block content %}
 <div class="center-page">
-    <h1>post your idea:</h1>
 
     {% if not perms.app.add_idea %}
     {% if messages %}
@@ -15,7 +14,7 @@
     {% endif %}
 
     <div class="link-button verify">Enter your e-mail address and we'll send you an e-mail just to make
-        sure you're a real person, click on the link and we'll have you posting
+        sure you're a real person, when you get it - click on the link and we'll have you posting
     ideas in no time!</div>
     <br/>
     <form action="/" id="email-form" method="post">{% csrf_token %}
@@ -33,6 +32,7 @@
 
     </form>
     {% else %}
+    <h1>post your idea:</h1>
 
     <form action="/" id="idea-form" method="post">{% csrf_token %}
         <ul>

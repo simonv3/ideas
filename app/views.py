@@ -41,6 +41,7 @@ def splash(request,show=''):
             register(request)
             return HttpResponseRedirect("/")
         else:
+            recent_ideas = Idea.objects.all().distinct('user').order_by('user','?')[:6]
             return render_to_response("main/splash.html", locals(),
                     context_instance=RequestContext(request))
 
@@ -103,6 +104,13 @@ def splash(request,show=''):
         return render_to_response("main/home.html",locals(),
                 context_instance=RequestContext(request))
 
+def all_ideas(request):
+    searchForm = SearchForm(request.GET or None)
+    idea_results = Idea.objects.exclude(private=True).annotate(votes=Count('vote_on'))
+
+    return render_to_response("main/idea_list.html",locals(),
+        context_instance=RequestContext(request))
+
 def process_ideas(user, ideas):
     processed_ideas = []
     for idea in ideas:
@@ -136,7 +144,7 @@ def process_ideas(user, ideas):
     return processed_ideas
 
 
-@login_required(login_url='/accounts/login/')
+
 def idea(request,idea_id, edit=False):
     try:
         idea = Idea.objects.get(id =idea_id)
@@ -289,8 +297,15 @@ def register(request):
     form = UserCreationForm()
     if request.method == 'POST':
         data = request.POST.copy()
-        form = UserCreationForm(request.POST)
+        print request.POST['username']
+        data = {'username':request.POST['username'],
+                'password1':request.POST['password1'],
+                'password2':request.POST['password1']
+                }
+        form = UserCreationForm(data)
+        print form        
         if form.is_valid():
+            print "valid"
             formcd = form.cleaned_data
             if formcd['password1'] == formcd['password2']:
                 user = User.objects.create_user(formcd['username'],'',formcd['password1'])

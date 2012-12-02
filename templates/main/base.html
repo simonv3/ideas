@@ -46,7 +46,9 @@
             <a class="" href="/accounts/logout/">log out</a>
           </span>
           {% else %}
-          <a class="log-in" href="/accounts/login/">log in</a>
+          <a id="header-log-in" class="log-in {% block set-show %}{% endblock %}" href="/accounts/login/">log in</a>
+          <a id="header-register" class="register" href="/accounts/register/">register</a>
+
           {% endif %}
           <a class="about" title="contact and about" href="/about/">@</a>
         </div><!-- /meta -->
@@ -65,11 +67,11 @@
     {% endblock %}
   </div>
 
-  <img class="ideaotter" src="{{STATIC_URL}}/images/ideaotterbw.gif"/>
 <script>!function(d,s,id){var
     js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>  
 <script>
 $(document).ready(function(){
+    $("#log-in.hide").hide();
     $("label.hover-field").inFieldLabels();
     $("#convert").click(function(event){
         var c = confirm("Are you sure you want to convert this idea into a slate?")
@@ -92,6 +94,14 @@ $(document).ready(function(){
         else
             event.preventDefault()
     });
+
+    $("#header-log-in.splash").toggle(function(event){
+      event.preventDefault();
+      $("#log-in").show(200);
+    },function(event){
+      event.preventDefault();
+      $("#log-in").hide(100);
+    })
 });
 </script>
 
