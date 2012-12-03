@@ -43,7 +43,7 @@ def splash(request,show=''):
             register(request)
             return HttpResponseRedirect("/")
         else:
-            recent_ideas = Idea.objects.all().distinct('user').order_by('user','?')[:6]
+            recent_ideas = Idea.objects.all().order_by('user','?')[:6]
             return render_to_response("main/splash.html", locals(),
                     context_instance=RequestContext(request))
 

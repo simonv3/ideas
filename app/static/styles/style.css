@@ -1161,6 +1161,15 @@ p.invite{
     }
     .right, .left{
         width:100%;
-
+    }
+    #header-wrapper h1{
+        font-size:1em;
+    }
+    #login{
+        top:48px;
+    }
+    label{
+        font-size: 1em !important;
+        /*display:none;*/
     }
 }
