@@ -34,9 +34,11 @@ import datetime
 
 
 def splash(request,show=''):
+    is_splash = "splash"
     client_sub_domain = CLIENT_SUB_DOMAIN
     if not request.user.is_authenticated():
         form = AuthenticationForm()
+        registerForm = UserCreationForm()
         if request.method=="POST":
             register(request)
             return HttpResponseRedirect("/")

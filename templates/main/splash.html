@@ -6,9 +6,52 @@
 
 {% block content %}
 
+<div id="register" class="hide">
+{% if form.errors %}
+<ul class="error-list">
+    {% if "password1" in form.errors or "password2" in form.errors%}<li> Please make sure your passwords are the same. </li>{% endif %}
+    {% if "username" in form.errors %} <li>The username you have selected is already in use.</li>{% endif %}
+</ul>
+{% endif %}
+<form action="/accounts/register/" autocomplete="off" method="post">
+    {%csrf_token%}
+    <ul id="register-list">
+        {% if registerForm.error_dict %}
+            <p class="error">Please correct the errors below.</p>
+        {% endif %}
+        {% if registerForm.username.errors %}
+            {{ registerForm.username.html_error_list }}
+        {% endif %}
+        <li>
+            <label class="hover-field" for="id_username">Nickname</label> {{ registerForm.username }}
+        </li>
+
+        {% if registerForm.password1.errors %}
+            {{ registerForm.password1.html_error_list }}
+        {% endif %}
+        <li>
+            <label class="hover-field" for="id_password1">Secret Word</label> {{ registerForm.password1 }}
+        </li>
 
 
-<div id="login">
+        {% if registerForm.password2.errors %}
+        {{ registerForm.password2.html_error_list }}
+        {% endif %}
+        <li>
+            <input type="hidden" name="password2" value="Hank" id="id_password2"> 
+          </li>
+
+        <li><input type="submit" value="Create account" class="red-gradient submit-button"/></li>
+    </ul>
+    <br/>
+    or  
+    <a class="facebook-login"
+  href="https://www.facebook.com/dialog/oauth?client_id=459911974049419&scope=offline_access,email&redirect_uri=http://localhost:8000/accounts/facebook/&state={% now "ynDbjY" %}{{client_sub_domain}}"><img
+    src="{{STATIC_URL}}images/facebook-log-in.gif"/></a>
+</form>
+</div>
+
+<div id="login" class="hide">
   {% if form.errors %}
 <ul class="error-list">
     {% if "password1" in form.errors or "password2" in form.errors%}<li> Please make sure your passwords are the same. </li>{% endif %}
@@ -23,15 +66,15 @@
 </ul>
 {% endif %}
 
-<form id="log-in" class="hide" autocomplete="off" method="post" action="{% url django.contrib.auth.views.login %}">
+<form id="log-in"  autocomplete="off" method="post" action="{% url django.contrib.auth.views.login %}">
 {% csrf_token %}
   <ul id="log-in-list">
     <li>
-            <label class="hover-field" for="id_username">Username:</label> 
-      {{ form.username }}
+            <label class="hover-field" for="id_login_username">Nickname</label> 
+           <input id="id_login_username" type="text" name="username" maxlength="30">    
     </li>
     <li>
-            <label class="hover-field" for="id_password">Password:</label> 
+            <label class="hover-field" for="id_password">Secret Word</label> 
 
       {{ form.password }}
     </li>
@@ -47,6 +90,8 @@ or <a class="facebook-login"
     src="{{STATIC_URL}}images/facebook-log-in.gif"/></a>
 
 </form>
+</div><!-- login -->
+<div id="splash-title">
 <img class="otter" style="float:left;position:absolute;" src="{{STATIC_URL}}images/ideaotterbw.gif"/>
 
   <h1>Remember Ideas</h1><h1> Be Inspired </h1><h1> Work Together</h1>
@@ -63,9 +108,7 @@ or <a class="facebook-login"
   </ul>
   <a href="{% url all-ideas %}" title="view more ideas">view more ideas</a>
 </div>
-
-
-</div>
+</div><!-- splash-title -->
 <div id="about">
 
   <p class="right">
