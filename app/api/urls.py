@@ -11,7 +11,7 @@ class CsrfExemptResource(Resource):
 
 
 idea_handler = Resource(IdeaHandler)
-post_idea_handler = Resource(PostIdeaHandler)
+post_idea_handler = CsrfExemptResource(PostIdeaHandler)
 user_handler = Resource(UserHandler)
 user_ideas_handler = Resource(UserIdeasHandler)
 user_registration_handler = CsrfExemptResource(UserRegistrationHandler)
@@ -19,7 +19,7 @@ user_log_in_handler = CsrfExemptResource(UserLogInHandler)
 
 urlpatterns = patterns('',
     #url(r'^idea/(?P<user_id>[^/]+)/(?P<idea_text>[^/]+)/(?P<idea_tags>[^/]+)/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', post_idea_handler),
-    url(r'^idea/(?P<user_id>[^/]+)/(?P<idea_text>[^/]+)/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', post_idea_handler),
+    url(r'^idea/post/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', post_idea_handler),
     url(r'^idea/(?P<idea_id>[^/]+)/', idea_handler),
     url(r'^ideas/', idea_handler),
 

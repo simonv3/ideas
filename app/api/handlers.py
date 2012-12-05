@@ -39,19 +39,18 @@ class UserIdeasHandler(BaseHandler):
 
 
 class PostIdeaHandler(BaseHandler):
-    allowed_methods = ('GET',)
+    allowed_methods = ('POST',)
     fields = ('id', 'idea', 'user', 'date')
     model = Idea
-    def read(
-            self, request, idea_text, user_id, 
-            apikey, apisignature, idea_tags=None):
-        if not key_check( apikey, apisignature, '/idea/%s/%s/' % (user_id, idea_text)):
+    def create(self, request, apikey, apisignature):
+        if not key_check( apikey, apisignature, '/idea/post/'):
             return {'error':'authentication failed'}
         else:
-            ideaForm = IdeaForm({"idea_content":idea_text})
+            print request.POST
+            ideaForm = IdeaForm({"idea_content":request.POST['idea_text']})
             if ideaForm.is_valid():
                 clean = ideaForm.cleaned_data
-                idea = Idea(idea=clean['idea_content'], user = User.objects.get(id = user_id))
+                idea = Idea(idea=clean['idea_content'], user = User.objects.get(id = request.POST['user_id']))
                 idea.save()
                 return idea
 
