@@ -3,12 +3,46 @@ from piston.resource import Resource
 from app.api.handlers import IdeaHandler, UserHandler, UserIdeasHandler,UserLogInHandler, UserRegistrationHandler, PostIdeaHandler
 
 class CsrfExemptResource(Resource):
-    """A Custom Resource that is csrf exempt"""
+    """A Custom Resource that is csrf exempt, and to enable CORS"""
     def __init__(self, handler, authentication=None):
         super(CsrfExemptResource, self).__init__(handler, authentication)
         self.csrf_exempt = getattr(self.handler, 'csrf_exempt', True)
- 
+    # adding cors enablement
 
+    cors_headers = [
+        ('Access-Control-Allow-Origin',     '*'),
+        ('Access-Control-Allow-Headers',    'Authorization'),
+    ]
+
+    # headers sent in pre-flight responses
+    preflight_headers = cors_headers + [
+        ('Access-Control-Allow-Methods',    'GET'),
+        ('Access-Control-Allow-Credentials','true')
+    ]
+
+    def __call__(self, request, *args, **kwargs):
+
+        request_method = request.method.upper()
+
+        # intercept OPTIONS method requests
+        if request_method == "OPTIONS":
+            # preflight requests don't need a body, just headers
+            resp = HttpResponse()
+
+            # add headers to the empty response
+            for hk, hv in self.preflight_headers:
+                resp[hk] = hv
+
+        else:
+            # otherwise, behave as if we called  the base Resource
+            resp = super(CORSResource, self).__call__(request, *args, **kwargs)
+
+            # slip in the headers after we get the response
+            # from the handler
+            for hk, hv in self.cors_headers:
+                resp[hk] = hv
+
+        return resp
 
 idea_handler = Resource(IdeaHandler)
 post_idea_handler = CsrfExemptResource(PostIdeaHandler)
