@@ -1,8 +1,10 @@
 from django.conf.urls.defaults import *
+from django.http import HttpResponse
 from piston.resource import Resource
-from app.api.handlers import IdeaHandler, UserHandler, UserIdeasHandler,UserLogInHandler, UserRegistrationHandler, PostIdeaHandler
+from app.api.handlers import IdeaHandler, UserHandler, UserIdeasHandler,UserLogInHandler, UserRegistrationHandler, PostIdeaHandler, UserSlatesHandler, CommentOnIdeaHandler
 
 class CsrfExemptResource(Resource):
+    print "CSRFEXEMPT"
     """A Custom Resource that is csrf exempt, and to enable CORS"""
     def __init__(self, handler, authentication=None):
         super(CsrfExemptResource, self).__init__(handler, authentication)
@@ -11,53 +13,57 @@ class CsrfExemptResource(Resource):
 
     cors_headers = [
         ('Access-Control-Allow-Origin',     '*'),
-        ('Access-Control-Allow-Headers',    'Authorization'),
+        ('Access-Control-Allow-Headers',    'X-Requested-With, Authorization'),
     ]
 
     # headers sent in pre-flight responses
     preflight_headers = cors_headers + [
-        ('Access-Control-Allow-Methods',    'GET'),
+        ('Access-Control-Allow-Methods',    'GET, POST, OPTIONS'),
         ('Access-Control-Allow-Credentials','true')
     ]
 
     def __call__(self, request, *args, **kwargs):
-
         request_method = request.method.upper()
-
         # intercept OPTIONS method requests
         if request_method == "OPTIONS":
             # preflight requests don't need a body, just headers
             resp = HttpResponse()
-
             # add headers to the empty response
             for hk, hv in self.preflight_headers:
                 resp[hk] = hv
 
+
         else:
             # otherwise, behave as if we called  the base Resource
-            resp = super(CORSResource, self).__call__(request, *args, **kwargs)
+            resp = super(CsrfExemptResource, self).__call__(request, *args, **kwargs)
 
             # slip in the headers after we get the response
             # from the handler
             for hk, hv in self.cors_headers:
                 resp[hk] = hv
-
         return resp
 
 idea_handler = Resource(IdeaHandler)
 post_idea_handler = CsrfExemptResource(PostIdeaHandler)
+comment_on_idea_handler = CsrfExemptResource(CommentOnIdeaHandler)
 user_handler = Resource(UserHandler)
-user_ideas_handler = Resource(UserIdeasHandler)
+user_ideas_handler = CsrfExemptResource(UserIdeasHandler)
+user_slates_handler = CsrfExemptResource(UserSlatesHandler)
 user_registration_handler = CsrfExemptResource(UserRegistrationHandler)
 user_log_in_handler = CsrfExemptResource(UserLogInHandler)
 
 urlpatterns = patterns('',
     #url(r'^idea/(?P<user_id>[^/]+)/(?P<idea_text>[^/]+)/(?P<idea_tags>[^/]+)/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', post_idea_handler),
     url(r'^idea/post/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', post_idea_handler),
+    url(r'^idea/comment/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', comment_on_idea_handler),
     url(r'^idea/(?P<idea_id>[^/]+)/', idea_handler),
     url(r'^ideas/', idea_handler),
 
+
+
     url(r'^user/(?P<user_id>[^/]+)/ideas/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', user_ideas_handler),
+    url(r'^user/(?P<user_id>[^/]+)/slates/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', user_slates_handler),
+
     url(r'^user/(?P<user_id>[^/]+)/', user_handler),
 
     url(r'^register/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', user_registration_handler),
