@@ -9,13 +9,12 @@ from django.contrib.auth import authenticate
 
 
 class UserHandler(BaseHandler):
-    allowed_methods= ('GET',)
     model = User
-    fields = ('username','is_active','last_login','email','date_joined','get_profile')
+    # model = User
+    fields = ('username','is_active','last_login','email','date_joined','extra')
     def read(self, request, user_id=None):
         base = User.objects
         if user_id:
-
             try:
                 return base.get(pk=user_id)
             except User.DoesNotExist as e:
@@ -23,15 +22,17 @@ class UserHandler(BaseHandler):
         else:
             return {'error':'Supply user information'}
 
-
-class UserIdeasHandler(BaseHandler):
-    allowed_methods = ('GET',)
+class IdeasHandler(BaseHandler):
     model = Idea
     fields = ((
         'user', 
         ('id', 'username', 'email', 'date_joined', 'last_login',)), 
         'idea', 'id', 'date')
+
     def read(self, request,  apikey, apisignature, user_id=None):
+        """
+        Returns all Ideas by a user if user_id is given, else it returns all Ideas
+        """
         base = Idea.objects
 
         query="/user/"+user_id+"/ideas/"
@@ -41,11 +42,35 @@ class UserIdeasHandler(BaseHandler):
         elif user_id:
             return base.filter(user = user_id)
         else:
-            return  {'error':'supply user information'}
+            return base.all()
+
+    def create(self, request, apikey, apisignature):
+        """
+        Creates an Idea
+        """
+        print "creating idea"
+        if not key_check( apikey, apisignature, '/idea/post/'):
+            return {'error':'authentication failed'}
+        else:
+            tags = False
+            try:
+                ideaForm = IdeaForm({"idea_content":request.POST['idea_text'],"tags":request.POST['idea_tags']})
+            except: 
+                ideaForm = IdeaForm({"idea_content":request.POST['idea_text'],})
+            else:
+                tags = True #set tags if the user submitted them
+            if ideaForm.is_valid():
+                clean = ideaForm.cleaned_data
+                idea = Idea(idea=clean['idea_content'], user = User.objects.get(id = request.POST['user_id']))
+                idea.save()
+                if tags:
+                    helpers.filter_tags(clean['tags'], idea)
+                return idea
+            else:
+                return {'error':'no idea'}
 
 
-class UserSlatesHandler(BaseHandler):
-    allowed_methods = ('GET',)
+class SlatesHandler(BaseHandler):
     model = Slate
     fields = ((
         'creator', 
@@ -62,39 +87,7 @@ class UserSlatesHandler(BaseHandler):
             return  {'error':'supply user information'}
 
 
-class PostIdeaHandler(BaseHandler):
-    allowed_methods = ('POST',)
-    fields = ('id', 'idea', 
-        ('user', ('id', 'username', 'email', 'date_joined', 'last_login',)),
-        'date')
-    model = Idea
-    def create(self, request, apikey, apisignature):
-        if not key_check( apikey, apisignature, '/idea/post/'):
-            return {'error':'authentication failed'}
-        else:
-            tags = False
-            try:
-                ideaForm = IdeaForm({"idea_content":request.POST['idea_text'],"tags":request.POST['idea_tags']})
-            except: 
-                ideaForm = IdeaForm({"idea_content":request.POST['idea_text'],})
-            else:
-                tags = True #set tags if the user submitted them
-            if ideaForm.is_valid():
-                clean = ideaForm.cleaned_data
-                print clean
-                print request.POST['user_id']
-                idea = Idea(idea=clean['idea_content'], user = User.objects.get(id = request.POST['user_id']))
-                idea.save()
-                if tags:
-                    helpers.filter_tags(clean['tags'], idea)
-                print idea
-                return idea
-            else:
-                return {'error':'no idea'}
-
-class CommentOnIdeaHandler(BaseHandler):
-    print "handling"
-    allowed_methods = ('POST',)
+class CommentHandler(BaseHandler):
     fields = ('id', 'idea', 
         ('user', ('id', 'username', 'email', 'date_joined', 'last_login',)),
         'date_posted', 'text')
@@ -132,20 +125,7 @@ class CommentOnIdeaHandler(BaseHandler):
             else:
                 return {'error':'no comment'}
 
-
-class IdeaHandler(BaseHandler):
-    allowed_methods = ('GET',)
-    fields = ('id','idea','user','date')
-    model = Idea
-    def read(self, request, idea_id=None):
-        base = Idea.objects
-        if idea_id:
-            return base.get(pk=idea_id)
-        else:
-            return base.all()
-
 class UserRegistrationHandler(BaseHandler):
-    allowed_methods = ('POST',)
     def create(
             self, request, apikey, apisignature, 
             ):
@@ -192,7 +172,3 @@ class UserLogInHandler(BaseHandler):
             else:
                 return {'error':'FormPOSTError'}
 
-
-class AuthenticateUser(BaseHandler):
-    allow_methods = ('POST',)
-    model = User

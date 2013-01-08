@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from django.http import HttpResponse
 from piston.resource import Resource
-from app.api.handlers import IdeaHandler, UserHandler, UserIdeasHandler,UserLogInHandler, UserRegistrationHandler, PostIdeaHandler, UserSlatesHandler, CommentOnIdeaHandler
+from app.api.handlers import IdeasHandler, UserLogInHandler, UserRegistrationHandler, SlatesHandler, CommentHandler
 
 class CsrfExemptResource(Resource):
     print "CSRFEXEMPT"
@@ -43,28 +43,25 @@ class CsrfExemptResource(Resource):
                 resp[hk] = hv
         return resp
 
-idea_handler = Resource(IdeaHandler)
-post_idea_handler = CsrfExemptResource(PostIdeaHandler)
-comment_on_idea_handler = CsrfExemptResource(CommentOnIdeaHandler)
-user_handler = Resource(UserHandler)
-user_ideas_handler = CsrfExemptResource(UserIdeasHandler)
-user_slates_handler = CsrfExemptResource(UserSlatesHandler)
+comment_handler = CsrfExemptResource(CommentHandler)
+#user_handler = Resource(UserHandler)
+ideas_handler = CsrfExemptResource(IdeasHandler)
+user_slates_handler = CsrfExemptResource(SlatesHandler)
 user_registration_handler = CsrfExemptResource(UserRegistrationHandler)
 user_log_in_handler = CsrfExemptResource(UserLogInHandler)
 
 urlpatterns = patterns('',
-    #url(r'^idea/(?P<user_id>[^/]+)/(?P<idea_text>[^/]+)/(?P<idea_tags>[^/]+)/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', post_idea_handler),
-    url(r'^idea/post/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', post_idea_handler),
-    url(r'^idea/comment/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', comment_on_idea_handler),
-    url(r'^idea/(?P<idea_id>[^/]+)/', idea_handler),
-    url(r'^ideas/', idea_handler),
+    url(r'^idea/post/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', ideas_handler),
+    url(r'^idea/comment/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', comment_handler),
+    #url(r'^idea/(?P<idea_id>[^/]+)/', ideas_handler),
+    url(r'^ideas/', ideas_handler),
 
 
 
-    url(r'^user/(?P<user_id>[^/]+)/ideas/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', user_ideas_handler),
+    url(r'^user/(?P<user_id>[^/]+)/ideas/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', ideas_handler),
     url(r'^user/(?P<user_id>[^/]+)/slates/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', user_slates_handler),
 
-    url(r'^user/(?P<user_id>[^/]+)/', user_handler),
+    #url(r'^user/(?P<user_id>[^/]+)/', user_handler),
 
     url(r'^register/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', user_registration_handler),
     url(r'^login/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', user_log_in_handler),
