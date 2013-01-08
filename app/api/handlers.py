@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate
 class UserHandler(BaseHandler):
     model = User
     # model = User
-    fields = ('username','is_active','last_login','email','date_joined','extra')
+    fields = ('id','username','is_active','last_login','email','date_joined','extra')
     def read(self, request, user_id=None):
         base = User.objects
         if user_id:
@@ -99,7 +99,7 @@ class CommentHandler(BaseHandler):
         if not key_check( apikey, apisignature, '/idea/comment/'):
             return {'error':'authentication failed'}
         else:
-            print "elsing"
+            print 
             commentForm = CommentForm({"comment":request.POST['comment']})
             if commentForm.is_valid():
                 print "form valid"
@@ -111,7 +111,7 @@ class CommentHandler(BaseHandler):
                 try:
                     print "trying"
                     comment = Comment(
-                        text=clean['comment'], 
+                        text = clean['comment'], 
                         user = User.objects.get(id = request.POST['user_id']), 
                         idea = idea)
                     print comment
