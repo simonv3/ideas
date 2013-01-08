@@ -65,6 +65,12 @@ class IdeasHandler(BaseHandler):
                 idea.save()
                 if tags:
                     helpers.filter_tags(clean['tags'], idea)
+                if request.POST['slate']:
+                    print request.POST['slate']
+                    slate = Slate.objects.get(id=request.POST['slate'])
+                    slate.ideas.add(idea)
+                    slate.save()
+
                 return idea
             else:
                 return {'error':'no idea'}
@@ -94,6 +100,19 @@ class CommentHandler(BaseHandler):
         ('user', ('id', 'username', 'email', 'date_joined', 'last_login',)),
         'date_posted', 'text')
     model = Comment
+    def read(self, request, apikey, apisignature, idea_id=None):
+        """
+        GET all comments on an idea.
+        """
+        base = Comment.objects
+        if idea_id:
+            query = "/idea/"+idea_id+"/comments/"
+            if not key_check(apikey, apisignature,query):
+                return {'error':'authentication required'}
+            else:
+                return base.filter(idea = idea_id)
+        else:
+            return  {'error':'supply idea information'}   
     def create(self, request, apikey, apisignature):
         print "creating"
         if not key_check( apikey, apisignature, '/idea/comment/'):

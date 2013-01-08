@@ -14,7 +14,7 @@ def user(request, user_id):
         profile_user = User.objects.get(id = user_id)
     except User.DoesNotExist:
         return HttpResponseRedirect("/")
-    your_ideas = Idea.objects.filter(user = profile_user).order_by('-date')
+    your_ideas = Idea.objects.filter(user = profile_user).filter(private=False).order_by('-date')
     ideas_len = len(your_ideas)
     your_slates = Slate.objects.filter(creator = profile_user).order_by('-id')
     slates_len = len(your_slates)

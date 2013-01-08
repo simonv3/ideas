@@ -52,7 +52,11 @@ user_log_in_handler = CsrfExemptResource(UserLogInHandler)
 
 urlpatterns = patterns('',
     url(r'^idea/post/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', ideas_handler),
+    
+    # handle comments
+    url(r'^idea/(?P<idea_id>[^/]+)/comments/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', comment_handler),
     url(r'^idea/comment/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', comment_handler),
+
     #url(r'^idea/(?P<idea_id>[^/]+)/', ideas_handler),
     url(r'^ideas/', ideas_handler),
 
