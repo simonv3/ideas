@@ -72,10 +72,12 @@ class IdeasHandler(BaseHandler):
 
 class SlatesHandler(BaseHandler):
     model = Slate
-    fields = ((
-        'creator', 
+    fields = (
+        ('creator', 
         ('id', 'username', 'email', 'date_joined', 'last_login',)), 
-        'name', 'users' ,'id', 'date_created','description','ideas')
+        'name', 
+        ('users', ('id','username')),
+        'id', 'date_created','description','ideas')
     def read(self, request,  apikey, apisignature, user_id=None):
         base = Slate.objects
         query="/user/"+user_id+"/slates/"
