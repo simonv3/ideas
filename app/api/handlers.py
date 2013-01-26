@@ -27,22 +27,21 @@ class IdeasHandler(BaseHandler):
     fields = ((
         'user', 
         ('id', 'username', 'email', 'date_joined', 'last_login',)), 
-        'idea', 'id', 'date')
-
-    def read(self, request,  apikey, apisignature, user_id=None):
+        'idea', 'id', 'date','elaborate')
+    print "Ideas Handler"
+    def read(self, request,  apikey=None, apisignature=None, user_id=None):
         """
         Returns all Ideas by a user if user_id is given, else it returns all Ideas
         """
         base = Idea.objects
-
-        query="/user/"+user_id+"/ideas/"
-        #print user_id
-        if not key_check(apikey, apisignature,query):
-            return {'error':'authentication required'}
-        elif user_id:
-            return base.filter(user = user_id)
+        if user_id:
+            query="/user/"+user_id+"/ideas/"
+            if not key_check(apikey, apisignature,query):
+                return {'error':'authentication required'}
+            else:
+                return base.filter(user = user_id)
         else:
-            return base.all()
+            return base.filter(private = False)
 
     def create(self, request, apikey, apisignature):
         """
@@ -156,7 +155,7 @@ class UserRegistrationHandler(BaseHandler):
             return {'error': 'authentication failed'}
         try: 
             User.objects.get(username=request.POST['username'])
-            return {'registration' : 'failure', 'reason' : 'exists' }
+            return {'error' : 'exists' }
         except:
             try:
                 user = User.objects.create_user(request.POST['username'],'',request.POST['password'])

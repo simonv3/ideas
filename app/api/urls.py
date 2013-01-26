@@ -44,7 +44,6 @@ class CsrfExemptResource(Resource):
         return resp
 
 comment_handler = CsrfExemptResource(CommentHandler)
-#user_handler = Resource(UserHandler)
 ideas_handler = CsrfExemptResource(IdeasHandler)
 user_slates_handler = CsrfExemptResource(SlatesHandler)
 user_registration_handler = CsrfExemptResource(UserRegistrationHandler)
@@ -58,8 +57,8 @@ urlpatterns = patterns('',
     url(r'^idea/comment/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', comment_handler),
 
     #url(r'^idea/(?P<idea_id>[^/]+)/', ideas_handler),
-    url(r'^ideas/', ideas_handler),
 
+    url(r'^ideas/$', ideas_handler),
 
 
     url(r'^user/(?P<user_id>[^/]+)/ideas/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', ideas_handler),
