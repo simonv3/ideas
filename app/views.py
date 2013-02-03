@@ -102,7 +102,7 @@ def splash(request,show=''):
             all_ideas = all_ideas.order_by('-votes')
         else:
             all_ideas = all_ideas.order_by('-date')
-        all_ideas = process_ideas(user, all_ideas)
+        all_ideas = helpers.process_ideas(user, all_ideas)
         return render_to_response("main/home.html",locals(),
                 context_instance=RequestContext(request))
 
@@ -112,40 +112,6 @@ def all_ideas(request):
 
     return render_to_response("main/idea_list.html",locals(),
         context_instance=RequestContext(request))
-
-def process_ideas(user, ideas):
-    processed_ideas = []
-    for idea in ideas:
-        if idea.idea_on_slate.all():
-            continue
-        else:
-            try:
-                Vote.objects.get(idea = idea, user = user)
-            except:
-                new_idea = {
-                        "idea":idea.idea,
-                        "id":idea.id,
-                        "started":idea.started,
-                        "date":idea.date,
-                        "voted_on":False,
-                        "votes":idea.votes,
-                        "user":idea.user,
-                        }
-                processed_ideas.append(new_idea)
-            else:
-                new_idea = {
-                        "idea":idea.idea,
-                        "started":idea.started,
-                        "user":idea.user,
-                        "id":idea.id,
-                        "votes":idea.votes,
-                        "date":idea.date,
-                        "voted_on":True
-                        }
-                processed_ideas.append(new_idea)
-    return processed_ideas
-
-
 
 def idea(request,idea_id, edit=False):
     try:

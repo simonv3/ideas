@@ -1,10 +1,9 @@
 from django.conf.urls.defaults import *
 from django.http import HttpResponse
 from piston.resource import Resource
-from app.api.handlers import IdeasHandler, UserLogInHandler, UserRegistrationHandler, SlatesHandler, CommentHandler
+from app.api.handlers import IdeasHandler, UserLogInHandler, UserRegistrationHandler, SlatesHandler, CommentHandler, VoteHandler
 
 class CsrfExemptResource(Resource):
-    print "CSRFEXEMPT"
     """A Custom Resource that is csrf exempt, and to enable CORS"""
     def __init__(self, handler, authentication=None):
         super(CsrfExemptResource, self).__init__(handler, authentication)
@@ -18,7 +17,7 @@ class CsrfExemptResource(Resource):
 
     # headers sent in pre-flight responses
     preflight_headers = cors_headers + [
-        ('Access-Control-Allow-Methods',    'GET, POST, OPTIONS'),
+        ('Access-Control-Allow-Methods',    'GET, POST, OPTIONS, DELETE'),
         ('Access-Control-Allow-Credentials','true')
     ]
 
@@ -48,20 +47,25 @@ ideas_handler = CsrfExemptResource(IdeasHandler)
 user_slates_handler = CsrfExemptResource(SlatesHandler)
 user_registration_handler = CsrfExemptResource(UserRegistrationHandler)
 user_log_in_handler = CsrfExemptResource(UserLogInHandler)
+votes_handler = CsrfExemptResource(VoteHandler)
 
 urlpatterns = patterns('',
     url(r'^idea/post/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', ideas_handler),
     
     # handle comments
     url(r'^idea/(?P<idea_id>[^/]+)/comments/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', comment_handler),
+
     url(r'^idea/comment/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', comment_handler),
 
-    #url(r'^idea/(?P<idea_id>[^/]+)/', ideas_handler),
+    url(r'^idea/like/(?P<idea_id>\d+)/(?P<user_id>\d+)/(?P<vote_value>\d{1})/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', votes_handler),
+
+    url(r'^idea/delete/(?P<idea_id>[^/]+)/(?P<user_id>[^/]+)/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', ideas_handler),
+
 
     url(r'^ideas/$', ideas_handler),
 
+    url(r'^user/(?P<user_id>[^/]+)/(?P<fetch_all>[^/]+)/ideas/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', ideas_handler),
 
-    url(r'^user/(?P<user_id>[^/]+)/ideas/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', ideas_handler),
     url(r'^user/(?P<user_id>[^/]+)/slates/(?P<apikey>[^/]+)/(?P<apisignature>[^/]+)/', user_slates_handler),
 
     #url(r'^user/(?P<user_id>[^/]+)/', user_handler),

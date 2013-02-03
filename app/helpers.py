@@ -34,8 +34,8 @@ def vote(voteForm, user):
         vote = Vote(vote = clean['vote'], user = user, idea = idea)
         vote.save()
     else:
-        vote.vote = clean['vote']
-        vote.save()
+        vote.delete()
+        
 
 
 def filter_tags(cleanedTags, idea):
@@ -101,3 +101,37 @@ def handle_uploaded_file(f, url, file_type):
         for chunk in f.chunks():
             destination.write(chunk)
         return True, "success"
+
+def process_ideas(user, ideas):
+    processed_ideas = []
+    for idea in ideas:
+        if idea.idea_on_slate.all():
+            continue
+        else:
+            try:
+                Vote.objects.get(idea = idea, user = user)
+            except:
+                new_idea = {
+                        "idea":idea.idea,
+                        "id":idea.id,
+                        "started":idea.started,
+                        "date":idea.date,
+                        "voted_on":False,
+                        "votes":idea.votes,
+                        "user":idea.user,
+                        }
+                processed_ideas.append(new_idea)
+            else:
+                new_idea = {
+                        "idea":idea.idea,
+                        "started":idea.started,
+                        "user":idea.user,
+                        "id":idea.id,
+                        "votes":idea.votes,
+                        "date":idea.date,
+                        "voted_on":True
+                        }
+                processed_ideas.append(new_idea)
+    return processed_ideas
+
+

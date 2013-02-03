@@ -1,12 +1,14 @@
 from piston.handler import BaseHandler
 from django.contrib.auth.models import  User
-from app.models import Idea, Slate, Comment
+from django.db.models import Count
+from django.contrib.auth import authenticate
+
+from app.models import Idea, Slate, Comment, Vote
 from app.forms import IdeaForm, CommentForm
 from app import helpers
 
-from app.api.auth import key_check, secrets
-from django.contrib.auth import authenticate
 
+from app.api.auth import key_check, secrets
 
 class UserHandler(BaseHandler):
     model = User
@@ -27,27 +29,30 @@ class IdeasHandler(BaseHandler):
     fields = ((
         'user', 
         ('id', 'username', 'email', 'date_joined', 'last_login',)), 
-        'idea', 'id', 'date','elaborate')
-    print "Ideas Handler"
-    def read(self, request,  apikey=None, apisignature=None, user_id=None):
+        'idea', 'id', 'date', 'elaborate')
+
+    def read(self, request, user_id, fetch_all, apikey=None, apisignature=None):
         """
         Returns all Ideas by a user if user_id is given, else it returns all Ideas
         """
         base = Idea.objects
         if user_id:
-            query="/user/"+user_id+"/ideas/"
+            query="/user/"+user_id+"/"+fetch_all+"/ideas/"
             if not key_check(apikey, apisignature,query):
                 return {'error':'authentication required'}
             else:
-                return base.filter(user = user_id)
-        else:
-            return base.filter(private = False)
+                user = User.objects.get(id=user_id)
+                if fetch_all == "0":
+                    all_ideas = helpers.process_ideas(user, base.filter(user = user_id).annotate(votes=Count('vote_on')))
+                else:
+                    all_ideas = helpers.process_ideas(user, base.exclude(private = True).annotate(votes=Count('vote_on')))
+
+                return all_ideas
 
     def create(self, request, apikey, apisignature):
         """
         Creates an Idea
         """
-        print "creating idea"
         if not key_check( apikey, apisignature, '/idea/post/'):
             return {'error':'authentication failed'}
         else:
@@ -65,7 +70,6 @@ class IdeasHandler(BaseHandler):
                 if tags:
                     helpers.filter_tags(clean['tags'], idea)
                 if request.POST['slate']:
-                    print request.POST['slate']
                     slate = Slate.objects.get(id=request.POST['slate'])
                     slate.ideas.add(idea)
                     slate.save()
@@ -73,6 +77,24 @@ class IdeasHandler(BaseHandler):
                 return idea
             else:
                 return {'error':'no idea'}
+
+    def delete(self, request, apikey, apisignature, idea_id, user_id):
+        """
+        Deletes an idea
+        """
+        try:
+            idea = Idea.objects.get(id=idea_id)
+        except Idea.DoesNotExist:
+            return {'error':'idea didn\'t exist'}
+        else:
+            if not user_id == idea.user.id:
+                idea.delete()
+                return {'success':'idea deleted'}
+            else:
+                return {'error':'wrong owner'}
+        
+
+
 
 
 class SlatesHandler(BaseHandler):
@@ -92,6 +114,33 @@ class SlatesHandler(BaseHandler):
             return base.filter(creator = user_id)
         else:
             return  {'error':'supply user information'}
+
+class VoteHandler(BaseHandler):
+    model = Vote
+    def read(self, request, idea_id, user_id, vote_value, apikey, apisignature):
+        print vote_value
+        """
+        POST a vote
+        """
+        base = Vote.objects
+        try:
+            user = User.objects.get(id=user_id)
+            idea = Idea.objects.get(id=idea_id)
+        except:
+            return {'error':'idea or user not found'}
+        else:
+            try:
+                #check if the vote already exists
+                vote = Vote.objects.get(user = user, idea = idea)
+            except:
+                vote = Vote(vote = vote_value, user = user, idea = idea)
+                vote.save()
+                return {'success':'true'}
+            else:
+                vote.delete()
+                return {'success':'false'}
+
+
 
 
 class CommentHandler(BaseHandler):
