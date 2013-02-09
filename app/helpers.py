@@ -39,8 +39,10 @@ def vote(voteForm, user):
 
 
 def filter_tags(cleanedTags, idea):
+    print "cleaned tags: " + cleanedTags
     Tag.objects.filter(idea = idea).delete()
     if cleanedTags:
+        print "if cleaned tags"
         for tag in cleanedTags.split(','):
             if tag != '':
                 tag = Tag(tag=tag.strip(), idea = idea)

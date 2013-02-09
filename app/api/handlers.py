@@ -58,22 +58,30 @@ class IdeasHandler(BaseHandler):
         else:
             tags = False
             try:
+                print "try"
                 ideaForm = IdeaForm({"idea_content":request.POST['idea_text'],"tags":request.POST['idea_tags']})
             except: 
+                print "except"
                 ideaForm = IdeaForm({"idea_content":request.POST['idea_text'],})
             else:
-                tags = True #set tags if the user submitted them
+                if request.POST['idea_tags'] != '':
+                    tags = True #set tags if the user submitted them
             if ideaForm.is_valid():
+                print "is valid"
                 clean = ideaForm.cleaned_data
                 idea = Idea(idea=clean['idea_content'], user = User.objects.get(id = request.POST['user_id']))
                 idea.save()
-                if tags:
-                    helpers.filter_tags(clean['tags'], idea)
-                if request.POST['slate']:
-                    slate = Slate.objects.get(id=request.POST['slate'])
-                    slate.ideas.add(idea)
-                    slate.save()
-
+                # if tags:
+                helpers.filter_tags(clean['tags'], idea)
+                
+                # try:
+                #     if request.POST['slate'] != "":
+                #         print "slate problem"
+                #         slate = Slate.objects.get(id=request.POST['slate'])
+                #         slate.ideas.add(idea)
+                #         slate.save()
+                # except Error as e:
+                #     print e
                 return idea
             else:
                 return {'error':'no idea'}
