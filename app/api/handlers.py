@@ -58,18 +58,21 @@ class IdeasHandler(BaseHandler):
         else:
             tags = False
             try:
-                print "try"
                 ideaForm = IdeaForm({"idea_content":request.POST['idea_text'],"tags":request.POST['idea_tags']})
             except: 
-                print "except"
                 ideaForm = IdeaForm({"idea_content":request.POST['idea_text'],})
             else:
                 if request.POST['idea_tags'] != '':
                     tags = True #set tags if the user submitted them
             if ideaForm.is_valid():
-                print "is valid"
+                private = False
+                if request.POST['private'] == '1':
+                    private = True
                 clean = ideaForm.cleaned_data
-                idea = Idea(idea=clean['idea_content'], user = User.objects.get(id = request.POST['user_id']))
+                idea = Idea(idea=clean['idea_content'], 
+                    user = User.objects.get(id = request.POST['user_id']),
+                    private = private
+                    )
                 idea.save()
                 # if tags:
                 helpers.filter_tags(clean['tags'], idea)
