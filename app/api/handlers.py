@@ -66,8 +66,11 @@ class IdeasHandler(BaseHandler):
                     tags = True #set tags if the user submitted them
             if ideaForm.is_valid():
                 private = False
-                if request.POST['private'] == '1':
-                    private = True
+                try:
+                    if request.POST['private'] == '1':
+                        private = True
+                except:
+                    pass
                 clean = ideaForm.cleaned_data
                 idea = Idea(idea=clean['idea_content'], 
                     user = User.objects.get(id = request.POST['user_id']),
