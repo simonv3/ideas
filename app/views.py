@@ -435,6 +435,21 @@ def contact(request):
     return render_to_response("main/contact.html", locals(),
             context_instance=RequestContext(request))
 
+#
+# Terms
+#
+
+def terms(request):
+    return render_to_response("main/terms.html", locals(),
+            context_instance=RequestContext(request))
+
+#
+# Privacy
+#
+
+def privacy(request):
+    return render_to_response("main/privacy.html", locals(),
+            context_instance=RequestContext(request))
 
 #
 # Facebook Integration

@@ -978,19 +978,19 @@ p.invite{
  * About, Contact
  *
  * */
-#about{
+#content .static-pages{
     max-width:1080px;
     margin:50px auto 400px;
     padding:1em;
     line-height:2em;
 }
 
-#about h1{
+#content .static-pages h1{
     margin-top:24px;
     text-align:left;
     font-size:2em;
 }
-#about h2{
+#content .static-pages h2{
     margin-top:58px;
     text-align:left;
     font-size:1.8em;
@@ -998,7 +998,7 @@ p.invite{
     text-shadow:none;
 }
 
-#about .left-menu{
+#content .static-pages .left-menu{
     text-align:right;
     width:180px;
     font-size:1.4em;
@@ -1009,20 +1009,21 @@ p.invite{
     list-style:none;
 }
 
-#about .about-text{
+#content .static-pages .about-text{
     display:block;
+    max-width:480px;
     float:right;
     margin:0 270px 180px 0;
 }
 
-#about p{
+#content .static-pages p{
     margin-bottom:5em;
     max-width:450px;;
     font-size:1.3em;
     clear:both;
 }
 
-#about p.right{
+#content .static-pages p.right{
     float:right;
     clear:both;
     display:block;
@@ -1033,14 +1034,24 @@ p.invite{
     margin: 0 auto;
 }
 
-#about p, #contact p{
+#content .static-pages p, #contact p{
     margin: 12px 0;
 }
 
-#about h1 + a{
+#content .static-pages h1 + a{
     float:right;
 }
 
+
+#privacy.static-pages .left-menu{
+    margin-top:60px;
+    font-size:1.2em;
+    line-height:1em;
+}
+
+#privacy.static-pages .left-menu li{
+    margin-bottom:1em;
+}
 
 /*
  *
@@ -1155,7 +1166,7 @@ p.invite{
         min-width:80%;
         font-size:1.2em;
     }
-    #about p{
+    #content .static-pages p{
         max-width:100%;
         margin-bottom:48px;
     }

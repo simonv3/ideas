@@ -12,7 +12,8 @@ urlpatterns = patterns('',
 
     #semi-static
     url(r'^about/$', 'app.views.about', name='about'),
-
+    url(r'^terms/$', 'app.views.terms', name="terms"),
+    url(r'^privacy/$', 'app.views.privacy', name="privacy"),
 
     #functionality
     url(r'^top/$', 'app.views.splash',{'show':'top'},'splash-top'),
